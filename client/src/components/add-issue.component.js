@@ -32,7 +32,7 @@ export default class CreateIssue extends Component {
     today = mm + "/" + dd + "/" + yyyy;
 
     axios
-      .get("http://localhost:5000/issue/")
+      .get("/issue/")
       .then(response => {
         this.setState({
           issues: response.data,
@@ -43,7 +43,7 @@ export default class CreateIssue extends Component {
         console.log(error);
       });
 
-    axios.get("http://localhost:5000/users").then(response => {
+    axios.get("/users").then(response => {
       if (response.data.length > 0) {
         this.setState({
           users: response.data.map(user => user.username),
@@ -92,9 +92,7 @@ export default class CreateIssue extends Component {
 
     console.log(issue);
 
-    axios
-      .post("http://localhost:5000/issue/add", issue)
-      .then(res => console.log(res.data));
+    axios.post("/add", issue).then(res => console.log(res.data));
 
     window.location = "/";
   }

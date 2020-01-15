@@ -26,7 +26,7 @@ export default class IssuesList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/issue/")
+      .get("/issue/")
       .then(response => {
         this.setState({
           issues: response.data

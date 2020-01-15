@@ -26,7 +26,7 @@ export default class ReviewIssue extends Component {
 
     today = mm + "/" + dd + "/" + yyyy;
     axios
-      .get("http://localhost:5000/issue/" + this.props.match.params.id)
+      .get("/issue/" + this.props.match.params.id)
       .then(response => {
         this.setState({
           issueTitle: response.data.issueTitle,
@@ -80,10 +80,7 @@ export default class ReviewIssue extends Component {
     console.log(issue);
 
     axios
-      .post(
-        "http://localhost:5000/issue/update/" + this.props.match.params.id,
-        issue
-      )
+      .post("/issue/update/" + this.props.match.params.id, issue)
       .then(res => console.log(res.data));
 
     window.location = "/";
