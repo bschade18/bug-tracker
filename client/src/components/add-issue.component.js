@@ -92,7 +92,7 @@ export default class CreateIssue extends Component {
 
     console.log(issue);
 
-    axios.post("/add", issue).then(res => console.log(res.data));
+    axios.post("/issue/add", issue).then(res => console.log(res.data));
 
     window.location = "/";
   }
