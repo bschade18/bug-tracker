@@ -1,3 +1,49 @@
+#issue-search {
+  display: block;
+  padding: 15px;
+}
+
+.icon-folder-open-alt {
+  text-decoration: none;
+}
+
+.folder {
+  margin: auto;
+  position: relative;
+  left: 30px;
+}
+
 .icon-folder-open-alt:hover {
   text-decoration: none;
+}
+
+#submit-issue-link:hover {
+  text-decoration: none;
+}
+
+#add-user-link:hover {
+  text-decoration: none;
+}
+
+#issue-title {
+  width: 20vw;
+  display: block;
+  padding: 15px;
+}
+
+#username {
+  width: 20vw;
+  display: block;
+  padding: 15px;
+}
+
+#assign-to {
+  width: 20vw;
+  display: block;
+  padding: 15px;
+}
+
+#description-input {
+  resize: none;
+  height: 200px;
 }

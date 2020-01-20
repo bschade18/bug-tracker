@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "../App.css";
 
 export default class CreateIssue extends Component {
   constructor(props) {
@@ -108,19 +109,20 @@ export default class CreateIssue extends Component {
               required
               className="form-control"
               value={this.state.name}
+              id="username"
             >
               <option>{this.state.name}</option>
-              ); })}
             </select>
           </div>
           <div className="form-group">
-            <label>Title </label>
+            <label>Title: </label>
             <input
               type="text"
               required
               className="form-control"
               value={this.state.issueTitle}
               onChange={this.onChangeTitle}
+              id="issue-title"
             />
           </div>
           <div className="form-group">
@@ -131,6 +133,7 @@ export default class CreateIssue extends Component {
               className="form-control"
               value={this.state.description}
               onChange={this.onChangeDescription}
+              id="description-input"
             />
           </div>
           <div className="form-group">
@@ -141,6 +144,7 @@ export default class CreateIssue extends Component {
               className="form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}
+              id="assign-to"
             >
               {this.state.users.map(function(user) {
                 return (

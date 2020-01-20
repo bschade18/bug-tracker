@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 const Issue = props => (
   <tr>
     <td>{props.issue.number}</td>
     <td>{props.issue.issueTitle}</td>
     <td>{props.issue.date.substring(0, 10)}</td>
-    <td>
-      <Link to={"/review/" + props.issue._id}>
+    <td className="folder-container">
+      <Link className="folder" to={"/review/" + props.issue._id}>
         <i className="icon-folder-open-alt"></i>
       </Link>
     </td>
@@ -61,10 +62,14 @@ export default class IssuesList extends Component {
       <div>
         <h3>Logged Issues</h3>
         <div className="form-group">
-          <Link to="/create">New Issue</Link>
+          <Link to="/create" id="submit-issue-link">
+            Submit New Issue
+          </Link>
         </div>
         <div className="form-group">
-          <Link to="/adduser">Add User</Link>
+          <Link to="/adduser" id="add-user-link">
+            Add User
+          </Link>
         </div>
         <table className="table">
           <thead className="thead-light">
@@ -80,11 +85,7 @@ export default class IssuesList extends Component {
 
         <div className="form-group">
           <label>Search Issue # </label>
-          <input
-            onChange={this.onChangeNumber}
-            type="text"
-            className="form-control"
-          />
+          <input onChange={this.onChangeNumber} type="text" id="issue-search" />
         </div>
         <div className="form-group">
           <Link to={"/review/" + this.state.id}>
