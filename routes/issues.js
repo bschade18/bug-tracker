@@ -17,6 +17,8 @@ router.route("/add").post((req, res) => {
   const date = req.body.date;
   const number = req.body.number;
   const issueLog = req.body.issueLog;
+  const assignedTo = req.body.assignedTo;
+  const status = req.body.status;
 
   // create a new issue using the variable we have from above
   const newIssue = new Issue({
@@ -25,7 +27,9 @@ router.route("/add").post((req, res) => {
     date,
     number,
     issueTitle,
-    issueLog
+    issueLog,
+    assignedTo,
+    status
   });
 
   newIssue
@@ -48,7 +52,7 @@ router.route("/:id").delete((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// /exercises/update/:id + post request
+// /issue/update/:id + post request
 // currently all fields are required, can update so that you can update a single field without and error
 router.route("/update/:id").post((req, res) => {
   Issue.findById(req.params.id)
@@ -59,6 +63,8 @@ router.route("/update/:id").post((req, res) => {
       issue.date = req.body.date;
       issue.number = req.body.number;
       issue.issueTitle = req.body.issueTitle;
+      issue.assignedTo = req.body.assignedTo;
+      issue.status = req.body.status;
 
       issue
         .save()

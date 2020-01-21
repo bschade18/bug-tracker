@@ -7,6 +7,7 @@ const Issue = props => (
   <tr>
     <td>{props.issue.number}</td>
     <td>{props.issue.issueTitle}</td>
+    <td>{props.issue.assignedTo}</td>
     <td>{props.issue.date.substring(0, 10)}</td>
     <td className="folder-container">
       <Link className="folder" to={"/review/" + props.issue._id}>
@@ -76,6 +77,7 @@ export default class IssuesList extends Component {
             <tr>
               <th>Issue #</th>
               <th>Title</th>
+              <th>Assigned To</th>
               <th>Date Initiated</th>
               <th>Open Issue</th>
             </tr>
@@ -89,7 +91,9 @@ export default class IssuesList extends Component {
         </div>
         <div className="form-group">
           <Link to={"/review/" + this.state.id}>
-            <input value="Search Issue" className="btn btn-primary" />
+            <button value="Search Issue" className="btn btn-primary">
+              Search Issue
+            </button>
           </Link>
         </div>
       </div>

@@ -42,8 +42,25 @@
   display: block;
   padding: 15px;
 }
+#status-input {
+  width: 20vw;
+  display: block;
+  padding: 15px;
+}
 
-#description-input {
+.form-control.description-input {
   resize: none;
-  height: 200px;
+  height: 180px;
+}
+
+#change-username {
+  width: 20vw;
+  display: block;
+  padding: 15px;
+}
+
+#add-user-input {
+  width: 20vw;
+  display: block;
+  padding: 15px;
 }

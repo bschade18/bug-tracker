@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "../App.css";
 
 export default class ReviewIssue extends Component {
   constructor(props) {
@@ -7,6 +8,8 @@ export default class ReviewIssue extends Component {
 
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeAssignee = this.onChangeAssignee.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this);
 
     this.state = {
       name: "",
@@ -14,7 +17,11 @@ export default class ReviewIssue extends Component {
       issueLog: [],
       issueTitle: "",
       date: "",
-      number: ""
+      number: "",
+      users: [],
+      username: "",
+      assignedTo: "",
+      status: ""
     };
   }
 
@@ -33,10 +40,26 @@ export default class ReviewIssue extends Component {
           date: today,
           number: response.data.number,
           name: response.data.name,
-          issueLog: response.data.issueLog
+          issueLog: response.data.issueLog,
+          assignedTo: response.data.assignedTo,
+          status: response.data.status
         });
       })
       .catch(function(error) {
+        console.log(error);
+      });
+
+    axios
+      .get("/users")
+      .then(response => {
+        if (response.data.length > 0) {
+          this.setState({
+            users: response.data.map(user => user.username),
+            username: response.data[0].username
+          });
+        }
+      })
+      .catch(error => {
         console.log(error);
       });
   }
@@ -53,9 +76,27 @@ export default class ReviewIssue extends Component {
     });
   }
 
+  onChangeAssignee(e) {
+    this.setState({
+      assignedTo: e.target.value
+    });
+  }
+
+  onChangeUsername(e) {
+    this.setState({
+      username: e.target.value
+    });
+  }
+
   onChangeDescription(e) {
     this.setState({
       issueDescription: e.target.value
+    });
+  }
+
+  onChangeStatus(e) {
+    this.setState({
+      status: e.target.value
     });
   }
 
@@ -74,7 +115,9 @@ export default class ReviewIssue extends Component {
       ]),
       issueTitle: this.state.issueTitle,
       date: this.state.date,
-      number: this.state.number
+      number: this.state.number,
+      assignedTo: this.state.assignedTo,
+      status: this.state.status
     };
 
     console.log(issue);
@@ -106,6 +149,7 @@ export default class ReviewIssue extends Component {
               className="form-control"
               value={this.state.name}
               onChange={this.onChangeUsername}
+              id="change-username"
             >
               <option>{this.state.name}</option>
             </select>
@@ -115,10 +159,44 @@ export default class ReviewIssue extends Component {
             <textarea
               type="text"
               required
-              className="form-control"
+              className="form-control description-input"
               value={this.state.issueDescription}
               onChange={this.onChangeDescription}
             />
+          </div>
+          <div className="form-group">
+            <label>Assign To: </label>
+            <select
+              ref="userInput"
+              required
+              className="form-control"
+              value={this.state.assignedTo}
+              onChange={this.onChangeAssignee}
+              id="assign-to"
+            >
+              {this.state.users.map(function(user) {
+                return (
+                  <option key={user} value={user}>
+                    {user}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Status</label>
+            <select
+              ref="userInput"
+              required
+              className="form-control"
+              value={this.state.status}
+              onChange={this.onChangeStatus}
+              id="status-input"
+            >
+              <option>{this.state.status}</option>
+              <option>Priority</option>
+              <option>Closed</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Date: </label>

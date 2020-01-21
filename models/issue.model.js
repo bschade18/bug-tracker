@@ -8,7 +8,9 @@ const issueSchema = new Schema(
     issueLog: [{ name: String, desc: String, date: Date }],
     name: String,
     number: Number,
-    date: Date
+    date: Date,
+    assignedTo: { type: String, require: true, trim: true },
+    status: String
   },
   { timestamps: true }
 );

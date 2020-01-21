@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "../App.css";
 
 export default class CreateUser extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ export default class CreateUser extends Component {
               className="form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}
+              id="add-user-input"
             />
           </div>
           <div className="form-group">
