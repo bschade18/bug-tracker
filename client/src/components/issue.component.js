@@ -136,6 +136,9 @@ export default class ReviewIssue extends Component {
 
     today = mm + "/" + dd + "/" + yyyy;
 
+    if (!this.state.issueLog.length) {
+      return <div />;
+    }
     return (
       <div>
         <h3>Issue #{this.state.number}</h3>
@@ -194,6 +197,7 @@ export default class ReviewIssue extends Component {
               id="status-input"
             >
               <option>{this.state.status}</option>
+              <option>Open</option>
               <option>Priority</option>
               <option>Closed</option>
             </select>
