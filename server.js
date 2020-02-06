@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
@@ -12,17 +13,24 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+});
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 
 const issueRouter = require("./routes/issues");
-const userRouter = require("./routes/users");
 
-app.use("/users", userRouter);
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
+
 app.use("/issue", issueRouter);
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 // server static assets if in production
 if (process.env.NODE_ENV === "production") {

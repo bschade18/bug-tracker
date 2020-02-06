@@ -6,13 +6,6 @@ export default class CreateIssue extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChangeAssignee = this.onChangeAssignee.bind(this);
-    this.onChangeStatus = this.onChangeStatus.bind(this);
-
     this.state = {
       name: "Bobby Schade",
       issueDescription: "",
@@ -22,7 +15,6 @@ export default class CreateIssue extends Component {
       number: "100000",
       issues: [],
       users: [],
-      username: "",
       status: "Open",
       assignedTo: ""
     };
@@ -53,8 +45,8 @@ export default class CreateIssue extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.username),
-            username: response.data[0].username
+            users: response.data.map(user => user.name),
+            assignedTo: response.data[0].name
           });
         }
       })
@@ -63,37 +55,13 @@ export default class CreateIssue extends Component {
       });
   }
 
-  onChangeUsername(e) {
+  onChange = e => {
     this.setState({
-      username: e.target.value
+      [e.target.name]: e.target.value
     });
-  }
+  };
 
-  onChangeDescription(e) {
-    this.setState({
-      issueDescription: e.target.value
-    });
-  }
-
-  onChangeTitle(e) {
-    this.setState({
-      issueTitle: e.target.value
-    });
-  }
-
-  onChangeStatus(e) {
-    this.setState({
-      status: e.target.value
-    });
-  }
-
-  onChangeAssignee(e) {
-    this.setState({
-      assignedTo: e.target.value
-    });
-  }
-
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
     let newNumber = this.state.issues[this.state.issues.length - 1].number + 1;
 
@@ -116,10 +84,31 @@ export default class CreateIssue extends Component {
 
     console.log(issue);
 
-    axios.post("/issue/add", issue).then(res => console.log(res.data));
+    axios
+      .post("/issue/add", issue, this.tokenConfig())
+      .then(res => console.log(res.data));
 
     window.location = "/";
-  }
+  };
+
+  tokenConfig = () => {
+    // get token from local storage
+    const token = localStorage.getItem("token");
+
+    // headers
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+
+    // if token, add to headers
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    return config;
+  };
+
   render() {
     return (
       <div>
@@ -127,15 +116,7 @@ export default class CreateIssue extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Username: </label>
-            <select
-              ref="userInput"
-              required
-              className="form-control"
-              value={this.state.name}
-              id="username"
-            >
-              <option>{this.state.name}</option>
-            </select>
+            <p>{this.state.name}</p>
           </div>
           <div className="form-group">
             <label>Title: </label>
@@ -143,8 +124,9 @@ export default class CreateIssue extends Component {
               type="text"
               required
               className="form-control"
+              name="issueTitle"
               value={this.state.issueTitle}
-              onChange={this.onChangeTitle}
+              onChange={this.onChange}
               id="issue-title"
             />
           </div>
@@ -155,7 +137,8 @@ export default class CreateIssue extends Component {
               required
               className="form-control description-input"
               value={this.state.description}
-              onChange={this.onChangeDescription}
+              name="issueDescription"
+              onChange={this.onChange}
             />
           </div>
           <div className="form-group">
@@ -165,7 +148,8 @@ export default class CreateIssue extends Component {
               required
               className="form-control"
               value={this.state.assignedTo}
-              onChange={this.onChangeAssignee}
+              name="assignedTo"
+              onChange={this.onChange}
               id="assign-to"
             >
               {this.state.users.map(function(user) {
@@ -184,7 +168,8 @@ export default class CreateIssue extends Component {
               required
               className="form-control"
               value={this.state.status}
-              onChange={this.onChangeStatus}
+              name="status"
+              onChange={this.onChange}
               id="status-input"
             >
               <option>{this.state.status}</option>

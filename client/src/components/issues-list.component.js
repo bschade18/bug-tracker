@@ -78,63 +78,60 @@ export default class IssuesList extends Component {
     }
     return (
       <div>
-        <div>
-          <h3>Logged Issues</h3>
-          <div className="form-group">
-            <Link to="/create" id="submit-issue-link">
-              Submit New Issue
-            </Link>
-          </div>
-          <div className="form-group">
-            <Link to="/adduser" id="add-user-link">
-              Add User
-            </Link>
-          </div>
-          <table className="table">
-            <thead className="thead-light">
-              <tr>
-                <th>Issue #</th>
-                <th>Title</th>
-                <th>Assigned To</th>
-                <th>Date Initiated</th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{this.issuesList()}</tbody>
-          </table>
+        {this.props.isAuthenticated ? (
+          <div>
+            <h3>Logged Issues</h3>
+            <div className="form-group">
+              <Link to="/create" id="submit-issue-link">
+                Submit New Issue
+              </Link>
+            </div>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Issue #</th>
+                  <th>Title</th>
+                  <th>Assigned To</th>
+                  <th>Date Initiated</th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{this.issuesList()}</tbody>
+            </table>
 
-          <div className="form-group">
-            <label>Search Issue # </label>
-            <input
-              onChange={this.onChangeNumber}
-              type="text"
-              id="issue-search"
-            />
-          </div>
-          <div className="form-group">
-            <Link to={"/review/" + this.state.id}>
-              <button value="Search Issue" className="btn btn-primary">
-                Search Issue
-              </button>
-            </Link>
-          </div>
-        </div>
+            <div className="form-group">
+              <label>Search Issue # </label>
+              <input
+                onChange={this.onChangeNumber}
+                type="text"
+                id="issue-search"
+              />
+            </div>
+            <div className="form-group">
+              <Link to={"/review/" + this.state.id}>
+                <button value="Search Issue" className="btn btn-primary">
+                  Search Issue
+                </button>
+              </Link>
+            </div>
 
-        <div className="closed-issues-container">
-          <h3>Closed Issues</h3>
-          <table className="table">
-            <thead className="thead-light">
-              <tr>
-                <th>Issue #</th>
-                <th>Title</th>
-                <th>Assigned To</th>
-                <th>Date Initiated</th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{this.completedIssuesList()}</tbody>
-          </table>
-        </div>
+            <h3>Closed Issues</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Issue #</th>
+                  <th>Title</th>
+                  <th>Assigned To</th>
+                  <th>Date Initiated</th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{this.completedIssuesList()}</tbody>
+            </table>
+          </div>
+        ) : (
+          <h4>Please log in or register to manage issues </h4>
+        )}
       </div>
     );
   }

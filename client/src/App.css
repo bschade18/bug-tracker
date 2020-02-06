@@ -1,6 +1,5 @@
 #issue-search {
   display: block;
-  padding: 15px;
 }
 
 .icon-folder-open-alt {
@@ -67,4 +66,14 @@
 
 .closed-issues-container {
   margin-top: 75px;
+}
+
+.log-btn {
+  background: none !important;
+  border: none;
+  padding: 5 !important;
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  cursor: pointer;
 }

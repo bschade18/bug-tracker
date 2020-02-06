@@ -6,11 +6,6 @@ export default class ReviewIssue extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChangeAssignee = this.onChangeAssignee.bind(this);
-    this.onChangeStatus = this.onChangeStatus.bind(this);
-
     this.state = {
       name: "",
       issueDescription: "",
@@ -19,7 +14,6 @@ export default class ReviewIssue extends Component {
       date: "",
       number: "",
       users: [],
-      username: "",
       assignedTo: "",
       status: ""
     };
@@ -54,8 +48,8 @@ export default class ReviewIssue extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.username),
-            username: response.data[0].username
+            users: response.data.map(user => user.name),
+            username: response.data[0].name
           });
         }
       })
@@ -63,6 +57,24 @@ export default class ReviewIssue extends Component {
         console.log(error);
       });
   }
+
+  tokenConfig = () => {
+    // get token from local storage
+    const token = localStorage.getItem("token");
+
+    // headers
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+
+    // if token, add to headers
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    return config;
+  };
 
   LogList() {
     return this.state.issueLog.map((currentlog, i) => {
@@ -76,31 +88,7 @@ export default class ReviewIssue extends Component {
     });
   }
 
-  onChangeAssignee(e) {
-    this.setState({
-      assignedTo: e.target.value
-    });
-  }
-
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value
-    });
-  }
-
-  onChangeDescription(e) {
-    this.setState({
-      issueDescription: e.target.value
-    });
-  }
-
-  onChangeStatus(e) {
-    this.setState({
-      status: e.target.value
-    });
-  }
-
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     const issue = {
@@ -127,7 +115,14 @@ export default class ReviewIssue extends Component {
       .then(res => console.log(res.data));
 
     window.location = "/";
-  }
+  };
+
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -146,16 +141,7 @@ export default class ReviewIssue extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Username: </label>
-            <select
-              ref="userInput"
-              required
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeUsername}
-              id="change-username"
-            >
-              <option>{this.state.name}</option>
-            </select>
+            <p>{this.state.name}</p>
           </div>
           <div className="form-group">
             <label>Description: </label>
@@ -163,8 +149,9 @@ export default class ReviewIssue extends Component {
               type="text"
               required
               className="form-control description-input"
+              name="issueDescription"
               value={this.state.issueDescription}
-              onChange={this.onChangeDescription}
+              onChange={this.onChange}
             />
           </div>
           <div className="form-group">
@@ -173,8 +160,9 @@ export default class ReviewIssue extends Component {
               ref="userInput"
               required
               className="form-control"
+              name="assignedTo"
               value={this.state.assignedTo}
-              onChange={this.onChangeAssignee}
+              onChange={this.onChange}
               id="assign-to"
             >
               {this.state.users.map(function(user) {
@@ -192,8 +180,9 @@ export default class ReviewIssue extends Component {
               ref="userInput"
               required
               className="form-control"
+              name="status"
               value={this.state.status}
-              onChange={this.onChangeStatus}
+              onChange={this.onChange}
               id="status-input"
             >
               <option>{this.state.status}</option>

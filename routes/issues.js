@@ -1,16 +1,21 @@
 const router = require("express").Router();
+const auth = require("../middleware/verifyToken");
 let Issue = require("../models/issue.model");
 
-// root url /issue/ + get request
-router.route("/").get((req, res) => {
+// @route GET /issue
+// @desc get items
+// @access Public
+router.get("/", (req, res) => {
   //mongoose command
   Issue.find()
     .then(issues => res.json(issues))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// /issue/add + post request
-router.route("/add").post((req, res) => {
+// @route POST issue/add
+// @desc create an item
+// @access Public
+router.post("/add", auth, (req, res) => {
   const issueTitle = req.body.issueTitle;
   const name = req.body.name;
   const issueDescription = req.body.issueDescription;
