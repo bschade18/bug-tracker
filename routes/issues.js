@@ -12,6 +12,18 @@ router.get("/", (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// @route GET /issue/closed
+// @desc get closed items
+// @access Public
+router.get("/closed", (req, res) => {
+  //mongoose command
+  Issue.find({ status: "Closed" })
+    .sort({ updatedAt: -1 })
+    .limit(5)
+    .then(issues => res.json(issues))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
 // @route POST issue/add
 // @desc create an item
 // @access Public

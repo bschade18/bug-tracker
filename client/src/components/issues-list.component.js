@@ -8,7 +8,7 @@ const Issue = props => (
     <td>{props.issue.number}</td>
     <td>{props.issue.issueTitle}</td>
     <td>{props.issue.assignedTo}</td>
-    <td>{props.issue.date.substring(0, 10)}</td>
+    <td>{props.issue.createdAt.substring(0, 10)}</td>
     <td className="folder-container">
       <Link className="folder" to={"/review/" + props.issue._id}>
         <i className="icon-folder-open-alt"></i>
@@ -21,7 +21,7 @@ export default class IssuesList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { issues: [], number: "", id: "" };
+    this.state = { issues: [], closedIssues: [], number: "", id: "" };
 
     this.onChangeNumber = this.onChangeNumber.bind(this);
   }
@@ -37,11 +37,24 @@ export default class IssuesList extends Component {
       .catch(error => {
         console.log(error);
       });
+
+    axios
+      .get("/issue/closed")
+      .then(response => {
+        this.setState({
+          closedIssues: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   issuesList() {
     const openIssues = this.state.issues.filter(
-      currentissue => currentissue.status !== "Closed"
+      currentissue =>
+        currentissue.status !== "Closed" &&
+        currentissue.assignedTo === this.props.user.name
     );
 
     return openIssues.map(currentissue => {
@@ -50,11 +63,7 @@ export default class IssuesList extends Component {
   }
 
   completedIssuesList() {
-    const completedIssues = this.state.issues.filter(
-      issue => issue.status === "Closed"
-    );
-
-    return completedIssues.map(currentissue => {
+    return this.state.closedIssues.map(currentissue => {
       return <Issue issue={currentissue} key={currentissue._id} />;
     });
   }
@@ -80,7 +89,7 @@ export default class IssuesList extends Component {
       <div>
         {this.props.isAuthenticated ? (
           <div>
-            <h3>Logged Issues</h3>
+            <h5>My Open Issues</h5>
             <div className="form-group">
               <Link to="/create" id="submit-issue-link">
                 Submit New Issue
@@ -115,7 +124,7 @@ export default class IssuesList extends Component {
               </Link>
             </div>
 
-            <h3>Closed Issues</h3>
+            <h5 className="mt-5">Recently Closed Issues</h5>
             <table className="table">
               <thead className="thead-light">
                 <tr>

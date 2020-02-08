@@ -10,7 +10,7 @@ export default class Navbar extends Component {
     const authLinks = (
       <Fragment>
         <span className="navbar-text mr-3">
-          <strong>{user ? `Welcome ${user.name}` : ""}</strong>
+          <strong>{user ? `${user.name}` : ""}</strong>
         </span>
         <Logout logout={this.props.logout} />
       </Fragment>
@@ -18,8 +18,14 @@ export default class Navbar extends Component {
 
     const guestLinks = (
       <Fragment>
-        <LoginModal authSuccess={this.props.authSuccess} />
-        <RegisterModal authSuccess={this.props.authSuccess} />
+        <LoginModal
+          authSuccess={user => this.props.authSuccess(user)}
+          isAuthenticated={this.props.isAuthenticated}
+        />
+        <RegisterModal
+          authSuccess={user => this.props.authSuccess(user)}
+          isAuthenticated={this.props.isAuthenticated}
+        />
       </Fragment>
     );
 

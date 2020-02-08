@@ -66,10 +66,10 @@ export default class CreateIssue extends Component {
     let newNumber = this.state.issues[this.state.issues.length - 1].number + 1;
 
     const issue = {
-      name: this.state.name,
+      name: this.props.user.name,
       issueLog: this.state.issueLog.concat([
         {
-          name: this.state.name,
+          name: this.props.user.name,
           desc: this.state.issueDescription,
           date: this.state.date
         }
@@ -116,7 +116,7 @@ export default class CreateIssue extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Username: </label>
-            <p>{this.state.name}</p>
+            <p>{this.props.user.name}</p>
           </div>
           <div className="form-group">
             <label>Title: </label>

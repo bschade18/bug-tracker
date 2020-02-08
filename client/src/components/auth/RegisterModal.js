@@ -26,6 +26,14 @@ class RegisterModal extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.state.modal) {
+      if (this.props.isAuthenticated) {
+        this.toggle();
+      }
+    }
+  }
+
   toggle = () => {
     this.clearErrors();
     this.setState({
@@ -82,8 +90,7 @@ class RegisterModal extends Component {
 
   registerSuccess = data => {
     localStorage.setItem("token", data.token);
-    this.toggle();
-    this.props.authSuccess();
+    this.props.authSuccess(data.user);
   };
 
   render() {

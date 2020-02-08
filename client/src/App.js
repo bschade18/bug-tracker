@@ -26,15 +26,11 @@ class App extends Component {
   }
 
   authSuccess = user => {
-    setTimeout(
-      () =>
-        this.setState({
-          isAuthenticated: true,
-          isLoading: false,
-          user: user
-        }),
-      300
-    );
+    this.setState({
+      isAuthenticated: true,
+      isLoading: false,
+      user: user
+    });
   };
 
   loadUser = () => {
@@ -105,10 +101,14 @@ class App extends Component {
               <IssuesList
                 {...props}
                 isAuthenticated={this.state.isAuthenticated}
+                user={this.state.user}
               />
             )}
           />
-          <Route path="/create" component={CreateIssue} />
+          <Route
+            path="/create"
+            render={props => <CreateIssue {...props} user={this.state.user} />}
+          />
           <Route path="/review/:id" component={ReviewIssue} />
         </div>
       </Router>

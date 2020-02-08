@@ -24,6 +24,14 @@ class LoginModal extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.state.modal) {
+      if (this.props.isAuthenticated) {
+        this.toggle();
+      }
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -72,8 +80,7 @@ class LoginModal extends Component {
 
   loginSuccess = data => {
     localStorage.setItem("token", data.token);
-    this.toggle();
-    this.props.authSuccess();
+    this.props.authSuccess(data.user);
   };
 
   render() {
