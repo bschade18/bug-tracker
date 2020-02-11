@@ -82,6 +82,8 @@ class App extends Component {
       user: null,
       token: null
     });
+
+    window.location = "/";
   };
   render() {
     return (
@@ -93,6 +95,7 @@ class App extends Component {
             logout={this.logout}
             user={this.state.user}
           />
+
           <br />
           <Route
             path="/"
@@ -104,7 +107,7 @@ class App extends Component {
                 user={this.state.user}
               />
             )}
-          />
+          ></Route>
           <Route
             path="/create"
             render={props => <CreateIssue {...props} user={this.state.user} />}

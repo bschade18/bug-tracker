@@ -139,7 +139,7 @@ export default class IssuesList extends Component {
             </table>
           </div>
         ) : (
-          <h4>Please log in or register to manage issues </h4>
+          <p></p>
         )}
       </div>
     );
