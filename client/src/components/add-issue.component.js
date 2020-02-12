@@ -128,6 +128,7 @@ export default class CreateIssue extends Component {
               value={this.state.issueTitle}
               onChange={this.onChange}
               id="issue-title"
+              maxLength="25"
             />
           </div>
           <div className="form-group">

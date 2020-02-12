@@ -46,8 +46,15 @@ class LoginModal extends Component {
   };
 
   toggle = () => {
+    this.clearErrors();
     this.setState({
       modal: !this.state.modal
+    });
+  };
+
+  clearErrors = () => {
+    this.setState({
+      msg: null
     });
   };
 

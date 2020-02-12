@@ -6,7 +6,7 @@ import "../App.css";
 const Issue = props => (
   <tr>
     <td>{props.issue.number}</td>
-    <td>{props.issue.issueTitle}</td>
+    <td id="title">{props.issue.issueTitle}</td>
     <td>{props.issue.assignedTo}</td>
     <td>{props.issue.createdAt.substring(0, 10)}</td>
     <td className="folder-container">

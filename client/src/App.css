@@ -87,3 +87,7 @@ footer {
   color: black;
   text-align: center;
 }
+
+#title {
+  width: 20rem;
+}
