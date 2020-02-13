@@ -81,7 +81,7 @@ export default class ReviewIssue extends Component {
       return (
         <tr key={i}>
           <td>{currentlog.name}</td>
-          <td>{currentlog.desc}</td>
+          <td id="log-description">{currentlog.desc}</td>
           <td>{currentlog.date.substring(0, 10)}</td>
         </tr>
       );
@@ -108,8 +108,6 @@ export default class ReviewIssue extends Component {
       status: this.state.status
     };
 
-    console.log(issue);
-
     axios
       .post("/issue/update/" + this.props.match.params.id, issue)
       .then(res => console.log(res.data));
@@ -120,6 +118,21 @@ export default class ReviewIssue extends Component {
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  statusList = () => {
+    const statuses = ["Open", "Priority", "Wait", "Closed"];
+    const filteredStatuses = statuses.filter(
+      currentstatus => currentstatus.status !== this.state.status
+    );
+
+    return filteredStatuses.map(currentstatus => {
+      return (
+        <option key={currentstatus} value={currentstatus}>
+          {currentstatus}
+        </option>
+      );
     });
   };
 
@@ -185,10 +198,7 @@ export default class ReviewIssue extends Component {
               onChange={this.onChange}
               id="status-input"
             >
-              <option>{this.state.status}</option>
-              <option>Open</option>
-              <option>Priority</option>
-              <option>Closed</option>
+              {this.statusList()}
             </select>
           </div>
           <div className="form-group">
@@ -197,11 +207,7 @@ export default class ReviewIssue extends Component {
           </div>
 
           <div className="form-group">
-            <input
-              type="submit"
-              value="Submit Issue"
-              className="btn btn-primary"
-            />
+            <input type="submit" value="Submit" className="btn btn-primary" />
           </div>
         </form>
         <table className="table">

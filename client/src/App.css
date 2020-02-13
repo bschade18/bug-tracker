@@ -91,3 +91,15 @@ footer {
 #title {
   width: 20rem;
 }
+
+#see-more-link {
+  text-decoration: none;
+}
+
+#log-description {
+  width: 47rem;
+}
+
+#issues-message {
+  font-size: 1.5rem;
+}

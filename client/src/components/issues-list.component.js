@@ -95,19 +95,22 @@ export default class IssuesList extends Component {
                 Submit New Issue
               </Link>
             </div>
-            <table className="table">
-              <thead className="thead-light">
-                <tr>
-                  <th>Issue #</th>
-                  <th>Title</th>
-                  <th>Assigned To</th>
-                  <th>Date Initiated</th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{this.issuesList()}</tbody>
-            </table>
-
+            {this.issuesList().length > 0 ? (
+              <table className="table">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Issue #</th>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                    <th>Date Initiated</th>
+                    <th>Open Issue</th>
+                  </tr>
+                </thead>
+                <tbody>{this.issuesList()}</tbody>
+              </table>
+            ) : (
+              <p id="issues-message">You have no open issues</p>
+            )}
             <div className="form-group">
               <label>Search Issue # </label>
               <input
@@ -137,6 +140,11 @@ export default class IssuesList extends Component {
               </thead>
               <tbody>{this.completedIssuesList()}</tbody>
             </table>
+            <div className="form-group">
+              <Link to={"/closed"} id="see-more-link">
+                see all...
+              </Link>
+            </div>
           </div>
         ) : (
           <p></p>

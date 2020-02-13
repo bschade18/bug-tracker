@@ -176,6 +176,7 @@ export default class CreateIssue extends Component {
               <option>{this.state.status}</option>
               <option>Priority</option>
               <option>Closed</option>
+              <option>Wait</option>
             </select>
           </div>
           <div className="form-group">
