@@ -6,6 +6,7 @@ import "../App.css";
 const Issue = props => (
   <tr>
     <td>{props.issue.number}</td>
+    <td>{props.issue.status}</td>
     <td id="title">{props.issue.issueTitle}</td>
     <td>{props.issue.assignedTo}</td>
     <td>{props.issue.createdAt.substring(0, 10)}</td>
@@ -100,6 +101,7 @@ export default class IssuesList extends Component {
                 <thead className="thead-light">
                   <tr>
                     <th>Issue #</th>
+                    <th>Status</th>
                     <th>Title</th>
                     <th>Assigned To</th>
                     <th>Date Initiated</th>
@@ -132,6 +134,7 @@ export default class IssuesList extends Component {
               <thead className="thead-light">
                 <tr>
                   <th>Issue #</th>
+                  <th>Status</th>
                   <th>Title</th>
                   <th>Assigned To</th>
                   <th>Date Initiated</th>
