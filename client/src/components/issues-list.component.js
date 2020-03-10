@@ -22,7 +22,13 @@ export default class IssuesList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { issues: [], closedIssues: [], number: "", id: "" };
+    this.state = {
+      issues: [],
+      closedIssues: [],
+      number: "",
+      id: "",
+      projectTitle: "--All--"
+    };
 
     this.onChangeNumber = this.onChangeNumber.bind(this);
   }
@@ -63,6 +69,26 @@ export default class IssuesList extends Component {
     });
   }
 
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    this.filterList();
+  };
+
+  filterList() {
+    const openIssues = this.state.issues.filter(
+      currentissue =>
+        currentissue.status !== "Closed" &&
+        currentissue.assignedTo === this.props.user.name &&
+        currentissue.projectTitle === this.state.projectTitle
+    );
+
+    return openIssues.map(currentissue => {
+      return <Issue issue={currentissue} key={currentissue._id} />;
+    });
+  }
+
   completedIssuesList() {
     return this.state.closedIssues.map(currentissue => {
       return <Issue issue={currentissue} key={currentissue._id} />;
@@ -83,6 +109,12 @@ export default class IssuesList extends Component {
   }
 
   render() {
+    const projects = this.state.issues.map(function(issue) {
+      return issue.projectTitle;
+    });
+
+    const uniqueProjects = [...new Set(projects)];
+
     if (!this.state.issues.length) {
       return <div />;
     }
@@ -96,6 +128,27 @@ export default class IssuesList extends Component {
                 Submit New Issue
               </Link>
             </div>
+            <div className="form-group">
+              <label>Project: </label>
+              <select
+                ref="userInput"
+                required
+                className="form-control"
+                value={this.state.projectTitle}
+                name="projectTitle"
+                onChange={this.onChange}
+                id="project-title"
+              >
+                <option>--All--</option>
+                {uniqueProjects.map(function(project) {
+                  return (
+                    <option key={project} value={project}>
+                      {project}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
             {this.issuesList().length > 0 ? (
               <table className="table">
                 <thead className="thead-light">
@@ -108,11 +161,36 @@ export default class IssuesList extends Component {
                     <th>Open Issue</th>
                   </tr>
                 </thead>
-                <tbody>{this.issuesList()}</tbody>
+                <tbody>
+                  {this.state.projectTitle === "--All--"
+                    ? this.issuesList()
+                    : this.filterList()}
+                </tbody>
               </table>
             ) : (
               <p id="issues-message">You have no open issues</p>
             )}
+
+            <h5 className="mt-5">Recently Closed Issues</h5>
+            <table className="table mt-3">
+              <thead className="thead-light">
+                <tr>
+                  <th>Issue #</th>
+                  <th>Status</th>
+                  <th>Title</th>
+                  <th>Assigned To</th>
+                  <th>Date Initiated</th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{this.completedIssuesList()}</tbody>
+            </table>
+
+            <div className="form-group">
+              <Link to={"/closed"} id="see-more-link">
+                see all...
+              </Link>
+            </div>
             <div className="form-group">
               <label>Search Issue # </label>
               <input
@@ -126,26 +204,6 @@ export default class IssuesList extends Component {
                 <button value="Search Issue" className="btn btn-primary">
                   Search Issue
                 </button>
-              </Link>
-            </div>
-
-            <h5 className="mt-5">Recently Closed Issues</h5>
-            <table className="table">
-              <thead className="thead-light">
-                <tr>
-                  <th>Issue #</th>
-                  <th>Status</th>
-                  <th>Title</th>
-                  <th>Assigned To</th>
-                  <th>Date Initiated</th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{this.completedIssuesList()}</tbody>
-            </table>
-            <div className="form-group">
-              <Link to={"/closed"} id="see-more-link">
-                see all...
               </Link>
             </div>
           </div>

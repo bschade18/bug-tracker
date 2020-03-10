@@ -24,7 +24,8 @@
   text-decoration: none;
 }
 
-#issue-title {
+#issue-title,
+#project-title {
   width: 20vw;
   display: block;
   padding: 15px;

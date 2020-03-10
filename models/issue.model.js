@@ -10,7 +10,8 @@ const issueSchema = new Schema(
     number: Number,
     date: Date,
     assignedTo: { type: String, require: true, trim: true },
-    status: String
+    status: String,
+    projectTitle: { type: String, require: true, trim: true }
   },
   { timestamps: true }
 );

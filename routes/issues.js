@@ -36,6 +36,7 @@ router.post("/add", auth, (req, res) => {
   const issueLog = req.body.issueLog;
   const assignedTo = req.body.assignedTo;
   const status = req.body.status;
+  const projectTitle = req.body.projectTitle;
 
   // create a new issue using the variable we have from above
   const newIssue = new Issue({
@@ -46,7 +47,8 @@ router.post("/add", auth, (req, res) => {
     issueTitle,
     issueLog,
     assignedTo,
-    status
+    status,
+    projectTitle
   });
 
   newIssue

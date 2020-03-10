@@ -15,8 +15,11 @@ export default class CreateIssue extends Component {
       number: "100000",
       issues: [],
       users: [],
+      projects: [],
       status: "Open",
-      assignedTo: ""
+      assignedTo: "",
+      projectTitle: "",
+      isNewProject: false
     };
   }
 
@@ -79,7 +82,8 @@ export default class CreateIssue extends Component {
       date: this.state.date,
       number: newNumber,
       assignedTo: this.state.assignedTo,
-      status: this.state.status
+      status: this.state.status,
+      projectTitle: this.state.projectTitle
     };
 
     console.log(issue);
@@ -109,7 +113,19 @@ export default class CreateIssue extends Component {
     return config;
   };
 
+  newProject = () => {
+    this.setState({
+      isNewProject: true,
+      projectTitle: ""
+    });
+  };
+
   render() {
+    const projects = this.state.issues.map(function(issue) {
+      return issue.projectTitle;
+    });
+
+    const uniqueProjects = [...new Set(projects)];
     return (
       <div>
         <h3>Create New Issue Log</h3>
@@ -131,6 +147,50 @@ export default class CreateIssue extends Component {
               maxLength="25"
             />
           </div>
+          {this.state.isNewProject ? (
+            <div className="form-group">
+              <label>Project </label>
+              <input
+                type="text"
+                required
+                className="form-control"
+                name="projectTitle"
+                value={this.state.projectTitle}
+                onChange={this.onChange}
+                id="project-title"
+                maxLength="25"
+              />
+            </div>
+          ) : (
+            <div className="form-group">
+              <label>Project: </label>
+              <select
+                ref="userInput"
+                required
+                className="form-control"
+                value={this.state.projectTitle}
+                name="projectTitle"
+                onChange={this.onChange}
+                id="project-title"
+              >
+                <option>--Select Project--</option>
+                {uniqueProjects.map(function(project) {
+                  return (
+                    <option key={project} value={project}>
+                      {project}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
+          <input
+            type="button"
+            value="Add New Project"
+            className="btn btn-primary mb-3"
+            onClick={this.newProject}
+          />
+
           <div className="form-group">
             <label>Description: </label>
             <textarea
