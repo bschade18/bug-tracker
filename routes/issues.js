@@ -12,6 +12,18 @@ router.get("/", (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// @route GET /issue/search
+// @desc get items
+// @access Public
+router.get("/search", (req, res) => {
+  const number = 100040;
+  console.log(number);
+  //mongoose command
+  Issue.find({ number: number })
+    .then(issue => res.json(issue))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
 // @route GET /issue/closed
 // @desc get closed items
 // @access Public
@@ -68,7 +80,7 @@ router.route("/:id").get((req, res) => {
 router.route("/:id").delete((req, res) => {
   Issue.findByIdAndDelete(req.params.id)
     .then(() => res.json("Issue deleted."))
-    .catch(err => res.status(400).json("Error: " + err));
+    .catch(err => res.status(404).json("Error: " + err));
 });
 
 // /issue/update/:id + post request

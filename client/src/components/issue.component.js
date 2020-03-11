@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import DeleteModal from "./deletemodal.component";
 import "../App.css";
 
 export default class ReviewIssue extends Component {
@@ -220,6 +221,7 @@ export default class ReviewIssue extends Component {
           </thead>
           <tbody>{this.LogList()}</tbody>
         </table>
+        <DeleteModal id={this.props.match.params.id} />
       </div>
     );
   }
