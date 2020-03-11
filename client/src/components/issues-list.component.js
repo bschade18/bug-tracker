@@ -3,20 +3,27 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
 
-const Issue = props => (
-  <tr>
-    <td>{props.issue.number}</td>
-    <td>{props.issue.status}</td>
-    <td id="title">{props.issue.issueTitle}</td>
-    <td>{props.issue.assignedTo}</td>
-    <td>{props.issue.createdAt.substring(0, 10)}</td>
-    <td className="folder-container">
-      <Link className="folder" to={"/review/" + props.issue._id}>
-        <i className="icon-folder-open-alt"></i>
-      </Link>
-    </td>
-  </tr>
-);
+const Issue = props => {
+  const createdDate = props.issue.createdAt;
+  const day = createdDate.substring(8, 10);
+  const month = createdDate.substring(6, 7);
+  const year = createdDate.substring(0, 4);
+  const date = month + "/" + day + "/" + year;
+  return (
+    <tr>
+      <td>{props.issue.number}</td>
+      <td>{props.issue.status}</td>
+      <td id="title">{props.issue.issueTitle}</td>
+      <td>{props.issue.assignedTo}</td>
+      <td>{date}</td>
+      <td className="folder-container">
+        <Link className="folder" to={"/review/" + props.issue._id}>
+          <i className="icon-folder-open-alt"></i>
+        </Link>
+      </td>
+    </tr>
+  );
+};
 
 export default class IssuesList extends Component {
   constructor(props) {
@@ -27,7 +34,8 @@ export default class IssuesList extends Component {
       closedIssues: [],
       number: "",
       id: "",
-      projectTitle: "--All--"
+      projectTitle: "--All--",
+      sort: false
     };
 
     this.onChangeNumber = this.onChangeNumber.bind(this);
@@ -108,6 +116,144 @@ export default class IssuesList extends Component {
     }
   }
 
+  sortNumber = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.issues.sort(function(a, b) {
+        return b.number - a.number;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.issues.sort(function(a, b) {
+        return a.number - b.number;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortTitle = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.issues.sort(function(a, b) {
+        if (a.issueTitle.toUpperCase() < b.issueTitle.toUpperCase()) {
+          return -1;
+        }
+        if (a.issueTitle.toUpperCase() > b.issueTitle.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.issues.sort(function(a, b) {
+        if (b.issueTitle.toUpperCase() < a.issueTitle.toUpperCase()) {
+          return -1;
+        }
+        if (b.issueTitle.toUpperCase() > a.issueTitle.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortAssignedTo = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.issues.sort(function(a, b) {
+        if (a.assignedTo.toUpperCase() < b.assignedTo.toUpperCase()) {
+          return -1;
+        }
+        if (a.assignedTo.toUpperCase() > b.assignedTo.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.issues.sort(function(a, b) {
+        if (b.assignedTo.toUpperCase() < a.assignedTo.toUpperCase()) {
+          return -1;
+        }
+        if (b.assignedTo.toUpperCase() > a.assignedTo.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortDate = () => {
+    this.sortNumber();
+  };
+
+  sortStatus = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.issues.sort(function(a, b) {
+        if (a.status.toUpperCase() < b.status.toUpperCase()) {
+          return -1;
+        }
+        if (a.status.toUpperCase() > b.status.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.issues.sort(function(a, b) {
+        if (b.status.toUpperCase() < a.status.toUpperCase()) {
+          return -1;
+        }
+        if (b.status.toUpperCase() > a.status.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        issues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
   render() {
     const projects = this.state.issues.map(function(issue) {
       return issue.projectTitle;
@@ -153,11 +299,29 @@ export default class IssuesList extends Component {
               <table className="table">
                 <thead className="thead-light">
                   <tr>
-                    <th>Issue #</th>
-                    <th>Status</th>
-                    <th>Title</th>
-                    <th>Assigned To</th>
-                    <th>Date Initiated</th>
+                    <th>
+                      Issue #{" "}
+                      <i onClick={this.sortNumber} class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th>
+                      Status{" "}
+                      <i onClick={this.sortStatus} class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th>
+                      Title{" "}
+                      <i onClick={this.sortTitle} class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th>
+                      Assigned To{" "}
+                      <i
+                        onClick={this.sortAssignedTo}
+                        class="fa fa-fw fa-sort"
+                      ></i>
+                    </th>
+                    <th>
+                      Date Initiated{" "}
+                      <i onClick={this.sortDate} class="fa fa-fw fa-sort"></i>
+                    </th>
                     <th>Open Issue</th>
                   </tr>
                 </thead>
@@ -191,21 +355,28 @@ export default class IssuesList extends Component {
                 see all...
               </Link>
             </div>
-            <div className="form-group">
-              <label>Search Issue # </label>
-              <input
-                onChange={this.onChangeNumber}
-                type="text"
-                id="issue-search"
-              />
-            </div>
-            <div className="form-group">
-              <Link to={"/review/" + this.state.id}>
-                <button value="Search Issue" className="btn btn-primary">
-                  Search Issue
-                </button>
-              </Link>
-            </div>
+            <form onSubmit={this.onSubmit}>
+              <div className="form-group">
+                <label>Search Issue # </label>
+                <input
+                  type="text"
+                  onChange={this.onChangeNumber}
+                  id="issue-search"
+                />
+              </div>
+
+              <div className="form-group">
+                <Link to={"/review/" + this.state.id}>
+                  <button
+                    type="submit"
+                    value="Search Issue"
+                    className="btn btn-primary"
+                  >
+                    Search Issue
+                  </button>
+                </Link>
+              </div>
+            </form>
           </div>
         ) : (
           <p></p>
