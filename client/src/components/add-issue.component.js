@@ -173,7 +173,7 @@ export default class CreateIssue extends Component {
                 onChange={this.onChange}
                 id="project-title"
               >
-                <option>--Select Project--</option>
+                <option value="">--Select Project--</option>
                 {uniqueProjects.map(function(project) {
                   return (
                     <option key={project} value={project}>
