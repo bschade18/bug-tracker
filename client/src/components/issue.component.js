@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import DeleteModal from "./deletemodal.component";
-import "../App.css";
 
 export default class ReviewIssue extends Component {
   constructor(props) {

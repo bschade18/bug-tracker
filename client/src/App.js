@@ -8,6 +8,7 @@ import IssuesList from "./components/issues-list.component";
 import Navbar from "./components/navbar.component";
 import ReviewIssue from "./components/issue.component";
 import ClosedIssuesList from "./components/closed-issues.component";
+import AdvancedSearch from "./components/advanced-search.component";
 
 import axios from "axios";
 
@@ -118,6 +119,16 @@ class App extends Component {
             path="/closed"
             render={props => (
               <ClosedIssuesList
+                {...props}
+                isAuthenticated={this.state.isAuthenticated}
+                user={this.state.user}
+              />
+            )}
+          ></Route>
+          <Route
+            path="/advanced"
+            render={props => (
+              <AdvancedSearch
                 {...props}
                 isAuthenticated={this.state.isAuthenticated}
                 user={this.state.user}

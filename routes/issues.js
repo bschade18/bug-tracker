@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 // @route GET /issue/search
 // @desc get items
 // @access Public
-router.get("/search", (req, res) => {
+router.get("/search/number", (req, res) => {
   const number = 100040;
   console.log(number);
   //mongoose command
@@ -33,6 +33,13 @@ router.get("/closed", (req, res) => {
     .sort({ updatedAt: -1 })
     .limit(5)
     .then(issues => res.json(issues))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+//  /issue/:id + get request
+router.route("/:id").get((req, res) => {
+  Issue.findById(req.params.id)
+    .then(issue => res.json(issue))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
@@ -69,13 +76,6 @@ router.post("/add", auth, (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-//  /issue/:id + get request
-router.route("/:id").get((req, res) => {
-  Issue.findById(req.params.id)
-    .then(issue => res.json(issue))
-    .catch(err => res.status(400).json("Error: " + err));
-});
-
 // /issue/:id + delete request
 router.route("/:id").delete((req, res) => {
   Issue.findByIdAndDelete(req.params.id)
@@ -102,6 +102,30 @@ router.route("/update/:id").post((req, res) => {
         .then(() => res.json("Issue updated!"))
         .catch(err => res.status(400).json("Error: " + err));
     })
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+// @route GET /issue/search/assignedTo
+// @desc get items
+// @access Public
+router.get("/search/:assignedTo", (req, res) => {
+  const assignedTo = req.params.assignedTo;
+  console.log(assignedTo);
+  //mongoose command
+  Issue.find({ assignedTo: req.params.assignedTo })
+    .then(issue => res.json(issue))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+// @route GET /issue/search/assignedTo
+// @desc get items
+// @access Public
+router.get("/search/:initiatedBy", (req, res) => {
+  const initiatedBy = req.params.initiatedBy;
+  console.log("Hello");
+  //mongoose command
+  Issue.find({ name: req.params.initiatedBy })
+    .then(issue => res.json(issue))
     .catch(err => res.status(400).json("Error: " + err));
 });
 

@@ -1,4 +1,6 @@
-#issue-search {
+#issue-search,
+#assigned-to-search,
+#initiated-by-search {
   display: block;
 }
 

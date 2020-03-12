@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "../App.css";
 
 const Issue = props => {
   const createdDate = props.issue.createdAt;
@@ -254,6 +253,146 @@ export default class IssuesList extends Component {
     }
   };
 
+  // sorts on closed issues
+
+  sortClosedNumber = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        return b.number - a.number;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        return a.number - b.number;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortClosedTitle = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (a.issueTitle.toUpperCase() < b.issueTitle.toUpperCase()) {
+          return -1;
+        }
+        if (a.issueTitle.toUpperCase() > b.issueTitle.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (b.issueTitle.toUpperCase() < a.issueTitle.toUpperCase()) {
+          return -1;
+        }
+        if (b.issueTitle.toUpperCase() > a.issueTitle.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortClosedAssignedTo = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (a.assignedTo.toUpperCase() < b.assignedTo.toUpperCase()) {
+          return -1;
+        }
+        if (a.assignedTo.toUpperCase() > b.assignedTo.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (b.assignedTo.toUpperCase() < a.assignedTo.toUpperCase()) {
+          return -1;
+        }
+        if (b.assignedTo.toUpperCase() > a.assignedTo.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
+  sortClosedDate = () => {
+    this.sortClosedNumber();
+  };
+
+  sortClosedStatus = () => {
+    let sort;
+    if (this.state.sort) {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (a.status.toUpperCase() < b.status.toUpperCase()) {
+          return -1;
+        }
+        if (a.status.toUpperCase() > b.status.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    } else {
+      sort = this.state.closedIssues.sort(function(a, b) {
+        if (b.status.toUpperCase() < a.status.toUpperCase()) {
+          return -1;
+        }
+        if (b.status.toUpperCase() > a.status.toUpperCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      this.setState({
+        closedIssues: sort,
+        sort: !this.state.sort
+      });
+    }
+  };
+
   render() {
     const projects = this.state.issues.map(function(issue) {
       return issue.projectTitle;
@@ -301,26 +440,38 @@ export default class IssuesList extends Component {
                   <tr>
                     <th>
                       Issue #{" "}
-                      <i onClick={this.sortNumber} class="fa fa-fw fa-sort"></i>
+                      <i
+                        onClick={this.sortNumber}
+                        className="fa fa-fw fa-sort"
+                      ></i>
                     </th>
                     <th>
                       Status{" "}
-                      <i onClick={this.sortStatus} class="fa fa-fw fa-sort"></i>
+                      <i
+                        onClick={this.sortStatus}
+                        className="fa fa-fw fa-sort"
+                      ></i>
                     </th>
                     <th>
                       Title{" "}
-                      <i onClick={this.sortTitle} class="fa fa-fw fa-sort"></i>
+                      <i
+                        onClick={this.sortTitle}
+                        className="fa fa-fw fa-sort"
+                      ></i>
                     </th>
                     <th>
                       Assigned To{" "}
                       <i
                         onClick={this.sortAssignedTo}
-                        class="fa fa-fw fa-sort"
+                        className="fa fa-fw fa-sort"
                       ></i>
                     </th>
                     <th>
                       Date Initiated{" "}
-                      <i onClick={this.sortDate} class="fa fa-fw fa-sort"></i>
+                      <i
+                        onClick={this.sortDate}
+                        className="fa fa-fw fa-sort"
+                      ></i>
                     </th>
                     <th>Open Issue</th>
                   </tr>
@@ -339,11 +490,41 @@ export default class IssuesList extends Component {
             <table className="table mt-3">
               <thead className="thead-light">
                 <tr>
-                  <th>Issue #</th>
-                  <th>Status</th>
-                  <th>Title</th>
-                  <th>Assigned To</th>
-                  <th>Date Initiated</th>
+                  <th>
+                    Issue #{" "}
+                    <i
+                      onClick={this.sortClosedNumber}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Status{" "}
+                    <i
+                      onClick={this.sortClosedStatus}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Title{" "}
+                    <i
+                      onClick={this.sortClosedTitle}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Assigned To{" "}
+                    <i
+                      onClick={this.sortClosedAssignedTo}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Date Initiated{" "}
+                    <i
+                      onClick={this.sortClosedDate}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
                   <th>Open Issue</th>
                 </tr>
               </thead>
@@ -352,9 +533,10 @@ export default class IssuesList extends Component {
 
             <div className="form-group">
               <Link to={"/closed"} id="see-more-link">
-                see all...
+                See All
               </Link>
             </div>
+
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label>Search Issue # </label>
@@ -377,6 +559,11 @@ export default class IssuesList extends Component {
                 </Link>
               </div>
             </form>
+            <div className="form-group">
+              <Link to={"/advanced"} id="advanced-search-link">
+                Advanced Search
+              </Link>
+            </div>
           </div>
         ) : (
           <p></p>
