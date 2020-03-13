@@ -44,7 +44,6 @@ export default class ClosedIssuesList extends Component {
   }
 
   closedIssuesList() {
-    console.log("hello");
     const closedIssues = this.state.issues.filter(
       currentissue => currentissue.status === "Closed"
     );

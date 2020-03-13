@@ -21,7 +21,6 @@ class DeleteModal extends Component {
       console.log(response.data);
     });
     window.location = "/";
-    console.log("wtf");
   };
 
   render() {

@@ -30,7 +30,9 @@ export default class AdvancedSearch extends Component {
 
     this.state = {
       assignedTo: "",
-      initatedBy: "",
+      initiatedBy: "",
+      initiatedStartDt: "",
+      initiatedEndDt: "",
       issues: [],
       wasSearch: false
     };
@@ -42,13 +44,17 @@ export default class AdvancedSearch extends Component {
     });
   };
 
-  onSubmitAssignedTo = e => {
+  onSubmitDt = e => {
     e.preventDefault();
 
-    const assignedTo = this.state.assignedTo;
+    const dtStart = encodeURIComponent(this.state.initiatedStartDt);
+    const dtEnd = encodeURIComponent(this.state.initiatedEndDt);
+
+    console.log(dtStart);
+    console.log(dtEnd);
 
     axios
-      .get("/issue/search/" + assignedTo)
+      .get("/issue/search/dtStart/" + dtStart + "/dtEnd/" + dtEnd)
       .then(response => {
         this.setState({
           issues: response.data,
@@ -60,22 +66,89 @@ export default class AdvancedSearch extends Component {
       });
   };
 
-  onSubmitInitiatedBy = e => {
+  onSubmit = e => {
     e.preventDefault();
 
+    const assignedTo = this.state.assignedTo;
     const initiatedBy = this.state.initiatedBy;
+    const dtStart = encodeURIComponent(this.state.initiatedStartDt);
+    const dtEnd = encodeURIComponent(this.state.initiatedEndDt);
 
-    axios
-      .get("/issue/search/" + initiatedBy)
-      .then(response => {
-        this.setState({
-          issues: response.data,
-          wasSearch: true
+    if (assignedTo && initiatedBy && dtStart && dtEnd) {
+      axios
+        .get(
+          "/issue/search/initiatedBy/" +
+            initiatedBy +
+            "/assignedTo/" +
+            assignedTo +
+            "/dtStart/" +
+            dtStart +
+            "/dtEnd/" +
+            dtEnd
+        )
+        .then(response => {
+          this.setState({
+            issues: response.data,
+            wasSearch: true
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    } else if (dtStart && dtEnd) {
+      axios
+        .get("/issue/search/dtStart/" + dtStart + "/dtEnd/" + dtEnd)
+        .then(response => {
+          this.setState({
+            issues: response.data,
+            wasSearch: true
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (assignedTo && initiatedBy) {
+      axios
+        .get(
+          "/issue/search/initiatedBy/" +
+            initiatedBy +
+            "/assignedTo/" +
+            assignedTo
+        )
+        .then(response => {
+          this.setState({
+            issues: response.data,
+            wasSearch: true
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (assignedTo) {
+      axios
+        .get("/issue/search/assignedTo/" + assignedTo)
+        .then(response => {
+          this.setState({
+            issues: response.data,
+            wasSearch: true
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get("/issue/search/initiatedBy/" + initiatedBy)
+        .then(response => {
+          this.setState({
+            issues: response.data,
+            wasSearch: true
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   searchResultsList() {
@@ -93,9 +166,9 @@ export default class AdvancedSearch extends Component {
           <div>
             <h5>Advanced Search</h5>
 
-            <form onSubmit={this.onSubmitAssignedTo}>
+            <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <label>Search Assigned To: </label>
+                <label>Assigned To: </label>
                 <input
                   type="text"
                   name="assignedTo"
@@ -105,18 +178,7 @@ export default class AdvancedSearch extends Component {
               </div>
 
               <div className="form-group">
-                <button
-                  type="submit"
-                  value="Search"
-                  className="btn btn-primary"
-                >
-                  Search
-                </button>
-              </div>
-            </form>
-            <form onSubmit={this.onSubmitInitiatedBy}>
-              <div className="form-group">
-                <label>Search Initiated By: </label>
+                <label>Initiated By: </label>
                 <input
                   type="text"
                   name="initiatedBy"
@@ -125,11 +187,34 @@ export default class AdvancedSearch extends Component {
                 />
               </div>
 
+              <label>Date Range Initiated: </label>
+              <input
+                type="text"
+                name="initiatedStartDt"
+                onChange={this.onChange}
+                id="init-start-dt"
+                placeholder="dd/mm/yyyy"
+                className="ml-2"
+              />
+
+              <p id="to" className="ml-2">
+                to
+              </p>
+
+              <input
+                type="text"
+                name="initiatedEndDt"
+                onChange={this.onChange}
+                id="init-end-dt"
+                placeholder="dd/mm/yyyy"
+                className="ml-2"
+              />
+
               <div className="form-group">
                 <button
                   type="submit"
                   value="Search"
-                  className="btn btn-primary"
+                  className="btn btn-primary mt-3"
                 >
                   Search
                 </button>
@@ -140,7 +225,7 @@ export default class AdvancedSearch extends Component {
           <p></p>
         )}
         {this.state.wasSearch ? (
-          <table className="table">
+          <table className="table mt-5">
             <thead className="thead-light">
               <tr>
                 <th>Issue # </th>

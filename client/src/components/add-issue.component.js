@@ -85,8 +85,6 @@ export default class CreateIssue extends Component {
       projectTitle: this.state.projectTitle
     };
 
-    console.log(issue);
-
     axios
       .post("/issue/add", issue, this.tokenConfig())
       .then(res => console.log(res.data));

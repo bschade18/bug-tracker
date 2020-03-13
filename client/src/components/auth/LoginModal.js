@@ -88,7 +88,6 @@ class LoginModal extends Component {
   loginSuccess = data => {
     localStorage.setItem("token", data.token);
     this.props.authSuccess(data.user);
-    console.log(data.user);
   };
 
   render() {

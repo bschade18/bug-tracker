@@ -4,6 +4,12 @@
   display: block;
 }
 
+#init-start-dt,
+#init-end-dt,
+#to {
+  display: inline;
+}
+
 .icon-folder-open-alt {
   text-decoration: none;
 }
@@ -95,7 +101,8 @@ footer {
   width: 20rem;
 }
 
-#see-more-link {
+#see-more-link,
+#advanced-search-link {
   text-decoration: none;
 }
 
