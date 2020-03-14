@@ -116,7 +116,6 @@ export default class ViewIssue extends Component {
     axios
       .post("/issue/update/" + this.props.match.params.id, issue)
       .then(res => console.log(res.data));
-    clea;
 
     window.location = "/";
   };
