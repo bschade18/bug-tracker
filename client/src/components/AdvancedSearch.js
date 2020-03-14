@@ -111,7 +111,7 @@ export default class AdvancedSearch extends Component {
                 name="initiatedStartDt"
                 onChange={this.onChange}
                 id="init-start-dt"
-                placeholder="Date Initiated Start: dd/mm/yyyy"
+                placeholder="Date Initiated - dd/mm/yyyy"
                 className="mt-3 form-control"
               />
 
@@ -124,7 +124,7 @@ export default class AdvancedSearch extends Component {
                 name="initiatedEndDt"
                 onChange={this.onChange}
                 id="init-end-dt"
-                placeholder="Date Initiated End: dd/mm/yyyy"
+                placeholder="Date Initiated - dd/mm/yyyy"
                 className="ml-2 mt-3 form-control"
               />
 
