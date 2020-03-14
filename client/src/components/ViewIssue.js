@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import DeleteModal from "./deletemodal.component";
+import DeleteModal from "./DeleteModal";
 
-export default class ReviewIssue extends Component {
+export default class ViewIssue extends Component {
   constructor(props) {
     super(props);
 
@@ -122,7 +122,7 @@ export default class ReviewIssue extends Component {
   };
 
   statusList = () => {
-    const statuses = ["Open", "Priority", "Wait", "Closed"];
+    const statuses = ["Open", "Urgent", "Closed"];
     const filteredStatuses = statuses.filter(
       currentstatus => currentstatus.status !== this.state.status
     );

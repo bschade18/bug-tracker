@@ -25,25 +25,10 @@ class LoginModal extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.modal) {
-      if (this.props.isAuthenticated) {
-        this.toggle();
-      }
+    if (this.state.modal && this.props.isAuthenticated) {
+      this.toggle();
     }
   }
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const { email, password } = this.state;
-
-    const user = {
-      email,
-      password
-    };
-
-    this.login(user);
-  };
 
   toggle = () => {
     this.clearErrors();
@@ -62,10 +47,17 @@ class LoginModal extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  returnErrors = (data, status) => {
-    this.setState({
-      msg: data.msg
-    });
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { email, password } = this.state;
+
+    const user = {
+      email,
+      password
+    };
+
+    this.login(user);
   };
 
   login = user => {
@@ -76,18 +68,24 @@ class LoginModal extends Component {
         "Content-Type": "application/json"
       }
     };
-    // request body
+
     const body = JSON.stringify({ email, password });
 
     axios
       .post("/auth/login", body, config)
       .then(res => this.loginSuccess(res.data))
-      .catch(err => this.returnErrors(err.response.data, err.response.status));
+      .catch(err => this.returnErrors(err.response.data));
   };
 
   loginSuccess = data => {
     localStorage.setItem("token", data.token);
     this.props.authSuccess(data.user);
+  };
+
+  returnErrors = data => {
+    this.setState({
+      msg: data.msg
+    });
   };
 
   render() {
@@ -107,8 +105,8 @@ class LoginModal extends Component {
                 <Label for="email">Email</Label>
                 <Input
                   type="email"
-                  name="email"
                   id="email"
+                  name="email"
                   placeholder="Email"
                   onChange={this.onChange}
                   className="mb-3"
@@ -117,8 +115,8 @@ class LoginModal extends Component {
                 <Label for="password">Password</Label>
                 <Input
                   type="password"
-                  name="password"
                   id="password"
+                  name="password"
                   placeholder="Password"
                   onChange={this.onChange}
                   className="mb-3"

@@ -1,59 +1,57 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-export default class CreateIssue extends Component {
+export default class AddIssue extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: "Bobby Schade",
+      number: "100000",
+      issueTitle: "",
+      projectTitle: "",
       issueDescription: "",
       issueLog: [],
-      issueTitle: "",
+      assignedTo: "--Select User--",
+      status: "Open",
       date: "",
-      number: "100000",
       issues: [],
       users: [],
       projects: [],
-      status: "Open",
-      assignedTo: "",
-      projectTitle: "",
       isNewProject: false
     };
   }
 
   componentDidMount() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
+    let today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
+    const year = String(today.getFullYear());
 
-    today = mm + "/" + dd + "/" + yyyy;
+    today = month + "/" + day + "/" + year;
 
     axios
-      .get("/issue/")
-      .then(response => {
+      .get("/issue")
+      .then(res => {
         this.setState({
-          issues: response.data,
+          issues: res.data,
           date: today
         });
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
 
     axios
       .get("/users")
-      .then(response => {
-        if (response.data.length > 0) {
+      .then(res => {
+        if (res.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.name),
-            assignedTo: response.data[0].name
+            users: res.data.map(user => user.name)
           });
         }
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
   }
 
@@ -65,45 +63,54 @@ export default class CreateIssue extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    let newNumber = this.state.issues[this.state.issues.length - 1].number + 1;
 
-    const issue = {
+    const {
+      issues,
+      issueTitle,
+      projectTitle,
+      issueDescription,
+      assignedTo,
+      status,
+      date,
+      issueLog
+    } = this.state;
+
+    let newNumber = issues[issues.length - 1].number + 1;
+
+    const newIssue = {
       name: this.props.user.name,
-      issueLog: this.state.issueLog.concat([
+      number: newNumber,
+      issueTitle,
+      projectTitle,
+      issueDescription,
+      assignedTo,
+      status,
+      date,
+      issueLog: issueLog.concat([
         {
           name: this.props.user.name,
-          desc: this.state.issueDescription,
-          date: this.state.date
+          desc: issueDescription,
+          date: date
         }
-      ]),
-      issueDescription: this.state.issueDescription,
-      issueTitle: this.state.issueTitle,
-      date: this.state.date,
-      number: newNumber,
-      assignedTo: this.state.assignedTo,
-      status: this.state.status,
-      projectTitle: this.state.projectTitle
+      ])
     };
 
     axios
-      .post("/issue/add", issue, this.tokenConfig())
+      .post("/issue/add", newIssue, this.tokenConfig())
       .then(res => console.log(res.data));
 
     window.location = "/";
   };
 
   tokenConfig = () => {
-    // get token from local storage
     const token = localStorage.getItem("token");
 
-    // headers
     const config = {
       headers: {
         "Content-type": "application/json"
       }
     };
 
-    // if token, add to headers
     if (token) {
       config.headers["x-auth-token"] = token;
     }
@@ -118,11 +125,20 @@ export default class CreateIssue extends Component {
   };
 
   render() {
-    const projects = this.state.issues.map(function(issue) {
+    const projects = this.state.issues.map(issue => {
       return issue.projectTitle;
     });
 
     const uniqueProjects = [...new Set(projects)];
+
+    const sortedProjects = uniqueProjects.sort((a, b) => {
+      const projA = a.toLowerCase();
+      const projB = b.toLowerCase();
+      if (projA < projB) return -1;
+      if (projA > projB) return 1;
+      return 0;
+    });
+
     return (
       <div>
         <h3>Create New Issue Log</h3>
@@ -132,7 +148,7 @@ export default class CreateIssue extends Component {
             <p>{this.props.user.name}</p>
           </div>
           <div className="form-group">
-            <label>Title: </label>
+            <label>Title:</label>
             <input
               type="text"
               required
@@ -144,9 +160,9 @@ export default class CreateIssue extends Component {
               maxLength="25"
             />
           </div>
-          {this.state.isNewProject ? (
-            <div className="form-group">
-              <label>Project </label>
+          <div className="form-group">
+            <label>Project</label>
+            {this.state.isNewProject ? (
               <input
                 type="text"
                 required
@@ -157,12 +173,8 @@ export default class CreateIssue extends Component {
                 id="project-title"
                 maxLength="25"
               />
-            </div>
-          ) : (
-            <div className="form-group">
-              <label>Project: </label>
+            ) : (
               <select
-                ref="userInput"
                 required
                 className="form-control"
                 value={this.state.projectTitle}
@@ -171,7 +183,7 @@ export default class CreateIssue extends Component {
                 id="project-title"
               >
                 <option value="">--Select Project--</option>
-                {uniqueProjects.map(function(project) {
+                {sortedProjects.map(project => {
                   return (
                     <option key={project} value={project}>
                       {project}
@@ -179,8 +191,8 @@ export default class CreateIssue extends Component {
                   );
                 })}
               </select>
-            </div>
-          )}
+            )}
+          </div>
           <input
             type="button"
             value="Add New Project"
@@ -189,7 +201,7 @@ export default class CreateIssue extends Component {
           />
 
           <div className="form-group">
-            <label>Description: </label>
+            <label>Description:</label>
             <textarea
               type="text"
               required
@@ -200,9 +212,8 @@ export default class CreateIssue extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Assign To: </label>
+            <label>Assign To:</label>
             <select
-              ref="userInput"
               required
               className="form-control"
               value={this.state.assignedTo}
@@ -210,7 +221,8 @@ export default class CreateIssue extends Component {
               onChange={this.onChange}
               id="assign-to"
             >
-              {this.state.users.map(function(user) {
+              <option value="">--Select User--</option>
+              {this.state.users.map(user => {
                 return (
                   <option key={user} value={user}>
                     {user}
@@ -222,7 +234,6 @@ export default class CreateIssue extends Component {
           <div className="form-group">
             <label>Status</label>
             <select
-              ref="userInput"
               required
               className="form-control"
               value={this.state.status}
@@ -230,14 +241,13 @@ export default class CreateIssue extends Component {
               onChange={this.onChange}
               id="status-input"
             >
-              <option>{this.state.status}</option>
-              <option>Priority</option>
+              <option>Open</option>
+              <option>Urgent</option>
               <option>Closed</option>
-              <option>Wait</option>
             </select>
           </div>
           <div className="form-group">
-            <label>Date: </label>
+            <label>Date:</label>
             <div>{this.state.date}</div>
           </div>
 

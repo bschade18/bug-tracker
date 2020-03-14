@@ -3,12 +3,12 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import CreateIssue from "./components/add-issue.component";
-import IssuesList from "./components/issues-list.component";
-import Navbar from "./components/navbar.component";
-import ReviewIssue from "./components/issue.component";
-import ClosedIssuesList from "./components/closed-issues.component";
-import AdvancedSearch from "./components/advanced-search.component";
+import AddIssue from "./components/AddIssue";
+import IssuesList from "./components/IssuesList";
+import Navbar from "./components/Navbar";
+import ViewIssue from "./components/ViewIssue";
+import ClosedIssuesList from "./components/ClosedIssuesList";
+import AdvancedSearch from "./components/AdvancedSearch";
 
 import axios from "axios";
 
@@ -112,9 +112,9 @@ class App extends Component {
           ></Route>
           <Route
             path="/create"
-            render={props => <CreateIssue {...props} user={this.state.user} />}
+            render={props => <AddIssue {...props} user={this.state.user} />}
           />
-          <Route path="/review/:id" component={ReviewIssue} />
+          <Route path="/review/:id" component={ViewIssue} />
           <Route
             path="/closed"
             render={props => (

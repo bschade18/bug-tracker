@@ -131,4 +131,30 @@ router.get(
       .catch(err => res.status(400).json("Error: " + err));
   }
 );
+
+// assign + dates
+router.get(
+  "/search/assignedTo/:assignedTo/dtStart/:dtStart/dtEnd/:dtEnd",
+  (req, res) => {
+    Issue.find({
+      assignedTo: req.params.assignedTo,
+      createdAt: { $gte: req.params.dtStart, $lte: req.params.dtEnd }
+    })
+      .then(issue => res.json(issue))
+      .catch(err => res.status(400).json("Error: " + err));
+  }
+);
+
+// init + dates
+router.get(
+  "/search/initiatedBy/:initiatedBy/dtStart/:dtStart/dtEnd/:dtEnd",
+  (req, res) => {
+    Issue.find({
+      name: req.params.initiatedBy,
+      createdAt: { $gte: req.params.dtStart, $lte: req.params.dtEnd }
+    })
+      .then(issue => res.json(issue))
+      .catch(err => res.status(400).json("Error: " + err));
+  }
+);
 module.exports = router;

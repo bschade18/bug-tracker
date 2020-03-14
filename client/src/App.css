@@ -1,6 +1,4 @@
-#issue-search,
-#assigned-to-search,
-#initiated-by-search {
+#issue-search {
   display: block;
 }
 
@@ -30,6 +28,15 @@
 
 #add-user-link:hover {
   text-decoration: none;
+}
+
+#assigned-to-search,
+#init-end-dt,
+#init-start-dt,
+#initiated-by-search {
+  width: 20vw;
+  display: inline;
+  padding: 15px;
 }
 
 #issue-title,

@@ -1,28 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-const Issue = props => {
-  const createdDate = props.issue.createdAt;
-  const day = createdDate.substring(8, 10);
-  const month = createdDate.substring(6, 7);
-  const year = createdDate.substring(0, 4);
-  const date = month + "/" + day + "/" + year;
-  return (
-    <tr>
-      <td>{props.issue.number}</td>
-      <td>{props.issue.status}</td>
-      <td id="title">{props.issue.issueTitle}</td>
-      <td>{props.issue.assignedTo}</td>
-      <td>{date}</td>
-      <td className="folder-container">
-        <Link className="folder" to={"/review/" + props.issue._id}>
-          <i className="icon-folder-open-alt"></i>
-        </Link>
-      </td>
-    </tr>
-  );
-};
+import Issue from "./Issue";
 
 export default class IssuesList extends Component {
   constructor(props) {
@@ -400,6 +379,14 @@ export default class IssuesList extends Component {
 
     const uniqueProjects = [...new Set(projects)];
 
+    const sortProjects = uniqueProjects.sort((a, b) => {
+      const projA = a.toLowerCase();
+      const projB = b.toLowerCase();
+      if (projA < projB) return -1;
+      if (projA > projB) return 1;
+      return 0;
+    });
+
     if (!this.state.issues.length) {
       return <div />;
     }
@@ -425,7 +412,7 @@ export default class IssuesList extends Component {
                 id="project-title"
               >
                 <option>--All--</option>
-                {uniqueProjects.map(function(project) {
+                {sortProjects.map(function(project) {
                   return (
                     <option key={project} value={project}>
                       {project}

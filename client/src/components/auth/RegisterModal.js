@@ -27,10 +27,8 @@ class RegisterModal extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.modal) {
-      if (this.props.isAuthenticated) {
-        this.toggle();
-      }
+    if (this.state.modal && this.props.isAuthenticated) {
+      this.toggle();
     }
   }
 
@@ -65,12 +63,6 @@ class RegisterModal extends Component {
     this.register(newUser);
   };
 
-  returnErrors = (data, status) => {
-    this.setState({
-      msg: data.msg
-    });
-  };
-
   register = newUser => {
     const { name, email, password } = newUser;
 
@@ -79,18 +71,24 @@ class RegisterModal extends Component {
         "Content-Type": "application/json"
       }
     };
-    // request body
+
     const body = JSON.stringify({ name, email, password });
 
     axios
       .post("/auth/register", body, config)
       .then(res => this.registerSuccess(res.data))
-      .catch(err => this.returnErrors(err.response.data, err.response.status));
+      .catch(err => this.returnErrors(err.response.data));
   };
 
   registerSuccess = data => {
     localStorage.setItem("token", data.token);
     this.props.authSuccess(data.user);
+  };
+
+  returnErrors = data => {
+    this.setState({
+      msg: data.msg
+    });
   };
 
   render() {
