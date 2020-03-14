@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function Issue(props) {
   const createdDate = props.issue.createdAt;
-  const day = createdDate.substring(8, 10);
-  const month = createdDate.substring(6, 7);
+  const day = createdDate.substring(8, 10).padStart(2, "0");
+  const month = createdDate.substring(6, 7).padStart(2, "0");
   const year = createdDate.substring(0, 4);
   const date = month + "/" + day + "/" + year;
   return (

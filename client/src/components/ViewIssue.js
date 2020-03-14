@@ -78,11 +78,16 @@ export default class ViewIssue extends Component {
 
   LogList() {
     return this.state.issueLog.map((currentlog, i) => {
+      const logDate = currentlog.date;
+      const day = logDate.substring(8, 10).padStart(2, "0");
+      const month = logDate.substring(6, 7).padStart(2, "0");
+      const year = logDate.substring(0, 4);
+      const date = month + "/" + day + "/" + year;
       return (
         <tr key={i}>
           <td>{currentlog.name}</td>
           <td id="log-description">{currentlog.desc}</td>
-          <td>{currentlog.date.substring(0, 10)}</td>
+          <td>{date}</td>
         </tr>
       );
     });
@@ -111,6 +116,7 @@ export default class ViewIssue extends Component {
     axios
       .post("/issue/update/" + this.props.match.params.id, issue)
       .then(res => console.log(res.data));
+    clea;
 
     window.location = "/";
   };

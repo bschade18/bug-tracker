@@ -34,9 +34,14 @@
 #init-end-dt,
 #init-start-dt,
 #initiated-by-search {
-  width: 20vw;
   display: inline;
   padding: 15px;
+}
+#assigned-to-search,
+#init-end-dt,
+#init-start-dt,
+#initiated-by-search {
+  width: 20vw;
 }
 
 #issue-title,

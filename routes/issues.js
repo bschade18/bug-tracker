@@ -63,6 +63,28 @@ router.post("/add", auth, (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// /issue/update/:id + post request
+// currently all fields are required, can update so that you can update a single field without and error
+router.route("/update/:id").post((req, res) => {
+  Issue.findById(req.params.id)
+    .then(issue => {
+      issue.name = req.body.name;
+      issue.issueDescription = req.body.issueDescription;
+      issue.issueLog = req.body.issueLog;
+      issue.date = req.body.date;
+      issue.number = req.body.number;
+      issue.issueTitle = req.body.issueTitle;
+      issue.assignedTo = req.body.assignedTo;
+      issue.status = req.body.status;
+
+      issue
+        .save()
+        .then(() => res.json("Issue updated!"))
+        .catch(err => res.status(400).json("Error: " + err));
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
 // @route DELETE issue/:id
 // @desc delete an issue
 // @access Public
