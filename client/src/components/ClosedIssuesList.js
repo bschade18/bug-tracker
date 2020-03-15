@@ -6,12 +6,12 @@ export default class ClosedIssuesList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { issues: [], sort: false };
+    this.state = { issues: [], sortColumn: false };
   }
 
   componentDidMount() {
     axios
-      .get("/issue/")
+      .get("/issue/closed/all")
       .then(response => {
         this.setState({
           issues: response.data
@@ -23,110 +23,57 @@ export default class ClosedIssuesList extends Component {
   }
 
   closedIssuesList() {
-    const closedIssues = this.state.issues.filter(
-      currentissue => currentissue.status === "Closed"
-    );
-
-    return closedIssues.map(currentissue => {
+    return this.state.issues.map(currentissue => {
       return <ClosedIssue issue={currentissue} key={currentissue._id} />;
     });
   }
 
   sortNumber = () => {
     let sort;
-    if (this.state.sort) {
-      sort = this.state.issues.sort(function(a, b) {
+    if (this.state.sortColumn) {
+      sort = this.state.issues.sort((a, b) => {
         return b.number - a.number;
       });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
-      });
     } else {
-      sort = this.state.issues.sort(function(a, b) {
+      sort = this.state.issues.sort((a, b) => {
         return a.number - b.number;
       });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
-      });
     }
+    this.setState({
+      issues: sort,
+      sortColumn: !this.state.sortColumn
+    });
   };
 
-  sortTitle = () => {
+  sortWord = e => {
+    let name = e.target.getAttribute("name");
     let sort;
-    if (this.state.sort) {
+
+    if (this.state.sortColumn) {
       sort = this.state.issues.sort(function(a, b) {
-        if (a.issueTitle.toUpperCase() < b.issueTitle.toUpperCase()) {
+        if (a[name].toLowerCase() < b[name].toLowerCase()) {
           return -1;
         }
-        if (a.issueTitle.toUpperCase() > b.issueTitle.toUpperCase()) {
+        if (a[name].toLowerCase() > b[name].toLowerCase()) {
           return 1;
         }
-
         return 0;
-      });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
       });
     } else {
       sort = this.state.issues.sort(function(a, b) {
-        if (b.issueTitle.toUpperCase() < a.issueTitle.toUpperCase()) {
+        if (b[name].toLowerCase() < a[name].toLowerCase()) {
           return -1;
         }
-        if (b.issueTitle.toUpperCase() > a.issueTitle.toUpperCase()) {
+        if (b[name].toLowerCase() > a[name].toLowerCase()) {
           return 1;
         }
-
         return 0;
-      });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
       });
     }
-  };
-
-  sortAssignedTo = () => {
-    let sort;
-    if (this.state.sort) {
-      sort = this.state.issues.sort(function(a, b) {
-        if (a.assignedTo.toUpperCase() < b.assignedTo.toUpperCase()) {
-          return -1;
-        }
-        if (a.assignedTo.toUpperCase() > b.assignedTo.toUpperCase()) {
-          return 1;
-        }
-
-        return 0;
-      });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
-      });
-    } else {
-      sort = this.state.issues.sort(function(a, b) {
-        if (b.assignedTo.toUpperCase() < a.assignedTo.toUpperCase()) {
-          return -1;
-        }
-        if (b.assignedTo.toUpperCase() > a.assignedTo.toUpperCase()) {
-          return 1;
-        }
-
-        return 0;
-      });
-
-      this.setState({
-        issues: sort,
-        sort: !this.state.sort
-      });
-    }
+    this.setState({
+      issues: sort,
+      sortColumn: !this.state.sortColumn
+    });
   };
 
   sortDate = () => {
@@ -145,19 +92,27 @@ export default class ClosedIssuesList extends Component {
             <tr>
               <th>
                 Issue #
-                <i onClick={this.sortNumber} class="fa fa-fw fa-sort"></i>
+                <i onClick={this.sortNumber} className="fa fa-fw fa-sort"></i>
               </th>
               <th>
                 Title
-                <i onClick={this.sortTitle} class="fa fa-fw fa-sort"></i>
+                <i
+                  name="issueTitle"
+                  onClick={this.sortWord}
+                  className="fa fa-fw fa-sort"
+                ></i>
               </th>
               <th>
                 Assigned To
-                <i onClick={this.sortAssignedTo} class="fa fa-fw fa-sort"></i>
+                <i
+                  name="assignedTo"
+                  onClick={this.sortWord}
+                  className="fa fa-fw fa-sort"
+                ></i>
               </th>
               <th>
                 Date Initiated
-                <i onClick={this.sortDate} class="fa fa-fw fa-sort"></i>
+                <i onClick={this.sortDate} className="fa fa-fw fa-sort"></i>
               </th>
               <th>Open Issue</th>
             </tr>

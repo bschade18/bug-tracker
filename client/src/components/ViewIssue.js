@@ -8,24 +8,25 @@ export default class ViewIssue extends Component {
 
     this.state = {
       name: "",
+      number: "",
+      issueTitle: "",
       issueDescription: "",
       issueLog: [],
-      issueTitle: "",
-      date: "",
-      number: "",
-      users: [],
       assignedTo: "",
-      status: ""
+      status: "",
+      date: "",
+      users: []
     };
   }
 
   componentDidMount() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
+    let today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
+    const year = String(today.getFullYear());
 
-    today = mm + "/" + dd + "/" + yyyy;
+    today = month + "/" + day + "/" + year;
+
     axios
       .get("/issue/" + this.props.match.params.id)
       .then(response => {
@@ -59,17 +60,14 @@ export default class ViewIssue extends Component {
   }
 
   tokenConfig = () => {
-    // get token from local storage
     const token = localStorage.getItem("token");
 
-    // headers
     const config = {
       headers: {
         "Content-type": "application/json"
       }
     };
 
-    // if token, add to headers
     if (token) {
       config.headers["x-auth-token"] = token;
     }
@@ -95,22 +93,32 @@ export default class ViewIssue extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const {
+      name,
+      issueDescription,
+      issueLog,
+      issueTitle,
+      date,
+      number,
+      assignedTo,
+      status
+    } = this.state;
 
     const issue = {
-      name: this.state.name,
-      issueDescription: this.state.issueDescription,
-      issueLog: this.state.issueLog.concat([
+      name,
+      issueDescription,
+      issueLog: issueLog.concat([
         {
           name: this.state.name,
           desc: this.state.issueDescription,
           date: this.state.date
         }
       ]),
-      issueTitle: this.state.issueTitle,
-      date: this.state.date,
-      number: this.state.number,
-      assignedTo: this.state.assignedTo,
-      status: this.state.status
+      issueTitle,
+      date,
+      number,
+      assignedTo,
+      status
     };
 
     axios
@@ -144,7 +152,7 @@ export default class ViewIssue extends Component {
   render() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
     var yyyy = today.getFullYear();
 
     today = mm + "/" + dd + "/" + yyyy;
@@ -175,7 +183,6 @@ export default class ViewIssue extends Component {
           <div className="form-group">
             <label>Assign To: </label>
             <select
-              ref="userInput"
               required
               className="form-control"
               name="assignedTo"
@@ -195,7 +202,6 @@ export default class ViewIssue extends Component {
           <div className="form-group">
             <label>Status</label>
             <select
-              ref="userInput"
               required
               className="form-control"
               name="status"

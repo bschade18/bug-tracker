@@ -22,6 +22,16 @@ router.get("/closed", (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// @route GET /issue/closed/all
+// @desc get closed issues
+// @access Public
+router.get("/closed/all", (req, res) => {
+  Issue.find({ status: "Closed" })
+    .sort({ updatedAt: -1 })
+    .then(issues => res.json(issues))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
 // @route GET /issue/:id
 // @desc get issue by id
 // @access Public
