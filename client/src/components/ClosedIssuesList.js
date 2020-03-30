@@ -85,7 +85,7 @@ export default class ClosedIssuesList extends Component {
       return <div />;
     }
     return (
-      <div>
+      <div className="container">
         <h5>Closed Issues</h5>
         <table className="table mt-4">
           <thead className="thead-light">

@@ -90,52 +90,50 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="container">
-          <Navbar
-            authSuccess={this.authSuccess}
-            isAuthenticated={this.state.isAuthenticated}
-            logout={this.logout}
-            user={this.state.user}
-          />
+        <Navbar
+          authSuccess={this.authSuccess}
+          isAuthenticated={this.state.isAuthenticated}
+          logout={this.logout}
+          user={this.state.user}
+        />
 
-          <br />
-          <Route
-            path="/"
-            exact
-            render={props => (
-              <IssuesList
-                {...props}
-                isAuthenticated={this.state.isAuthenticated}
-                user={this.state.user}
-              />
-            )}
-          ></Route>
-          <Route
-            path="/create"
-            render={props => <AddIssue {...props} user={this.state.user} />}
-          />
-          <Route path="/review/:id" component={ViewIssue} />
-          <Route
-            path="/closed"
-            render={props => (
-              <ClosedIssuesList
-                {...props}
-                isAuthenticated={this.state.isAuthenticated}
-                user={this.state.user}
-              />
-            )}
-          ></Route>
-          <Route
-            path="/advanced"
-            render={props => (
-              <AdvancedSearch
-                {...props}
-                isAuthenticated={this.state.isAuthenticated}
-                user={this.state.user}
-              />
-            )}
-          ></Route>
-        </div>
+        <br />
+        <Route
+          path="/"
+          exact
+          render={props => (
+            <IssuesList
+              {...props}
+              isAuthenticated={this.state.isAuthenticated}
+              user={this.state.user}
+            />
+          )}
+        ></Route>
+        <Route
+          path="/create"
+          render={props => <AddIssue {...props} user={this.state.user} />}
+        />
+        <Route path="/review/:id" component={ViewIssue} />
+        <Route
+          path="/closed"
+          render={props => (
+            <ClosedIssuesList
+              {...props}
+              isAuthenticated={this.state.isAuthenticated}
+              user={this.state.user}
+            />
+          )}
+        ></Route>
+        <Route
+          path="/advanced"
+          render={props => (
+            <AdvancedSearch
+              {...props}
+              isAuthenticated={this.state.isAuthenticated}
+              user={this.state.user}
+            />
+          )}
+        ></Route>
       </Router>
     );
   }

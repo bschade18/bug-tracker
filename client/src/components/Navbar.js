@@ -30,43 +30,45 @@ function Navbar({ user, logout, authSuccess, isAuthenticated }) {
   return (
     <div>
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        {!isAuthenticated ? (
-          <Fragment>
+        <div className="container">
+          {!isAuthenticated ? (
             <Fragment>
+              <Fragment>
+                <ul className="navbar-nav mr-auto">
+                  <Link to="/" className="navbar-brand">
+                    Issue Tracker
+                  </Link>
+                </ul>
+                <div className="collpase navbar-collapse">
+                  <ul className="navbar-nav ml-auto">
+                    {isAuthenticated ? authLinks : guestLinks}
+                  </ul>
+                </div>
+              </Fragment>
+              <footer>
+                <div className="py-3">© 2020 Schade Media, Inc.</div>
+              </footer>
+            </Fragment>
+          ) : (
+            <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <Link to="/" className="navbar-brand">
                   Issue Tracker
                 </Link>
+                <li className="navbar-item">
+                  <Link to="/" className="nav-link">
+                    Issues
+                  </Link>
+                </li>
               </ul>
               <div className="collpase navbar-collapse">
                 <ul className="navbar-nav ml-auto">
                   {isAuthenticated ? authLinks : guestLinks}
                 </ul>
               </div>
-            </Fragment>
-            <footer>
-              <div className="py-3">© 2020 Schade Media, Inc.</div>
-            </footer>
-          </Fragment>
-        ) : (
-          <div className="collpase navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-              <Link to="/" className="navbar-brand">
-                Issue Tracker
-              </Link>
-              <li className="navbar-item">
-                <Link to="/" className="nav-link">
-                  Issues
-                </Link>
-              </li>
-            </ul>
-            <div className="collpase navbar-collapse">
-              <ul className="navbar-nav ml-auto">
-                {isAuthenticated ? authLinks : guestLinks}
-              </ul>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
     </div>
   );

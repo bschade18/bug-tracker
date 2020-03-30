@@ -79,7 +79,7 @@ export default class AdvancedSearch extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         {this.props.isAuthenticated ? (
           <div>
             <h5>Advanced Search</h5>

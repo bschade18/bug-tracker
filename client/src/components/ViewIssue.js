@@ -161,7 +161,7 @@ export default class ViewIssue extends Component {
       return <div />;
     }
     return (
-      <div>
+      <div className="container">
         <h3>Issue #{this.state.number}</h3>
         <h5>{this.state.issueTitle}</h5>
         <form onSubmit={this.onSubmit}>

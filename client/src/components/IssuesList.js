@@ -221,7 +221,7 @@ export default class IssuesList extends Component {
       return <div />;
     }
     return (
-      <div>
+      <div className="container">
         {this.props.isAuthenticated ? (
           <div>
             <h5>My Open Issues</h5>
