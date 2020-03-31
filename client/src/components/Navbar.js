@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import RegisterModal from "./auth/RegisterModal";
-import LoginModal from "./auth/LoginModal";
-import Logout from "./auth/Logout";
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import RegisterModal from './auth/RegisterModal';
+import LoginModal from './auth/LoginModal';
+import Logout from './auth/Logout';
 
 function Navbar({ user, logout, authSuccess, isAuthenticated }) {
   const authLinks = (
     <Fragment>
       <span className="navbar-text mr-3">
-        <strong>{user ? `${user.name}` : ""}</strong>
+        <strong>{user ? `${user.name}` : ''}</strong>
       </span>
       <Logout logout={logout} />
     </Fragment>
@@ -70,6 +70,13 @@ function Navbar({ user, logout, authSuccess, isAuthenticated }) {
           )}
         </div>
       </nav>
+      {!isAuthenticated && (
+        <div className="container mt-5">
+          <h1 className="h3">Log in or Register to start tracking issues! </h1>
+          <div>Guest Email: guest@gmail.com</div>
+          <div>Guest Password: guest123</div>
+        </div>
+      )}
     </div>
   );
 }
