@@ -20,7 +20,7 @@ class DeleteModal extends Component {
     axios.delete(`/issue/${id}`).then((response) => {
       console.log(response.data);
     });
-    setTimeout(() => (window.location = '/'), 500);
+    setTimeout(() => (window.location = '/main'), 500);
   };
 
   render() {

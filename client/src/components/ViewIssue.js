@@ -125,7 +125,7 @@ export default class ViewIssue extends Component {
       .put('/issue/' + this.props.match.params.id, issue)
       .then((res) => console.log(res.data));
 
-    setTimeout(() => (window.location = '/'), 500);
+    setTimeout(() => (window.location = '/main'), 500);
   };
 
   onChange = (e) => {

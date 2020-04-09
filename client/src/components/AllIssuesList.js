@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Issue from './Issue';
+import Spinner from './Spinner';
 
 export default class AllIssuesList extends Component {
   constructor(props) {
@@ -114,8 +115,8 @@ export default class AllIssuesList extends Component {
   };
 
   render() {
-    if (!this.state.issues.length) {
-      return <div />;
+    if (!this.state.issues[0]) {
+      return <Spinner />;
     }
     return (
       <div className="container">

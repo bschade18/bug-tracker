@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import AddIssue from './components/AddIssue';
-import IssuesList from './components/IssuesList';
+import Main from './components/Main';
 import Navbar from './components/Navbar';
 import ViewIssue from './components/ViewIssue';
 import AllIssuesList from './components/AllIssuesList';
 import AdvancedSearch from './components/AdvancedSearch';
+import Home from './components/Home';
 
 import axios from 'axios';
 
@@ -54,17 +55,14 @@ class App extends Component {
   };
 
   tokenConfig = () => {
-    // get token from local storage
     const token = localStorage.getItem('token');
 
-    // headers
     const config = {
       headers: {
         'Content-type': 'application/json',
       },
     };
 
-    // if token, add to headers
     if (token) {
       config.headers['x-auth-token'] = token;
     }
@@ -90,19 +88,38 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Navbar
-          authSuccess={this.authSuccess}
-          isAuthenticated={this.state.isAuthenticated}
-          logout={this.logout}
-          user={this.state.user}
-        />
+        {this.state.isAuthenticated && (
+          <Navbar
+            authSuccess={this.authSuccess}
+            isAuthenticated={this.state.isAuthenticated}
+            logout={this.logout}
+            user={this.state.user}
+          />
+        )}
 
-        <br />
         <Route
           path="/"
           exact
+          render={(props) =>
+            this.state.isAuthenticated ? (
+              <Redirect to="/main" />
+            ) : (
+              <Home
+                {...props}
+                authSuccess={this.authSuccess}
+                isAuthenticated={this.state.isAuthenticated}
+                logout={this.logout}
+                user={this.state.user}
+              />
+            )
+          }
+        />
+        <br />
+        <Route
+          path="/main"
+          exact
           render={(props) => (
-            <IssuesList
+            <Main
               {...props}
               isAuthenticated={this.state.isAuthenticated}
               user={this.state.user}

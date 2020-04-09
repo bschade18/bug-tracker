@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Issue from './Issue';
+import Spinner from './Spinner';
 
-export default class IssuesList extends Component {
+export default class Main extends Component {
   constructor(props) {
     super(props);
 
@@ -217,9 +218,9 @@ export default class IssuesList extends Component {
       return 0;
     });
 
-    // if (!this.state.issues.length) {
-    //   return <div />;
-    // }
+    if (!this.state.issues[0]) {
+      return <Spinner />;
+    }
     return (
       <div className="container">
         {this.props.isAuthenticated ? (

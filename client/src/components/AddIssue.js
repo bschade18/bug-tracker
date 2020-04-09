@@ -99,7 +99,7 @@ export default class AddIssue extends Component {
       .post('/issue', newIssue, this.tokenConfig())
       .then((res) => console.log(res.data));
 
-    setTimeout(() => (window.location = '/'), 500);
+    setTimeout(() => (window.location = '/main'), 500);
   };
 
   tokenConfig = () => {
