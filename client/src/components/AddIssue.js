@@ -1,67 +1,67 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class AddIssue extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      number: "100000",
-      issueTitle: "",
-      projectTitle: "",
-      issueDescription: "",
+      number: '100000',
+      issueTitle: '',
+      projectTitle: '',
+      issueDescription: '',
       issueLog: [],
-      assignedTo: "--Select User--",
-      status: "Open",
-      date: "",
+      assignedTo: '--Select User--',
+      status: 'Open',
+      date: '',
       issues: [],
       users: [],
       projects: [],
-      isNewProject: false
+      isNewProject: false,
     };
   }
 
   componentDidMount() {
     let today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
     const year = String(today.getFullYear());
 
-    today = month + "/" + day + "/" + year;
+    today = month + '/' + day + '/' + year;
 
     axios
-      .get("/issue")
-      .then(res => {
+      .get('/issue')
+      .then((res) => {
         this.setState({
-          issues: res.data,
-          date: today
+          issues: res.data.data,
+          date: today,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
 
     axios
-      .get("/users")
-      .then(res => {
+      .get('/users')
+      .then((res) => {
         if (res.data.length > 0) {
           this.setState({
-            users: res.data.map(user => user.name)
+            users: res.data.map((user) => user.name),
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const {
@@ -72,7 +72,7 @@ export default class AddIssue extends Component {
       assignedTo,
       status,
       date,
-      issueLog
+      issueLog,
     } = this.state;
 
     let newNumber = issues[issues.length - 1].number + 1;
@@ -90,29 +90,29 @@ export default class AddIssue extends Component {
         {
           name: this.props.user.name,
           desc: issueDescription,
-          date: date
-        }
-      ])
+          date: date,
+        },
+      ]),
     };
 
     axios
-      .post("/issue/add", newIssue, this.tokenConfig())
-      .then(res => console.log(res.data));
+      .post('/issue', newIssue, this.tokenConfig())
+      .then((res) => console.log(res.data));
 
-    window.location = "/";
+    setTimeout(() => (window.location = '/'), 500);
   };
 
   tokenConfig = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const config = {
       headers: {
-        "Content-type": "application/json"
-      }
+        'Content-type': 'application/json',
+      },
     };
 
     if (token) {
-      config.headers["x-auth-token"] = token;
+      config.headers['x-auth-token'] = token;
     }
     return config;
   };
@@ -120,12 +120,12 @@ export default class AddIssue extends Component {
   newProject = () => {
     this.setState({
       isNewProject: true,
-      projectTitle: ""
+      projectTitle: '',
     });
   };
 
   render() {
-    const projects = this.state.issues.map(issue => {
+    const projects = this.state.issues.map((issue) => {
       return issue.projectTitle;
     });
 
@@ -183,7 +183,7 @@ export default class AddIssue extends Component {
                 id="project-title"
               >
                 <option value="">--Select Project--</option>
-                {sortedProjects.map(project => {
+                {sortedProjects.map((project) => {
                   return (
                     <option key={project} value={project}>
                       {project}
@@ -222,7 +222,7 @@ export default class AddIssue extends Component {
               id="assign-to"
             >
               <option value="">--Select User--</option>
-              {this.state.users.map(user => {
+              {this.state.users.map((user) => {
                 return (
                   <option key={user} value={user}>
                     {user}

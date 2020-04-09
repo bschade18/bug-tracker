@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Issue from "./Issue";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Issue from './Issue';
 
 export default class IssuesList extends Component {
   constructor(props) {
@@ -10,10 +10,10 @@ export default class IssuesList extends Component {
     this.state = {
       issues: [],
       closedIssues: [],
-      number: "",
-      id: "",
-      projectTitle: "--All--",
-      sortColumn: false
+      number: '',
+      id: '',
+      projectTitle: '--All--',
+      sortColumn: false,
     };
 
     this.onChangeNumber = this.onChangeNumber.bind(this);
@@ -21,31 +21,31 @@ export default class IssuesList extends Component {
 
   componentDidMount() {
     axios
-      .get("/issue/")
-      .then(response => {
+      .get('/issue')
+      .then((response) => {
         this.setState({
-          issues: response.data
+          issues: response.data.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
     axios
-      .get("/issue/closed")
-      .then(response => {
+      .get('/issue/closed/recent')
+      .then((response) => {
         this.setState({
-          closedIssues: response.data
+          closedIssues: response.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     this.filterList();
   };
@@ -53,12 +53,12 @@ export default class IssuesList extends Component {
   filterList() {
     return this.state.issues
       .filter(
-        currentissue =>
-          currentissue.status !== "Closed" &&
+        (currentissue) =>
+          currentissue.status !== 'Closed' &&
           currentissue.assignedTo === this.props.user.name &&
           currentissue.projectTitle === this.state.projectTitle
       )
-      .map(currentissue => {
+      .map((currentissue) => {
         return <Issue issue={currentissue} key={currentissue._id} />;
       });
   }
@@ -66,30 +66,30 @@ export default class IssuesList extends Component {
   issuesList() {
     return this.state.issues
       .filter(
-        currentissue =>
-          currentissue.status !== "Closed" &&
+        (currentissue) =>
+          currentissue.status !== 'Closed' &&
           currentissue.assignedTo === this.props.user.name
       )
-      .map(currentissue => {
+      .map((currentissue) => {
         return <Issue issue={currentissue} key={currentissue._id} />;
       });
   }
 
   completedIssuesList() {
-    return this.state.closedIssues.map(currentissue => {
+    return this.state.closedIssues.map((currentissue) => {
       return <Issue issue={currentissue} key={currentissue._id} />;
     });
   }
 
   onChangeNumber(e) {
-    let searchedNumber = this.state.issues.filter(issue => {
+    let searchedNumber = this.state.issues.filter((issue) => {
       return issue.number === Number(e.target.value);
     });
 
     if (searchedNumber[0] !== undefined) {
       this.setState({
         number: e.target.value,
-        id: searchedNumber[0]._id
+        id: searchedNumber[0]._id,
       });
     }
   }
@@ -107,16 +107,16 @@ export default class IssuesList extends Component {
     }
     this.setState({
       issues: sort,
-      sortColumn: !this.state.sortColumn
+      sortColumn: !this.state.sortColumn,
     });
   };
 
-  sortWord = e => {
-    let name = e.target.getAttribute("name");
+  sortWord = (e) => {
+    let name = e.target.getAttribute('name');
     let sort;
 
     if (this.state.sortColumn) {
-      sort = this.state.issues.sort(function(a, b) {
+      sort = this.state.issues.sort(function (a, b) {
         if (a[name].toLowerCase() < b[name].toLowerCase()) {
           return -1;
         }
@@ -126,7 +126,7 @@ export default class IssuesList extends Component {
         return 0;
       });
     } else {
-      sort = this.state.issues.sort(function(a, b) {
+      sort = this.state.issues.sort(function (a, b) {
         if (b[name].toLowerCase() < a[name].toLowerCase()) {
           return -1;
         }
@@ -138,7 +138,7 @@ export default class IssuesList extends Component {
     }
     this.setState({
       issues: sort,
-      sortColumn: !this.state.sortColumn
+      sortColumn: !this.state.sortColumn,
     });
   };
 
@@ -151,26 +151,26 @@ export default class IssuesList extends Component {
   sortClosedNumber = () => {
     let sort;
     if (this.state.sortColumn) {
-      sort = this.state.closedIssues.sort(function(a, b) {
+      sort = this.state.closedIssues.sort(function (a, b) {
         return b.number - a.number;
       });
     } else {
-      sort = this.state.closedIssues.sort(function(a, b) {
+      sort = this.state.closedIssues.sort(function (a, b) {
         return a.number - b.number;
       });
     }
 
     this.setState({
       closedIssues: sort,
-      sortColumn: !this.state.sortColumn
+      sortColumn: !this.state.sortColumn,
     });
   };
 
-  sortClosedWord = e => {
+  sortClosedWord = (e) => {
     let sort;
-    let name = e.target.getAttribute("name");
+    let name = e.target.getAttribute('name');
     if (this.state.sortColumn) {
-      sort = this.state.closedIssues.sort(function(a, b) {
+      sort = this.state.closedIssues.sort(function (a, b) {
         if (a[name].toLowerCase() < b[name].toLowerCase()) {
           return -1;
         }
@@ -181,7 +181,7 @@ export default class IssuesList extends Component {
         return 0;
       });
     } else {
-      sort = this.state.closedIssues.sort(function(a, b) {
+      sort = this.state.closedIssues.sort(function (a, b) {
         if (b[name].toLowerCase() < a[name].toLowerCase()) {
           return -1;
         }
@@ -194,7 +194,7 @@ export default class IssuesList extends Component {
     }
     this.setState({
       closedIssues: sort,
-      sortColumn: !this.state.sortColumn
+      sortColumn: !this.state.sortColumn,
     });
   };
 
@@ -203,7 +203,7 @@ export default class IssuesList extends Component {
   };
 
   render() {
-    const projects = this.state.issues.map(function(issue) {
+    const projects = this.state.issues.map(function (issue) {
       return issue.projectTitle;
     });
 
@@ -217,9 +217,9 @@ export default class IssuesList extends Component {
       return 0;
     });
 
-    if (!this.state.issues.length) {
-      return <div />;
-    }
+    // if (!this.state.issues.length) {
+    //   return <div />;
+    // }
     return (
       <div className="container">
         {this.props.isAuthenticated ? (
@@ -242,7 +242,7 @@ export default class IssuesList extends Component {
                 id="project-title"
               >
                 <option>--All--</option>
-                {sortProjects.map(function(project) {
+                {sortProjects.map(function (project) {
                   return (
                     <option key={project} value={project}>
                       {project}
@@ -256,14 +256,14 @@ export default class IssuesList extends Component {
                 <thead className="thead-light">
                   <tr>
                     <th>
-                      Issue #{" "}
+                      Issue #{' '}
                       <i
                         onClick={this.sortNumber}
                         className="fa fa-fw fa-sort"
                       ></i>
                     </th>
                     <th>
-                      Status{" "}
+                      Status{' '}
                       <i
                         name="status"
                         onClick={this.sortWord}
@@ -271,7 +271,7 @@ export default class IssuesList extends Component {
                       ></i>
                     </th>
                     <th>
-                      Title{" "}
+                      Title{' '}
                       <i
                         name="issueTitle"
                         onClick={this.sortWord}
@@ -279,7 +279,7 @@ export default class IssuesList extends Component {
                       ></i>
                     </th>
                     <th>
-                      Assigned To{" "}
+                      Assigned To{' '}
                       <i
                         name="assignedTo"
                         onClick={this.sortWord}
@@ -287,7 +287,7 @@ export default class IssuesList extends Component {
                       ></i>
                     </th>
                     <th>
-                      Date Initiated{" "}
+                      Date Initiated{' '}
                       <i
                         onClick={this.sortDate}
                         className="fa fa-fw fa-sort"
@@ -297,7 +297,7 @@ export default class IssuesList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.projectTitle === "--All--"
+                  {this.state.projectTitle === '--All--'
                     ? this.issuesList()
                     : this.filterList()}
                 </tbody>
@@ -311,14 +311,14 @@ export default class IssuesList extends Component {
               <thead className="thead-light">
                 <tr>
                   <th>
-                    Issue #{" "}
+                    Issue #{' '}
                     <i
                       onClick={this.sortClosedNumber}
                       className="fa fa-fw fa-sort"
                     ></i>
                   </th>
                   <th>
-                    Status{" "}
+                    Status{' '}
                     <i
                       name="status"
                       onClick={this.sortClosedWord}
@@ -326,7 +326,7 @@ export default class IssuesList extends Component {
                     ></i>
                   </th>
                   <th>
-                    Title{" "}
+                    Title{' '}
                     <i
                       name="issueTitle"
                       onClick={this.sortClosedWord}
@@ -334,7 +334,7 @@ export default class IssuesList extends Component {
                     ></i>
                   </th>
                   <th>
-                    Assigned To{" "}
+                    Assigned To{' '}
                     <i
                       name="assignedTo"
                       onClick={this.sortClosedWord}
@@ -342,7 +342,7 @@ export default class IssuesList extends Component {
                     ></i>
                   </th>
                   <th>
-                    Date Initiated{" "}
+                    Date Initiated{' '}
                     <i
                       onClick={this.sortClosedDate}
                       className="fa fa-fw fa-sort"
@@ -355,8 +355,8 @@ export default class IssuesList extends Component {
             </table>
 
             <div className="form-group">
-              <Link to={"/closed"} id="see-more-link">
-                See All Closed
+              <Link to={'/all'} id="see-more-link">
+                See All
               </Link>
             </div>
 
@@ -371,7 +371,7 @@ export default class IssuesList extends Component {
               </div>
 
               <div className="form-group">
-                <Link to={"/review/" + this.state.id}>
+                <Link to={'/review/' + this.state.id}>
                   <button
                     type="submit"
                     value="Search Issue"
@@ -383,7 +383,7 @@ export default class IssuesList extends Component {
               </div>
             </form>
             <div className="form-group">
-              <Link to={"/advanced"} id="advanced-search-link">
+              <Link to={'/advanced'} id="advanced-search-link">
                 Advanced Search
               </Link>
             </div>

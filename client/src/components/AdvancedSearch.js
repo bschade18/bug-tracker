@@ -1,70 +1,61 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Issue from "./Issue";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Issue from './Issue';
 
 export default class AdvancedSearch extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      assignedTo: "",
-      initiatedBy: "",
-      initiatedStartDt: "",
-      initiatedEndDt: "",
+      assignedTo: '',
+      initiatedBy: '',
+      initiatedStartDt: '',
+      initiatedEndDt: '',
       issues: [],
-      wasSearched: false
+      wasSearched: false,
     };
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
-    const {
-      assignedTo,
-      initiatedBy,
-      initiatedStartDt,
-      initiatedEndDt
-    } = this.state;
 
-    const dtStart = encodeURIComponent(initiatedStartDt);
-    const dtEnd = encodeURIComponent(initiatedEndDt);
+    let string = '';
 
-    let searchStr = "/issue/search/";
-
-    if (assignedTo && initiatedBy && dtStart && dtEnd) {
-      searchStr += `initiatedBy/${initiatedBy}/assignedTo/${assignedTo}/dtStart/${dtStart}/dtEnd/${dtEnd}`;
-    } else if (dtStart && dtEnd && assignedTo) {
-      searchStr += `assignedTo/${assignedTo}/dtStart/${dtStart}/dtEnd/${dtEnd}`;
-    } else if (dtStart && dtEnd && initiatedBy) {
-      searchStr += `initiatedBy/${initiatedBy}/dtStart/${dtStart}/dtEnd/${dtEnd}`;
-    } else if (dtStart && dtEnd) {
-      searchStr += `dtStart/${dtStart}/dtEnd/${dtEnd}`;
-    } else if (assignedTo && initiatedBy) {
-      searchStr += `initiatedBy/${initiatedBy}/assignedTo/${assignedTo}`;
-    } else if (assignedTo) {
-      searchStr += `assignedTo/${assignedTo}`;
-    } else {
-      searchStr += `initiatedBy/${initiatedBy}`;
+    if (this.state.initiatedBy) {
+      string += `name=${this.state.initiatedBy}`;
     }
 
-    this.search(searchStr);
-  };
+    if (this.state.assignedTo) {
+      string += `&assignedTo=${this.state.assignedTo}`;
+    }
 
-  search = searchStr => {
+    if (this.state.initiatedStartDt && !this.state.initiatedEndDt) {
+      string += `&createdAt[gte]=${this.state.initiatedStartDt}`;
+    }
+
+    if (!this.state.initiatedStartDt && this.state.initiatedEndDt) {
+      string += `&createdAt[lte]=${this.state.initiatedEndDt}`;
+    }
+
+    if (this.state.initiatedStartDt && this.state.initiatedEndDt) {
+      string += `&createdAt[gte]=${this.state.initiatedStartDt}&createdAt[lte]=${this.state.initiatedEndDt}`;
+    }
+
     axios
-      .get(searchStr)
-      .then(response => {
+      .get(`/issue?${string}`)
+      .then((response) => {
         this.setState({
-          issues: response.data,
-          wasSearched: true
+          issues: response.data.data,
+          wasSearched: true,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -72,7 +63,7 @@ export default class AdvancedSearch extends Component {
   searchResultsList() {
     const issues = this.state.issues;
 
-    return issues.map(currentissue => {
+    return issues.map((currentissue) => {
       return <Issue issue={currentissue} key={currentissue._id} />;
     });
   }

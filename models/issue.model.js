@@ -1,19 +1,35 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const issueSchema = new Schema(
   {
-    issueTitle: { type: String, require: true, trim: true },
-    issueDescription: { type: String, require: true, trim: true },
+    issueTitle: {
+      type: String,
+      required: [true, 'Please add a title'],
+      trim: true,
+    },
+    issueDescription: {
+      type: String,
+      required: [true, 'Please add a description'],
+      trim: true,
+    },
     issueLog: [{ name: String, desc: String, date: Date }],
     name: String,
-    number: Number,
+    number: { type: Number, unique: true },
     date: Date,
-    assignedTo: { type: String, require: true, trim: true },
+    assignedTo: {
+      type: String,
+      required: [true, 'Please assign to a user'],
+      trim: true,
+    },
     status: String,
-    projectTitle: { type: String, require: true, trim: true }
+    projectTitle: {
+      type: String,
+      required: [true, 'Please add a project title'],
+      trim: true,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Issue", issueSchema);
+module.exports = mongoose.model('Issue', issueSchema);

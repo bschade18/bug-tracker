@@ -17,11 +17,11 @@ function Navbar({ user, logout, authSuccess, isAuthenticated }) {
   const guestLinks = (
     <Fragment>
       <LoginModal
-        authSuccess={user => authSuccess(user)}
+        authSuccess={(user) => authSuccess(user)}
         isAuthenticated={isAuthenticated}
       />
       <RegisterModal
-        authSuccess={user => authSuccess(user)}
+        authSuccess={(user) => authSuccess(user)}
         isAuthenticated={isAuthenticated}
       />
     </Fragment>

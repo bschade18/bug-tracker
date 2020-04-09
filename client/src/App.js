@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import AddIssue from "./components/AddIssue";
-import IssuesList from "./components/IssuesList";
-import Navbar from "./components/Navbar";
-import ViewIssue from "./components/ViewIssue";
-import ClosedIssuesList from "./components/ClosedIssuesList";
-import AdvancedSearch from "./components/AdvancedSearch";
+import AddIssue from './components/AddIssue';
+import IssuesList from './components/IssuesList';
+import Navbar from './components/Navbar';
+import ViewIssue from './components/ViewIssue';
+import AllIssuesList from './components/AllIssuesList';
+import AdvancedSearch from './components/AdvancedSearch';
 
-import axios from "axios";
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class App extends Component {
       isAuthenticated: null,
       user: null,
       isLoading: false,
-      token: localStorage.getItem("token")
+      token: localStorage.getItem('token'),
     };
   }
 
@@ -27,65 +27,65 @@ class App extends Component {
     this.loadUser();
   }
 
-  authSuccess = user => {
+  authSuccess = (user) => {
     this.setState({
       isAuthenticated: true,
       isLoading: false,
-      user: user
+      user: user,
     });
   };
 
   loadUser = () => {
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
 
     axios
-      .get("/auth/user", this.tokenConfig())
-      .then(res => this.userLoaded(res.data));
+      .get('/auth/user', this.tokenConfig())
+      .then((res) => this.userLoaded(res.data));
   };
 
-  userLoaded = user => {
+  userLoaded = (user) => {
     this.setState({
       isAuthenticated: true,
       isLoading: false,
-      user: user
+      user: user,
     });
   };
 
   tokenConfig = () => {
     // get token from local storage
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     // headers
     const config = {
       headers: {
-        "Content-type": "application/json"
-      }
+        'Content-type': 'application/json',
+      },
     };
 
     // if token, add to headers
     if (token) {
-      config.headers["x-auth-token"] = token;
+      config.headers['x-auth-token'] = token;
     }
     return config;
   };
 
   authenticate = () => {
     this.setState({
-      isAuthenticated: true
+      isAuthenticated: true,
     });
   };
 
   logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     this.setState({
       isAuthenticated: false,
       user: null,
-      token: null
+      token: null,
     });
 
-    window.location = "/";
+    window.location = '/';
   };
   render() {
     return (
@@ -101,7 +101,7 @@ class App extends Component {
         <Route
           path="/"
           exact
-          render={props => (
+          render={(props) => (
             <IssuesList
               {...props}
               isAuthenticated={this.state.isAuthenticated}
@@ -111,13 +111,13 @@ class App extends Component {
         ></Route>
         <Route
           path="/create"
-          render={props => <AddIssue {...props} user={this.state.user} />}
+          render={(props) => <AddIssue {...props} user={this.state.user} />}
         />
         <Route path="/review/:id" component={ViewIssue} />
         <Route
-          path="/closed"
-          render={props => (
-            <ClosedIssuesList
+          path="/all"
+          render={(props) => (
+            <AllIssuesList
               {...props}
               isAuthenticated={this.state.isAuthenticated}
               user={this.state.user}
@@ -126,7 +126,7 @@ class App extends Component {
         ></Route>
         <Route
           path="/advanced"
-          render={props => (
+          render={(props) => (
             <AdvancedSearch
               {...props}
               isAuthenticated={this.state.isAuthenticated}

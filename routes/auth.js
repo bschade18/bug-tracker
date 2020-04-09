@@ -1,26 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const { registerValidation, loginValidation } = require("../validation");
-const bcrypt = require("bcryptjs");
-const auth = require("../middleware/verifyToken");
+const jwt = require('jsonwebtoken');
+const { registerValidation, loginValidation } = require('../validation');
+const bcrypt = require('bcryptjs');
+const auth = require('../middleware/verifyToken');
 
-let User = require("../models/user.model");
+let User = require('../models/user.model');
 
-router.post("/register", (req, res) => {
+router.post('/register', (req, res) => {
   const { name, email, password } = req.body;
-  //validate
+  // validate
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
-  //check if user in db
-  User.findOne({ email: email }).then(user => {
-    if (user) return res.status(400).json({ msg: "User already exists" });
+  // check if user in db
+  User.findOne({ email: email }).then((user) => {
+    if (user) return res.status(400).json({ msg: 'User already exists' });
 
     const newUser = new User({
       name,
       email,
-      password
+      password,
     });
 
     // create salt & hash
@@ -29,7 +29,7 @@ router.post("/register", (req, res) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
-        newUser.save().then(user => {
+        newUser.save().then((user) => {
           jwt.sign(
             { id: user._id },
             secret,
@@ -41,8 +41,8 @@ router.post("/register", (req, res) => {
                 user: {
                   id: user._id,
                   name: user.name,
-                  email: user.email
-                }
+                  email: user.email,
+                },
               });
             }
           );
@@ -52,20 +52,20 @@ router.post("/register", (req, res) => {
   });
 });
 
-router.post("/login", (req, res) => {
+router.post('/login', (req, res) => {
   const { email, password } = req.body;
-  //validate
+  // validate
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
-  //check if user in db
-  User.findOne({ email }).then(user => {
-    if (!user) return res.status(400).json({ msg: "User does not exist" });
+  // check if user in db
+  User.findOne({ email }).then((user) => {
+    if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
     // check pw
     const secret = process.env.SECRET;
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    bcrypt.compare(password, user.password).then((isMatch) => {
+      if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
       // create and assign token
       jwt.sign({ id: user._id }, secret, { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
@@ -74,8 +74,8 @@ router.post("/login", (req, res) => {
           user: {
             id: user._id,
             name: user.name,
-            email: user.email
-          }
+            email: user.email,
+          },
         });
       });
     });
@@ -86,10 +86,10 @@ router.post("/login", (req, res) => {
 // @desc get user data
 // @access Private
 
-router.get("/user", auth, (req, res) => {
+router.get('/user', auth, (req, res) => {
   User.findById(req.user.id)
-    .select("-password")
-    .then(user => res.json(user));
+    .select('-password')
+    .then((user) => res.json(user));
 });
 
 module.exports = router;
