@@ -7,7 +7,13 @@ export default class AllIssuesList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { issues: [], sortColumn: false, page: 1, pagination: null };
+    this.state = {
+      issues: [],
+      sortColumn: false,
+      page: 1,
+      pagination: null,
+      totalPages: null,
+    };
   }
 
   componentDidMount() {
@@ -18,6 +24,7 @@ export default class AllIssuesList extends Component {
         this.setState({
           issues: response.data.data,
           pagination: response.data.pagination,
+          totalPages: response.data.totalPages,
         });
       })
       .catch((error) => {
@@ -85,13 +92,13 @@ export default class AllIssuesList extends Component {
 
   nextPage = () => {
     let page = this.state.pagination.next.page;
-    console.log(page);
     axios
       .get(`/issue?page=${page}`)
       .then((response) => {
         this.setState({
           issues: response.data.data,
           pagination: response.data.pagination,
+          page,
         });
       })
       .catch((error) => {
@@ -107,6 +114,23 @@ export default class AllIssuesList extends Component {
         this.setState({
           issues: response.data.data,
           pagination: response.data.pagination,
+          page,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  selectPage = (cool) => {
+    console.log(cool);
+    axios
+      .get(`/issue?page=${cool}`)
+      .then((response) => {
+        this.setState({
+          issues: response.data.data,
+          pagination: response.data.pagination,
+          page: cool,
         });
       })
       .catch((error) => {
@@ -115,6 +139,19 @@ export default class AllIssuesList extends Component {
   };
 
   render() {
+    let rows = [];
+    for (let i = 1; i <= this.state.totalPages; i++) {
+      rows.push(
+        <li
+          key={i}
+          className={this.state.page === i ? 'page-item active' : 'page-item'}
+        >
+          <a className="page-link" onClick={() => this.selectPage(i)} href="#">
+            {i}
+          </a>
+        </li>
+      );
+    }
     if (!this.state.issues[0]) {
       return <Spinner />;
     }
@@ -161,7 +198,7 @@ export default class AllIssuesList extends Component {
           </thead>
           <tbody>{this.IssuesList()}</tbody>
         </table>
-        <div className="pagination-btns">
+        {/* <div className="pagination-btns">
           <div className="form-group">
             <button
               value="Next Page"
@@ -178,7 +215,7 @@ export default class AllIssuesList extends Component {
             </button>
           </div>
 
-          <div className="form-group">
+           <div className="form-group">
             <button
               value="Next Page"
               className={
@@ -191,8 +228,37 @@ export default class AllIssuesList extends Component {
             >
               Next Page
             </button>
-          </div>
-        </div>
+          </div> 
+
+          
+        </div> */}
+        <nav>
+          <ul className="pagination">
+            <li
+              className={
+                this.state.pagination.prev ? 'page-item' : 'page-item disabled'
+              }
+            >
+              <a className="page-link" onClick={this.prevPage} href="#">
+                <span>&laquo;</span>
+                <span className="sr-only">Previous</span>
+              </a>
+            </li>
+
+            {rows}
+
+            <li
+              className={
+                this.state.pagination.next ? 'page-item' : 'page-item disabled'
+              }
+            >
+              <a className="page-link" onClick={this.nextPage} href="#">
+                <span>&raquo;</span>
+                <span className="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   }

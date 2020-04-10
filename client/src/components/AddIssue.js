@@ -18,6 +18,7 @@ export default class AddIssue extends Component {
       users: [],
       projects: [],
       isNewProject: false,
+      totalIssues: null,
     };
   }
 
@@ -35,6 +36,7 @@ export default class AddIssue extends Component {
         this.setState({
           issues: res.data.data,
           date: today,
+          totalIssues: res.data.totalIssues,
         });
       })
       .catch((err) => {
@@ -73,9 +75,10 @@ export default class AddIssue extends Component {
       status,
       date,
       issueLog,
+      totalIssues,
     } = this.state;
 
-    let newNumber = issues[issues.length - 1].number + 1;
+    let newNumber = totalIssues + 100001;
 
     const newIssue = {
       name: this.props.user.name,

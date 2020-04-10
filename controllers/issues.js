@@ -47,7 +47,7 @@ exports.getIssues = asyncHandler(async (req, res, next) => {
   // Pagination
   // comes in as string - convert to number
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 50;
+  const limit = parseInt(req.query.limit, 10) || 35;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   // countDocuments is mongoose method
@@ -74,6 +74,8 @@ exports.getIssues = asyncHandler(async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
+    totalPages: Math.ceil(total / limit),
+    totalIssues: total,
     count: issues.length,
     pagination,
     data: issues,
