@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 
-function Navbar({ user, logout, authSuccess, isAuthenticated }) {
+function Navbar({ user, logout }) {
   const authLinks = (
     <Fragment>
       <span className="navbar-text mr-3">

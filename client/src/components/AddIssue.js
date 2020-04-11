@@ -75,10 +75,9 @@ export default class AddIssue extends Component {
       status,
       date,
       issueLog,
-      totalIssues,
     } = this.state;
 
-    let newNumber = totalIssues + 100001;
+    let newNumber = issues[0].number + 1;
 
     const newIssue = {
       name: this.props.user.name,

@@ -19,7 +19,7 @@ export default class AllIssuesList extends Component {
   componentDidMount() {
     let page = this.state.page;
     axios
-      .get(`/issue?page=${page}`)
+      .get(`/issue?page=${page}&limit=20`)
       .then((response) => {
         this.setState({
           issues: response.data.data,
@@ -90,47 +90,19 @@ export default class AllIssuesList extends Component {
     this.sortNumber();
   };
 
-  nextPage = () => {
-    let page = this.state.pagination.next.page;
+  selectPage = (page) => {
+    if (page === 'next') {
+      page = this.state.pagination.next.page;
+    } else if (page === 'prev') {
+      page = this.state.pagination.prev.page;
+    }
     axios
-      .get(`/issue?page=${page}`)
+      .get(`/issue?page=${page}&limit=20`)
       .then((response) => {
         this.setState({
           issues: response.data.data,
           pagination: response.data.pagination,
           page,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  prevPage = () => {
-    let page = this.state.pagination.prev.page;
-    axios
-      .get(`/issue?page=${page}`)
-      .then((response) => {
-        this.setState({
-          issues: response.data.data,
-          pagination: response.data.pagination,
-          page,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  selectPage = (cool) => {
-    console.log(cool);
-    axios
-      .get(`/issue?page=${cool}`)
-      .then((response) => {
-        this.setState({
-          issues: response.data.data,
-          pagination: response.data.pagination,
-          page: cool,
         });
       })
       .catch((error) => {
@@ -198,40 +170,7 @@ export default class AllIssuesList extends Component {
           </thead>
           <tbody>{this.IssuesList()}</tbody>
         </table>
-        {/* <div className="pagination-btns">
-          <div className="form-group">
-            <button
-              value="Next Page"
-              type="button"
-              className={
-                this.state.pagination.prev
-                  ? 'btn btn-primary'
-                  : 'btn btn-primary disabled'
-              }
-              onClick={this.prevPage}
-              disabled={this.state.pagination.prev ? false : true}
-            >
-              Prev Page
-            </button>
-          </div>
 
-           <div className="form-group">
-            <button
-              value="Next Page"
-              className={
-                this.state.pagination.next
-                  ? 'btn btn-primary'
-                  : 'btn btn-primary disabled'
-              }
-              onClick={this.nextPage}
-              disabled={this.state.pagination.next ? false : true}
-            >
-              Next Page
-            </button>
-          </div> 
-
-          
-        </div> */}
         <nav>
           <ul className="pagination">
             <li
@@ -239,7 +178,11 @@ export default class AllIssuesList extends Component {
                 this.state.pagination.prev ? 'page-item' : 'page-item disabled'
               }
             >
-              <a className="page-link" onClick={this.prevPage} href="#">
+              <a
+                className="page-link"
+                onClick={() => this.selectPage('prev')}
+                href="#"
+              >
                 <span>&laquo;</span>
                 <span className="sr-only">Previous</span>
               </a>
@@ -252,7 +195,11 @@ export default class AllIssuesList extends Component {
                 this.state.pagination.next ? 'page-item' : 'page-item disabled'
               }
             >
-              <a className="page-link" onClick={this.nextPage} href="#">
+              <a
+                className="page-link"
+                onClick={() => this.selectPage('next')}
+                href="#"
+              >
                 <span>&raquo;</span>
                 <span className="sr-only">Next</span>
               </a>

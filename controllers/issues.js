@@ -41,13 +41,13 @@ exports.getIssues = asyncHandler(async (req, res, next) => {
     const sortBy = req.query.sort.split(',').join(' ');
     query = query.sort(sortBy);
   } else {
-    query = query.sort('-createdAt');
+    query = query.sort('-number');
   }
 
   // Pagination
   // comes in as string - convert to number
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 35;
+  const limit = parseInt(req.query.limit, 10) || 1000;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   // countDocuments is mongoose method
