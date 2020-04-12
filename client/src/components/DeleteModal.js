@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class DeleteModal extends Component {
   constructor(props) {
@@ -9,6 +10,9 @@ class DeleteModal extends Component {
       modal: false,
     };
   }
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+  };
 
   toggle = () => {
     this.setState({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DeleteModal from './DeleteModal';
+import PropTypes from 'prop-types';
 
 export default class ViewIssue extends Component {
   constructor(props) {
@@ -18,6 +19,9 @@ export default class ViewIssue extends Component {
       users: [],
     };
   }
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+  };
 
   componentDidMount() {
     let today = new Date();

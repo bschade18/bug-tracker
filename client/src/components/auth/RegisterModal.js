@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -9,9 +9,10 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
-} from "reactstrap";
-import axios from "axios";
+  Alert,
+} from 'reactstrap';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class RegisterModal extends Component {
   constructor(props) {
@@ -19,12 +20,16 @@ class RegisterModal extends Component {
 
     this.state = {
       modal: false,
-      name: "",
-      email: "",
-      password: "",
-      msg: null
+      name: '',
+      email: '',
+      password: '',
+      msg: null,
     };
   }
+  static propTypes = {
+    authSuccess: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
 
   componentDidUpdate() {
     if (this.state.modal && this.props.isAuthenticated) {
@@ -35,21 +40,21 @@ class RegisterModal extends Component {
   toggle = () => {
     this.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
   clearErrors = () => {
     this.setState({
-      msg: null
+      msg: null,
     });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const { name, email, password } = this.state;
@@ -57,37 +62,37 @@ class RegisterModal extends Component {
     const newUser = {
       name,
       email,
-      password
+      password,
     };
 
     this.register(newUser);
   };
 
-  register = newUser => {
+  register = (newUser) => {
     const { name, email, password } = newUser;
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     const body = JSON.stringify({ name, email, password });
 
     axios
-      .post("/auth/register", body, config)
-      .then(res => this.registerSuccess(res.data))
-      .catch(err => this.returnErrors(err.response.data));
+      .post('/auth/register', body, config)
+      .then((res) => this.registerSuccess(res.data))
+      .catch((err) => this.returnErrors(err.response.data));
   };
 
-  registerSuccess = data => {
-    localStorage.setItem("token", data.token);
+  registerSuccess = (data) => {
+    localStorage.setItem('token', data.token);
     this.props.authSuccess(data.user);
   };
 
-  returnErrors = data => {
+  returnErrors = (data) => {
     this.setState({
-      msg: data.msg
+      msg: data.msg,
     });
   };
 
@@ -134,7 +139,7 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                   className="mb-3"
                 />
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                <Button color="dark" style={{ marginTop: '2rem' }} block>
                   Register
                 </Button>
               </FormGroup>

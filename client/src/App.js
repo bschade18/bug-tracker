@@ -43,7 +43,8 @@ class App extends Component {
 
     axios
       .get('/auth/user', this.tokenConfig())
-      .then((res) => this.userLoaded(res.data));
+      .then((res) => this.userLoaded(res.data))
+      .catch((err) => console.log(err));
   };
 
   userLoaded = (user) => {

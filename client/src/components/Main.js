@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Issue from './Issue';
 import Spinner from './Spinner';
+import PropTypes from 'prop-types';
 
 export default class Main extends Component {
   constructor(props) {
@@ -19,6 +20,11 @@ export default class Main extends Component {
 
     this.onChangeNumber = this.onChangeNumber.bind(this);
   }
+
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+  };
 
   componentDidMount() {
     axios

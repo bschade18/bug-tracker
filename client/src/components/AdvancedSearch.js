@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Issue from './Issue';
 import Spinner from './Spinner';
+import PropTypes from 'prop-types';
 
 export default class AdvancedSearch extends Component {
   constructor(props) {
@@ -20,6 +21,9 @@ export default class AdvancedSearch extends Component {
       searchString: '',
     };
   }
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+  };
 
   componentDidMount() {
     let page = this.state.page;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 export default class AddIssue extends Component {
   constructor(props) {
@@ -21,6 +22,9 @@ export default class AddIssue extends Component {
       totalIssues: null,
     };
   }
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+  };
 
   componentDidMount() {
     let today = new Date();

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -9,20 +9,25 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
-} from "reactstrap";
-import axios from "axios";
+  Alert,
+} from 'reactstrap';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      email: "",
-      password: "",
-      msg: null
+      email: '',
+      password: '',
+      msg: null,
     };
   }
+  static propTypes = {
+    authSuccess: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
 
   componentDidUpdate() {
     if (this.state.modal && this.props.isAuthenticated) {
@@ -33,58 +38,58 @@ class LoginModal extends Component {
   toggle = () => {
     this.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
   clearErrors = () => {
     this.setState({
-      msg: null
+      msg: null,
     });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const { email, password } = this.state;
 
     const user = {
       email,
-      password
+      password,
     };
 
     this.login(user);
   };
 
-  login = user => {
+  login = (user) => {
     const { email, password } = user;
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     const body = JSON.stringify({ email, password });
 
     axios
-      .post("/auth/login", body, config)
-      .then(res => this.loginSuccess(res.data))
-      .catch(err => this.returnErrors(err.response.data));
+      .post('/auth/login', body, config)
+      .then((res) => this.loginSuccess(res.data))
+      .catch((err) => this.returnErrors(err.response.data));
   };
 
-  loginSuccess = data => {
-    localStorage.setItem("token", data.token);
+  loginSuccess = (data) => {
+    localStorage.setItem('token', data.token);
     this.props.authSuccess(data.user);
   };
 
-  returnErrors = data => {
+  returnErrors = (data) => {
     this.setState({
-      msg: data.msg
+      msg: data.msg,
     });
   };
 
@@ -121,7 +126,7 @@ class LoginModal extends Component {
                   onChange={this.onChange}
                   className="mb-3"
                 />
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                <Button color="dark" style={{ marginTop: '2rem' }} block>
                   Login
                 </Button>
               </FormGroup>
