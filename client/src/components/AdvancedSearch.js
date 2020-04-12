@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Issue from './Issue';
+import Spinner from './Spinner';
 
 export default class AdvancedSearch extends Component {
   constructor(props) {
@@ -13,7 +14,26 @@ export default class AdvancedSearch extends Component {
       initiatedEndDt: '',
       issues: [],
       wasSearched: false,
+      page: 1,
+      pagination: null,
+      totalPages: null,
+      searchString: '',
     };
+  }
+
+  componentDidMount() {
+    let page = this.state.page;
+    axios
+      .get(`/issue?page=${page}&limit=20`)
+      .then((response) => {
+        this.setState({
+          issues: response.data.data,
+          pagination: response.data.pagination,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   onChange = (e) => {
@@ -47,12 +67,27 @@ export default class AdvancedSearch extends Component {
       string += `&createdAt[gte]=${this.state.initiatedStartDt}&createdAt[lte]=${this.state.initiatedEndDt}`;
     }
 
+    const limit = 20;
     axios
       .get(`/issue?${string}`)
       .then((response) => {
         this.setState({
+          totalPages: Math.ceil(response.data.count / limit),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .get(`/issue?${string}&limit=${limit}&page=1`)
+      .then((response) => {
+        this.setState({
           issues: response.data.data,
           wasSearched: true,
+          pagination: response.data.pagination,
+          page: 1,
+          searchString: string,
         });
       })
       .catch((error) => {
@@ -68,7 +103,42 @@ export default class AdvancedSearch extends Component {
     });
   }
 
+  selectPage = (page) => {
+    let string = this.state.searchString;
+
+    if (page === 'next') {
+      page = this.state.pagination.next.page;
+    } else if (page === 'prev') {
+      page = this.state.pagination.prev.page;
+    }
+    axios
+      .get(`/issue?${string}&page=${page}&limit=20`)
+      .then((response) => {
+        this.setState({
+          issues: response.data.data,
+          pagination: response.data.pagination,
+          page,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
+    let rows = [];
+    for (let i = 1; i <= this.state.totalPages; i++) {
+      rows.push(
+        <li
+          key={i}
+          className={this.state.page === i ? 'page-item active' : 'page-item'}
+        >
+          <a className="page-link" onClick={() => this.selectPage(i)} href="#">
+            {i}
+          </a>
+        </li>
+      );
+    }
     return (
       <div className="container">
         {this.props.isAuthenticated ? (
@@ -133,23 +203,127 @@ export default class AdvancedSearch extends Component {
         ) : (
           <p></p>
         )}
+
         {this.state.wasSearched ? (
-          <table className="table mt-5">
-            <thead className="thead-light">
-              <tr>
-                <th>Issue # </th>
-                <th>Status </th>
-                <th>Title </th>
-                <th>Assigned To </th>
-                <th>Date Initiated </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{this.searchResultsList()}</tbody>
-          </table>
+          !this.state.issues[0] ? (
+            <Spinner />
+          ) : (
+            <React.Fragment>
+              <table className="table mt-5">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Issue # </th>
+                    <th>Status </th>
+                    <th>Title </th>
+                    <th>Assigned To </th>
+                    <th>Date Initiated </th>
+                    <th>Open Issue</th>
+                  </tr>
+                </thead>
+                <tbody>{this.searchResultsList()}</tbody>
+              </table>
+
+              <nav>
+                <ul className="pagination">
+                  <li
+                    className={
+                      this.state.pagination.prev
+                        ? 'page-item'
+                        : 'page-item disabled'
+                    }
+                  >
+                    <a
+                      className="page-link"
+                      onClick={() => this.selectPage('prev')}
+                      href="#"
+                    >
+                      <span>&laquo;</span>
+                      <span className="sr-only">Previous</span>
+                    </a>
+                  </li>
+
+                  {rows}
+
+                  <li
+                    className={
+                      this.state.page !== this.state.totalPages
+                        ? 'page-item'
+                        : 'page-item disabled'
+                    }
+                  >
+                    <a
+                      className="page-link"
+                      onClick={() => this.selectPage('next')}
+                      href="#"
+                    >
+                      <span>&raquo;</span>
+                      <span className="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </React.Fragment>
+          )
         ) : (
           <div></div>
         )}
+        {/* {this.state.wasSearched && (
+          <React.Fragment>
+            <table className="table mt-5">
+              <thead className="thead-light">
+                <tr>
+                  <th>Issue # </th>
+                  <th>Status </th>
+                  <th>Title </th>
+                  <th>Assigned To </th>
+                  <th>Date Initiated </th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{this.searchResultsList()}</tbody>
+            </table>
+
+            <nav>
+              <ul className="pagination">
+                <li
+                  className={
+                    this.state.pagination.prev
+                      ? 'page-item'
+                      : 'page-item disabled'
+                  }
+                >
+                  <a
+                    className="page-link"
+                    onClick={() => this.selectPage('prev')}
+                    href="#"
+                  >
+                    <span>&laquo;</span>
+                    <span className="sr-only">Previous</span>
+                  </a>
+                </li>
+
+                {rows}
+
+                <li
+                  className={
+                    this.state.page !== this.state.totalPages
+                      ? 'page-item'
+                      : 'page-item disabled'
+                  }
+                >
+                  <a
+                    className="page-link"
+                    onClick={() => this.selectPage('next')}
+                    href="#"
+                  >
+                    <span>&raquo;</span>
+                    <span className="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </React.Fragment>
+        )} */}
       </div>
     );
   }
