@@ -1,4 +1,8 @@
+/* Utility Class */
+
+/* Issues */
 #issue-search {
+  width: 20vw;
   display: block;
 }
 
@@ -79,7 +83,8 @@
   padding: 15px;
 }
 
-#add-user-input {
+#add-user-input,
+#search {
   width: 20vw;
   display: block;
   padding: 15px;

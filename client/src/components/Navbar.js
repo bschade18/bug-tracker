@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Logout from './auth/Logout';
+import PropTypes from 'prop-types';
 
-function Navbar({ user, logout }) {
+const Navbar = ({ user, logout }) => {
   const authLinks = (
     <Fragment>
       <span className="navbar-text mr-3">
@@ -35,6 +36,11 @@ function Navbar({ user, logout }) {
       </nav>
     </div>
   );
-}
+};
+
+Navbar.propTypes = {
+  user: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+};
 
 export default Navbar;

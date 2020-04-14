@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import { NavLink } from "reactstrap";
+import React, { Fragment } from 'react';
+import { NavLink } from 'reactstrap';
 
-function Logout(props) {
+function Logout({ logout }) {
   return (
     <Fragment>
-      <NavLink onClick={props.logout} href="#">
+      <NavLink onClick={logout} href="#">
         Logout
       </NavLink>
     </Fragment>

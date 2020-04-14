@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DeleteModal from './DeleteModal';
+import DeleteModal from '../DeleteModal';
 import PropTypes from 'prop-types';
 
-export default class ViewIssue extends Component {
+class ViewIssue extends Component {
   constructor(props) {
     super(props);
 
@@ -132,11 +132,7 @@ export default class ViewIssue extends Component {
     setTimeout(() => (window.location = '/main'), 500);
   };
 
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   statusList = () => {
     const statuses = ['Open', 'Urgent', 'Closed'];
@@ -165,7 +161,7 @@ export default class ViewIssue extends Component {
       return <div />;
     }
     return (
-      <div className="container">
+      <div className="container mt-3">
         <h3>Issue #{this.state.number}</h3>
         <h5>{this.state.issueTitle}</h5>
         <form onSubmit={this.onSubmit}>
@@ -240,3 +236,5 @@ export default class ViewIssue extends Component {
     );
   }
 }
+
+export default ViewIssue;

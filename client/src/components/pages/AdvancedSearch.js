@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import Issue from './Issue';
-import Spinner from './Spinner';
+import Issue from '../Issue';
+import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 
-export default class AdvancedSearch extends Component {
+class AdvancedSearch extends Component {
   constructor(props) {
     super(props);
 
@@ -48,27 +48,33 @@ export default class AdvancedSearch extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    const {
+      initiatedBy,
+      assignedTo,
+      initiatedStartDt,
+      initiatedEndDt,
+    } = this.state;
 
     let string = '';
 
-    if (this.state.initiatedBy) {
-      string += `name=${this.state.initiatedBy}`;
+    if (initiatedBy) {
+      string += `name=${initiatedBy}`;
     }
 
     if (this.state.assignedTo) {
-      string += `&assignedTo=${this.state.assignedTo}`;
+      string += `&assignedTo=${assignedTo}`;
     }
 
-    if (this.state.initiatedStartDt && !this.state.initiatedEndDt) {
-      string += `&createdAt[gte]=${this.state.initiatedStartDt}`;
+    if (initiatedStartDt && !initiatedEndDt) {
+      string += `&createdAt[gte]=${initiatedStartDt}`;
     }
 
-    if (!this.state.initiatedStartDt && this.state.initiatedEndDt) {
-      string += `&createdAt[lte]=${this.state.initiatedEndDt}`;
+    if (!initiatedStartDt && initiatedEndDt) {
+      string += `&createdAt[lte]=${initiatedEndDt}`;
     }
 
-    if (this.state.initiatedStartDt && this.state.initiatedEndDt) {
-      string += `&createdAt[gte]=${this.state.initiatedStartDt}&createdAt[lte]=${this.state.initiatedEndDt}`;
+    if (initiatedStartDt && initiatedEndDt) {
+      string += `&createdAt[gte]=${initiatedStartDt}&createdAt[lte]=${initiatedEndDt}`;
     }
 
     const limit = 20;
@@ -108,12 +114,16 @@ export default class AdvancedSearch extends Component {
   }
 
   selectPage = (page) => {
-    let string = this.state.searchString;
+    const {
+      searchString,
+      pagination: { next, prev },
+    } = this.state;
+    let string = searchString;
 
     if (page === 'next') {
-      page = this.state.pagination.next.page;
+      page = next.page;
     } else if (page === 'prev') {
-      page = this.state.pagination.prev.page;
+      page = prev.page;
     }
     axios
       .get(`/issue?${string}&page=${page}&limit=20`)
@@ -144,7 +154,7 @@ export default class AdvancedSearch extends Component {
       );
     }
     return (
-      <div className="container">
+      <div className="container mt-3">
         {this.props.isAuthenticated ? (
           <div>
             <h5>Advanced Search</h5>
@@ -212,7 +222,7 @@ export default class AdvancedSearch extends Component {
           !this.state.issues[0] ? (
             <Spinner />
           ) : (
-            <React.Fragment>
+            <Fragment>
               <table className="table mt-5">
                 <thead className="thead-light">
                   <tr>
@@ -266,69 +276,14 @@ export default class AdvancedSearch extends Component {
                   </li>
                 </ul>
               </nav>
-            </React.Fragment>
+            </Fragment>
           )
         ) : (
           <div></div>
         )}
-        {/* {this.state.wasSearched && (
-          <React.Fragment>
-            <table className="table mt-5">
-              <thead className="thead-light">
-                <tr>
-                  <th>Issue # </th>
-                  <th>Status </th>
-                  <th>Title </th>
-                  <th>Assigned To </th>
-                  <th>Date Initiated </th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{this.searchResultsList()}</tbody>
-            </table>
-
-            <nav>
-              <ul className="pagination">
-                <li
-                  className={
-                    this.state.pagination.prev
-                      ? 'page-item'
-                      : 'page-item disabled'
-                  }
-                >
-                  <a
-                    className="page-link"
-                    onClick={() => this.selectPage('prev')}
-                    href="#"
-                  >
-                    <span>&laquo;</span>
-                    <span className="sr-only">Previous</span>
-                  </a>
-                </li>
-
-                {rows}
-
-                <li
-                  className={
-                    this.state.page !== this.state.totalPages
-                      ? 'page-item'
-                      : 'page-item disabled'
-                  }
-                >
-                  <a
-                    className="page-link"
-                    onClick={() => this.selectPage('next')}
-                    href="#"
-                  >
-                    <span>&raquo;</span>
-                    <span className="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </React.Fragment>
-        )} */}
       </div>
     );
   }
 }
+
+export default AdvancedSearch;

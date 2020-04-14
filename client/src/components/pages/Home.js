@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
+import RegisterModal from '../auth/RegisterModal';
+import LoginModal from '../auth/LoginModal';
+import PropTypes from 'prop-types';
 
-function Home({ user, logout, authSuccess, isAuthenticated }) {
+function Home({ authSuccess, isAuthenticated }) {
   const guestLinks = (
     <Fragment>
       <LoginModal
@@ -44,5 +45,10 @@ function Home({ user, logout, authSuccess, isAuthenticated }) {
     </div>
   );
 }
+
+Home.propTypes = {
+  authSuccess: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default Home;

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-export default class AddIssue extends Component {
+class AddIssue extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      number: '100000',
+      number: '',
       issueTitle: '',
       projectTitle: '',
       issueDescription: '',
@@ -61,11 +61,7 @@ export default class AddIssue extends Component {
       });
   }
 
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -81,7 +77,7 @@ export default class AddIssue extends Component {
       issueLog,
     } = this.state;
 
-    let newNumber = issues[0].number + 1;
+    let newNumber = issues[0].number + 1 || 100000;
 
     const newIssue = {
       name: this.props.user.name,
@@ -123,15 +119,12 @@ export default class AddIssue extends Component {
     return config;
   };
 
-  newProject = () => {
-    this.setState({
-      isNewProject: true,
-      projectTitle: '',
-    });
-  };
+  newProject = () => this.setState({ isNewProject: true, projectTitle: '' });
 
   render() {
-    const projects = this.state.issues.map((issue) => {
+    const { issues } = this.state;
+
+    const projects = issues.map((issue) => {
       return issue.projectTitle;
     });
 
@@ -146,7 +139,7 @@ export default class AddIssue extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="container mt-3">
         <h3>Create New Issue Log</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
@@ -269,3 +262,5 @@ export default class AddIssue extends Component {
     );
   }
 }
+
+export default AddIssue;
