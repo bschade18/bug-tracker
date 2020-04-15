@@ -77,6 +77,7 @@ class AddIssue extends Component {
       issueLog,
     } = this.state;
 
+    // got issues so that i could see the previous issue number
     let newNumber = issues[0].number + 1 || 100000;
 
     const newIssue = {
