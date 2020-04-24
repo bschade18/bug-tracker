@@ -1,33 +1,23 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
 const path = require('path');
+const express = require('express');
 const errorHandler = require('./middleware/error');
+const connectDB = require('./config/db');
 
-require('dotenv').config();
+require('dotenv').config({ path: './config/config.env' });
+
+connectDB();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-});
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully');
-});
-
+// Router files
 const issueRouter = require('./routes/issues');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 
+// Mount routers
 app.use('/issue', issueRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);

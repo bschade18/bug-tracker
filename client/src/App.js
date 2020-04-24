@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import IssuesState from './context/issues/IssueState';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -17,6 +18,7 @@ import AdvancedSearch from './components/pages/AdvancedSearch';
 import Home from './components/pages/Home';
 
 import axios from 'axios';
+import Issue from './components/Issue';
 
 class App extends Component {
   constructor(props) {
@@ -27,12 +29,42 @@ class App extends Component {
       isLoading: false,
       token: localStorage.getItem('token'),
       alert: null,
+      issues: [],
+      closedIssues: [],
     };
   }
 
   componentDidMount() {
     this.loadUser();
+    this.getIssues();
+    this.getClosedIssues();
   }
+
+  getIssues = () => {
+    axios
+      .get('/issue')
+      .then((response) => {
+        this.setState({
+          issues: response.data.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  getClosedIssues = () => {
+    axios
+      .get('/issue/closed/recent')
+      .then((response) => {
+        this.setState({
+          closedIssues: response.data.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   authSuccess = (user) => {
     this.setState({
@@ -104,77 +136,81 @@ class App extends Component {
   render() {
     const { isAuthenticated, user } = this.state;
     return (
-      <Router>
-        {isAuthenticated && (
-          <Navbar
-            authSuccess={this.authSuccess}
-            isAuthenticated={isAuthenticated}
-            logout={this.logout}
-            user={user}
-          />
-        )}
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={(props) =>
-              isAuthenticated ? (
-                <Redirect to="/main" />
-              ) : (
-                <Home
+      <IssuesState>
+        <Router>
+          {isAuthenticated && (
+            <Navbar
+              authSuccess={this.authSuccess}
+              isAuthenticated={isAuthenticated}
+              logout={this.logout}
+              user={user}
+            />
+          )}
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={(props) =>
+                isAuthenticated ? (
+                  <Redirect to="/main" />
+                ) : (
+                  <Home
+                    {...props}
+                    authSuccess={this.authSuccess}
+                    isAuthenticated={isAuthenticated}
+                    logout={this.logout}
+                    user={user}
+                  />
+                )
+              }
+            />
+
+            <Route
+              path="/main"
+              exact
+              render={(props) => (
+                <Main
                   {...props}
-                  authSuccess={this.authSuccess}
                   isAuthenticated={isAuthenticated}
-                  logout={this.logout}
+                  user={user}
+                  showAlert={this.setAlert}
+                  alert={this.state.alert}
+                  allIssues={this.state.issues}
+                  allClosedIssues={this.state.closedIssues}
+                />
+              )}
+            />
+            <Route
+              path="/create"
+              exact
+              render={(props) => <AddIssue {...props} user={user} />}
+            />
+            <Route path="/review/:id" exact component={ViewIssue} />
+            <Route
+              path="/all"
+              exact
+              render={(props) => (
+                <AllIssuesList
+                  {...props}
+                  isAuthenticated={isAuthenticated}
                   user={user}
                 />
-              )
-            }
-          />
-
-          <Route
-            path="/main"
-            exact
-            render={(props) => (
-              <Main
-                {...props}
-                isAuthenticated={isAuthenticated}
-                user={user}
-                showAlert={this.setAlert}
-                alert={this.state.alert}
-              />
-            )}
-          />
-          <Route
-            path="/create"
-            exact
-            render={(props) => <AddIssue {...props} user={user} />}
-          />
-          <Route path="/review/:id" exact component={ViewIssue} />
-          <Route
-            path="/all"
-            exact
-            render={(props) => (
-              <AllIssuesList
-                {...props}
-                isAuthenticated={isAuthenticated}
-                user={user}
-              />
-            )}
-          />
-          <Route
-            path="/advanced"
-            exact
-            render={(props) => (
-              <AdvancedSearch
-                {...props}
-                isAuthenticated={isAuthenticated}
-                user={user}
-              />
-            )}
-          />
-        </Switch>
-      </Router>
+              )}
+            />
+            <Route
+              path="/advanced"
+              exact
+              render={(props) => (
+                <AdvancedSearch
+                  {...props}
+                  isAuthenticated={isAuthenticated}
+                  user={user}
+                />
+              )}
+            />
+          </Switch>
+        </Router>
+      </IssuesState>
     );
   }
 }

@@ -1,15 +1,7 @@
-const router = require("express").Router();
-let User = require("../models/user.model");
+const router = require('express').Router();
 
-// @route GET /user
-// @desc get users
-// @access Public
-router.get("/", (req, res) => {
-  //mongoose command
-  User.find()
-    .sort({ name: 1 })
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+const { getUsers } = require('../controllers/user');
+
+router.route('/').get(getUsers);
 
 module.exports = router;

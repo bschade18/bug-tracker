@@ -6,36 +6,31 @@ import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 import ShowAlert from '../Alert';
 
-const Main = ({ user, alert, showAlert, isAuthenticated }) => {
+const Main = ({
+  user,
+  alert,
+  showAlert,
+  isAuthenticated,
+  allClosedIssues,
+  allIssues,
+}) => {
   const [issues, setIssues] = useState([]);
   const [closedIssues, setClosedIssues] = useState([]);
   const [number, setNumber] = useState('');
   const [projectTitle, setProjectTitle] = useState('');
   const [sortColumn, setSortColumn] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get('/issue')
-      .then((response) => {
-        setIssues(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get('/issue/closed/recent')
-      .then((response) => {
-        setClosedIssues(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  useEffect(
+    () => {
+      setIssues(allIssues);
+      setClosedIssues(allClosedIssues);
+    },
+    [allIssues],
+    [closedIssues]
+  );
 
   const onChange = (e) => {
     setProjectTitle(e.target.value);
-
     issuesList();
   };
 
@@ -68,6 +63,7 @@ const Main = ({ user, alert, showAlert, isAuthenticated }) => {
 
   const onChangeNumber = (e) => setNumber(e.target.value);
 
+  // add to app level state and pass down
   const sortNumber = () => {
     let sort;
     if (sortColumn) {

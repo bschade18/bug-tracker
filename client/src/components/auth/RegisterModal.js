@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Modal,
@@ -14,50 +14,42 @@ import {
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-class RegisterModal extends Component {
-  constructor(props) {
-    super(props);
+const RegisterModal = ({ isAuthenticated, authSuccess }) => {
+  const [modal, setModal] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [msg, setMsg] = useState(null);
 
-    this.state = {
-      modal: false,
-      name: '',
-      email: '',
-      password: '',
-      msg: null,
-    };
-  }
-  static propTypes = {
-    authSuccess: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-  };
-
-  componentDidUpdate() {
-    if (this.state.modal && this.props.isAuthenticated) {
-      this.toggle();
+  useEffect(() => {
+    if (modal && isAuthenticated) {
+      toggle();
     }
-  }
+  });
 
-  toggle = () => {
-    this.clearErrors();
-    this.setState({
-      modal: !this.state.modal,
-    });
+  const toggle = () => {
+    clearErrors();
+    setModal(!modal);
   };
 
-  clearErrors = () => {
-    this.setState({
-      msg: null,
-    });
+  const clearErrors = () => {
+    setMsg(null);
   };
 
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const onChangeName = (e) => {
+    setName(e.target.value);
   };
 
-  onSubmit = (e) => {
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    const { name, email, password } = this.state;
 
     const newUser = {
       name,
@@ -65,10 +57,10 @@ class RegisterModal extends Component {
       password,
     };
 
-    this.register(newUser);
+    register(newUser);
   };
 
-  register = (newUser) => {
+  const register = (newUser) => {
     const { name, email, password } = newUser;
 
     const config = {
@@ -81,74 +73,73 @@ class RegisterModal extends Component {
 
     axios
       .post('/auth/register', body, config)
-      .then((res) => this.registerSuccess(res.data))
-      .catch((err) => this.returnErrors(err.response.data));
+      .then((res) => registerSuccess(res.data))
+      .catch((err) => returnErrors(err.response.data));
   };
 
-  registerSuccess = (data) => {
+  const registerSuccess = (data) => {
     localStorage.setItem('token', data.token);
-    this.props.authSuccess(data.user);
+    authSuccess(data.user);
   };
 
-  returnErrors = (data) => {
-    this.setState({
-      msg: data.msg,
-    });
+  const returnErrors = (data) => {
+    setMsg(data.msg);
   };
 
-  render() {
-    return (
-      <div>
-        <NavLink onClick={this.toggle} href="#">
-          Register
-        </NavLink>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Register</ModalHeader>
-          <ModalBody>
-            {this.state.msg ? (
-              <Alert color="danger">{this.state.msg}</Alert>
-            ) : null}
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="name">Name</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  id="name"
-                  placeholder="Name"
-                  onChange={this.onChange}
-                  className="mb-3"
-                />
+  return (
+    <div>
+      <NavLink onClick={toggle} href="#">
+        Register
+      </NavLink>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Register</ModalHeader>
+        <ModalBody>
+          {msg ? <Alert color="danger">{msg}</Alert> : null}
+          <Form onSubmit={onSubmit}>
+            <FormGroup>
+              <Label for="name">Name</Label>
+              <Input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+                onChange={onChangeName}
+                className="mb-3"
+              />
 
-                <Label for="email">Email</Label>
-                <Input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  onChange={this.onChange}
-                  className="mb-3"
-                />
+              <Label for="email">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                onChange={onChangeEmail}
+                className="mb-3"
+              />
 
-                <Label for="password">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  onChange={this.onChange}
-                  className="mb-3"
-                />
-                <Button color="dark" style={{ marginTop: '2rem' }} block>
-                  Register
-                </Button>
-              </FormGroup>
-            </Form>
-          </ModalBody>
-        </Modal>
-      </div>
-    );
-  }
-}
+              <Label for="password">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                onChange={onChangePassword}
+                className="mb-3"
+              />
+              <Button color="dark" style={{ marginTop: '2rem' }} block>
+                Register
+              </Button>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
+    </div>
+  );
+};
+
+RegisterModal.propTypes = {
+  authSuccess: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
 
 export default RegisterModal;

@@ -28,6 +28,8 @@ const AllIssuesList = () => {
     });
   };
 
+  // add to app level state and pass down
+
   const sortNumber = () => {
     let sort;
     if (sortColumn) {
