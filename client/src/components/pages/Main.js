@@ -194,95 +194,46 @@ const Main = ({
   }
   return (
     <div className="container mt-3">
-      {isAuthenticated ? (
-        <div>
-          <h5>My Open Issues</h5>
-          <div className="form-group">
-            <Link to="/create" id="submit-issue-link">
-              Submit New Issue
-            </Link>
-          </div>
-          <div className="form-group">
-            <label>Project: </label>
-            <select
-              required
-              className="form-control"
-              value={projectTitle}
-              name="projectTitle"
-              onChange={onChange}
-              id="project-title"
-            >
-              <option>--All--</option>
-              {sortProjects.map(function (project) {
-                return (
-                  <option key={project} value={project}>
-                    {project}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {issuesList().length > 0 ? (
-            <table className="table">
-              <thead className="thead-light">
-                <tr>
-                  <th>
-                    Issue #{' '}
-                    <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
-                  </th>
-                  <th>
-                    Status{' '}
-                    <i
-                      name="status"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Title{' '}
-                    <i
-                      name="issueTitle"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Assigned To{' '}
-                    <i
-                      name="assignedTo"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Date Initiated{' '}
-                    <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
-                  </th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{issuesList()}</tbody>
-            </table>
-          ) : (
-            <p id="issues-message">You have no open issues</p>
-          )}
-
-          <h5 className="mt-5">Recently Closed Issues</h5>
-          <table className="table mt-3">
+      <div>
+        <h5>My Open Issues</h5>
+        <div className="form-group">
+          <Link to="/create" id="submit-issue-link">
+            Submit New Issue
+          </Link>
+        </div>
+        <div className="form-group">
+          <label>Project: </label>
+          <select
+            required
+            className="form-control"
+            value={projectTitle}
+            name="projectTitle"
+            onChange={onChange}
+            id="project-title"
+          >
+            <option>--All--</option>
+            {sortProjects.map(function (project) {
+              return (
+                <option key={project} value={project}>
+                  {project}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        {issuesList().length > 0 ? (
+          <table className="table">
             <thead className="thead-light">
               <tr>
                 <th>
                   Issue #{' '}
-                  <i
-                    onClick={sortClosedNumber}
-                    className="fa fa-fw fa-sort"
-                  ></i>
+                  <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
                 </th>
                 <th>
                   Status{' '}
                   <i
                     name="status"
-                    onClick={sortClosedWord}
+                    onClick={sortWord}
                     className="fa fa-fw fa-sort"
                   ></i>
                 </th>
@@ -290,7 +241,7 @@ const Main = ({
                   Title{' '}
                   <i
                     name="issueTitle"
-                    onClick={sortClosedWord}
+                    onClick={sortWord}
                     className="fa fa-fw fa-sort"
                   ></i>
                 </th>
@@ -298,56 +249,98 @@ const Main = ({
                   Assigned To{' '}
                   <i
                     name="assignedTo"
-                    onClick={sortClosedWord}
+                    onClick={sortWord}
                     className="fa fa-fw fa-sort"
                   ></i>
                 </th>
                 <th>
                   Date Initiated{' '}
-                  <i onClick={sortClosedDate} className="fa fa-fw fa-sort"></i>
+                  <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
                 </th>
                 <th>Open Issue</th>
               </tr>
             </thead>
-            <tbody>{completedIssuesList()}</tbody>
+            <tbody>{issuesList()}</tbody>
           </table>
+        ) : (
+          <p id="issues-message">You have no open issues</p>
+        )}
+
+        <h5 className="mt-5">Recently Closed Issues</h5>
+        <table className="table mt-3">
+          <thead className="thead-light">
+            <tr>
+              <th>
+                Issue #{' '}
+                <i onClick={sortClosedNumber} className="fa fa-fw fa-sort"></i>
+              </th>
+              <th>
+                Status{' '}
+                <i
+                  name="status"
+                  onClick={sortClosedWord}
+                  className="fa fa-fw fa-sort"
+                ></i>
+              </th>
+              <th>
+                Title{' '}
+                <i
+                  name="issueTitle"
+                  onClick={sortClosedWord}
+                  className="fa fa-fw fa-sort"
+                ></i>
+              </th>
+              <th>
+                Assigned To{' '}
+                <i
+                  name="assignedTo"
+                  onClick={sortClosedWord}
+                  className="fa fa-fw fa-sort"
+                ></i>
+              </th>
+              <th>
+                Date Initiated{' '}
+                <i onClick={sortClosedDate} className="fa fa-fw fa-sort"></i>
+              </th>
+              <th>Open Issue</th>
+            </tr>
+          </thead>
+          <tbody>{completedIssuesList()}</tbody>
+        </table>
+
+        <div className="form-group">
+          <Link to={'/all'} id="see-more-link">
+            See All
+          </Link>
+        </div>
+        <ShowAlert alert={error} />
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label>Search Issue # </label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={onChangeNumber}
+              id="issue-search"
+            />
+          </div>
 
           <div className="form-group">
-            <Link to={'/all'} id="see-more-link">
-              See All
-            </Link>
+            <button
+              type="submit"
+              value="Search Issue"
+              className="btn btn-primary"
+            >
+              Search Issue
+            </button>
           </div>
-          <ShowAlert alert={error} />
-          <form onSubmit={onSubmit}>
-            <div className="form-group">
-              <label>Search Issue # </label>
-              <input
-                type="text"
-                className="form-control"
-                onChange={onChangeNumber}
-                id="issue-search"
-              />
-            </div>
-
-            <div className="form-group">
-              <button
-                type="submit"
-                value="Search Issue"
-                className="btn btn-primary"
-              >
-                Search Issue
-              </button>
-            </div>
-          </form>
-          <div className="form-group mb-4">
-            <Link to={'/advanced'} id="advanced-search-link">
-              Advanced Search
-            </Link>
-          </div>
+        </form>
+        <div className="form-group mb-4">
+          <Link to={'/advanced'} id="advanced-search-link">
+            Advanced Search
+          </Link>
         </div>
-      ) : (
-        <p></p>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { GET_ISSUES, GET_CLOSED } from '../actions/types';
 import axios from 'axios';
 
-export const getIssues = () => async (dispatch, getState) => {
+export const getIssues = () => async (dispatch) => {
   try {
     const res = await axios.get('/issue');
 
@@ -18,7 +18,7 @@ export const getIssues = () => async (dispatch, getState) => {
   }
 };
 
-export const getRecentClosed = () => async (dispatch, getState) => {
+export const getRecentClosed = () => async (dispatch) => {
   try {
     const res = await axios.get('/issue?limit=5&status=Closed&sort=-updatedAt');
     dispatch({
