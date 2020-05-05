@@ -13,10 +13,15 @@ const issueSchema = new Schema(
       required: [true, 'Please add a description'],
       trim: true,
     },
-    issueLog: [{ name: String, desc: String, date: Date }],
+    issueLog: [
+      { name: String, desc: String, date: { type: Date, default: Date.now } },
+    ],
     name: String,
     number: { type: Number, unique: true },
-    date: Date,
+    date: {
+      type: Date,
+      default: Date.now,
+    },
     assignedTo: {
       type: String,
       required: [true, 'Please assign to a user'],

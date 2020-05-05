@@ -12,15 +12,11 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
-// Router files
-const issueRouter = require('./routes/issues');
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
-
-// Mount routers
-app.use('/issue', issueRouter);
-app.use('/auth', authRouter);
-app.use('/users', userRouter);
+// Routes
+// change /issue routes to /issues
+app.use('/issue', require('./routes/issues'));
+app.use('/auth', require('./routes/auth'));
+app.use('/users', require('./routes/user'));
 
 app.use(errorHandler);
 

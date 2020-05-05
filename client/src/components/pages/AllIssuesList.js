@@ -100,7 +100,7 @@ const AllIssuesList = () => {
   for (let i = 1; i <= totalPages; i++) {
     rows.push(
       <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-        <a className="page-link" onClick={() => selectPage(i)} href="#">
+        <a className="page-link" onClick={() => selectPage(i)} href="#!">
           {i}
         </a>
       </li>
@@ -158,7 +158,7 @@ const AllIssuesList = () => {
             <a
               className="page-link"
               onClick={() => selectPage('prev')}
-              href="#"
+              href="#!"
             >
               <span>&laquo;</span>
               <span className="sr-only">Previous</span>
@@ -171,7 +171,7 @@ const AllIssuesList = () => {
             <a
               className="page-link"
               onClick={() => selectPage('next')}
-              href="#"
+              href="#!"
             >
               <span>&raquo;</span>
               <span className="sr-only">Next</span>

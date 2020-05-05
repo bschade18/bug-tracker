@@ -11,8 +11,6 @@ function auth(req, res, next) {
     const verified = jwt.verify(token, process.env.SECRET);
     // add user from payload (take user from token?)
 
-    console.log(verified);
-
     // you can set any request values in your middleware functions
     req.user = verified;
     next();

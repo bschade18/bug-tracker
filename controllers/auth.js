@@ -1,9 +1,23 @@
 let User = require('../models/User');
 const asyncHandler = require('../middleware/async');
 const { registerValidation, loginValidation } = require('../validation');
-const ErrorResponse = require('../utils/errorResponse');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+// @route GET auth/user
+// @desc  Get user by token
+// @access Private
+exports.getUser = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+
+  next();
+});
 
 // @desc Register user
 // @route POST /auth/register
@@ -11,7 +25,7 @@ const jwt = require('jsonwebtoken');
 
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
-  // validate
+  // validate user data
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
@@ -56,12 +70,12 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Login user
-// @route POST /auth/register
+// @route POST /auth/login
 // @access Public
 
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  // validate
+  // validate user data
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
@@ -97,19 +111,4 @@ exports.login = asyncHandler(async (req, res, next) => {
     console.error(error.message);
     res.status(500).send('Server Error');
   }
-});
-
-// @route GET auth/user
-// @desc  Get logged in user
-// @access Private
-exports.getUser = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-
-  next();
 });

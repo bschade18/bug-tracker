@@ -8,15 +8,19 @@ const {
   addIssue,
   deleteIssue,
   updateIssue,
-  getClosedissues,
 } = require('../controllers/issues');
 
 const advancedResults = require('../middleware/advancedResults');
 
-router.route('/').get(advancedResults(Issue), getIssues).post(auth, addIssue);
+router
+  .route('/')
+  .get(auth, advancedResults(Issue), getIssues)
+  .post(auth, addIssue);
 
-router.route('/:id').get(getIssue).delete(deleteIssue).put(updateIssue);
-
-router.route('/closed/recent').get(getClosedissues);
+router
+  .route('/:id')
+  .get(auth, getIssue)
+  .delete(auth, deleteIssue)
+  .put(auth, updateIssue);
 
 module.exports = router;

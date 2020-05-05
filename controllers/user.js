@@ -1,8 +1,8 @@
 let User = require('../models/User');
 
 // @route GET /user
-// @desc get users
-// @access Public
+// @desc Get all users
+// @access Private
 exports.getUsers = async (req, res) => {
   try {
     const user = await User.find().sort({ name: 1 });

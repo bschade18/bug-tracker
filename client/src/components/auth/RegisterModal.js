@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -11,80 +11,49 @@ import {
   NavLink,
   Alert,
 } from 'reactstrap';
-import axios from 'axios';
 import PropTypes from 'prop-types';
+import { loadUser, register } from '../../actions/authActions';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { setErrors, clearErrors } from '../../actions/errorActions';
 
-const RegisterModal = ({ isAuthenticated, authSuccess }) => {
-  const [modal, setModal] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState(null);
-
-  useEffect(() => {
-    if (modal && isAuthenticated) {
-      toggle();
-    }
+const RegisterModal = ({
+  isAuthenticated,
+  register,
+  error,
+  setErrors,
+  clearErrors,
+}) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
   });
+  const [modal, setModal] = useState(false);
+
+  const { name, email, password, password2 } = formData;
 
   const toggle = () => {
     clearErrors();
     setModal(!modal);
   };
 
-  const clearErrors = () => {
-    setMsg(null);
-  };
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const newUser = {
-      name,
-      email,
-      password,
-    };
-
-    register(newUser);
+    if (password !== password2) {
+      setErrors('passwords do not match');
+    } else {
+      register({ name, email, password });
+    }
   };
 
-  const register = (newUser) => {
-    const { name, email, password } = newUser;
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const body = JSON.stringify({ name, email, password });
-
-    axios
-      .post('/auth/register', body, config)
-      .then((res) => registerSuccess(res.data))
-      .catch((err) => returnErrors(err.response.data));
-  };
-
-  const registerSuccess = (data) => {
-    localStorage.setItem('token', data.token);
-    authSuccess(data.user);
-  };
-
-  const returnErrors = (data) => {
-    setMsg(data.msg);
-  };
+  if (isAuthenticated) {
+    return <Redirect to="/main" />;
+  }
 
   return (
     <div>
@@ -94,7 +63,7 @@ const RegisterModal = ({ isAuthenticated, authSuccess }) => {
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Register</ModalHeader>
         <ModalBody>
-          {msg ? <Alert color="danger">{msg}</Alert> : null}
+          {error ? <Alert color="danger">{error}</Alert> : null}
           <Form onSubmit={onSubmit}>
             <FormGroup>
               <Label for="name">Name</Label>
@@ -103,7 +72,7 @@ const RegisterModal = ({ isAuthenticated, authSuccess }) => {
                 name="name"
                 id="name"
                 placeholder="Name"
-                onChange={onChangeName}
+                onChange={onChange}
                 className="mb-3"
               />
 
@@ -113,7 +82,7 @@ const RegisterModal = ({ isAuthenticated, authSuccess }) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                onChange={onChangeEmail}
+                onChange={onChange}
                 className="mb-3"
               />
 
@@ -123,7 +92,17 @@ const RegisterModal = ({ isAuthenticated, authSuccess }) => {
                 name="password"
                 id="password"
                 placeholder="Password"
-                onChange={onChangePassword}
+                onChange={onChange}
+                className="mb-3"
+              />
+
+              <Label for="password"> Confirm Password</Label>
+              <Input
+                type="password"
+                name="password2"
+                id="password2"
+                placeholder="Confirm Password"
+                onChange={onChange}
                 className="mb-3"
               />
               <Button color="dark" style={{ marginTop: '2rem' }} block>
@@ -138,8 +117,22 @@ const RegisterModal = ({ isAuthenticated, authSuccess }) => {
 };
 
 RegisterModal.propTypes = {
-  authSuccess: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  loadUser: PropTypes.func.isRequired,
+  register: PropTypes.func,
+  error: PropTypes.string,
+  setErrors: PropTypes.func,
+  clearErrors: PropTypes.func,
 };
 
-export default RegisterModal;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error.msg,
+});
+
+export default connect(mapStateToProps, {
+  loadUser,
+  register,
+  setErrors,
+  clearErrors,
+})(RegisterModal);

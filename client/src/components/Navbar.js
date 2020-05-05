@@ -1,15 +1,30 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from './auth/Logout';
 import PropTypes from 'prop-types';
 
-const Navbar = ({ user, logout }) => {
+import LoginModal from './auth/LoginModal';
+import RegisterModal from './auth/RegisterModal';
+
+const Navbar = ({ user, isAuthenticated, loading }) => {
+  const guestLinks = (
+    <Fragment>
+      <div className="nav-item">
+        <RegisterModal />
+      </div>
+      <div className="nav-item">
+        <LoginModal />
+      </div>
+    </Fragment>
+  );
+
   const authLinks = (
     <Fragment>
       <span className="navbar-text mr-3">
         <strong>{user ? `${user.name}` : ''}</strong>
       </span>
-      <Logout logout={logout} />
+      <Logout />
     </Fragment>
   );
 
@@ -29,7 +44,9 @@ const Navbar = ({ user, logout }) => {
               </li>
             </ul>
             <div className="collpase navbar-collapse">
-              <ul className="navbar-nav ml-auto">{authLinks}</ul>
+              <ul className="navbar-nav ml-auto">
+                {!loading && isAuthenticated ? authLinks : guestLinks}
+              </ul>
             </div>
           </div>
         </div>
@@ -39,8 +56,15 @@ const Navbar = ({ user, logout }) => {
 };
 
 Navbar.propTypes = {
-  user: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+});
+
+export default connect(mapStateToProps)(Navbar);

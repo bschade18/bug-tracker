@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Issue from '../Issue';
 import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 import ShowAlert from '../Alert';
+import { getIssues, getRecentClosed } from '../../actions/issueActions';
+import { setErrors } from '../../actions/errorActions';
 
 const Main = ({
   user,
   alert,
   showAlert,
   isAuthenticated,
-  allClosedIssues,
-  allIssues,
+  getIssues,
+  issues,
+  closed,
+  getRecentClosed,
+  setErrors,
+  error,
 }) => {
-  const [issues, setIssues] = useState([]);
-  const [closedIssues, setClosedIssues] = useState([]);
   const [number, setNumber] = useState('');
   const [projectTitle, setProjectTitle] = useState('');
   const [sortColumn, setSortColumn] = useState(false);
 
-  useEffect(
-    () => {
-      setIssues(allIssues);
-      setClosedIssues(allClosedIssues);
-    },
-    [allIssues],
-    [closedIssues]
-  );
+  useEffect(() => {
+    getIssues();
+    getRecentClosed();
+  }, [getIssues, getRecentClosed]);
 
   const onChange = (e) => {
     setProjectTitle(e.target.value);
@@ -56,7 +57,7 @@ const Main = ({
   };
 
   const completedIssuesList = () => {
-    return closedIssues.map((currentissue) => {
+    return closed.map((currentissue) => {
       return <Issue issue={currentissue} key={currentissue._id} />;
     });
   };
@@ -65,26 +66,23 @@ const Main = ({
 
   // add to app level state and pass down
   const sortNumber = () => {
-    let sort;
     if (sortColumn) {
-      sort = issues.sort((a, b) => {
+      issues.sort((a, b) => {
         return b.number - a.number;
       });
     } else {
-      sort = issues.sort((a, b) => {
+      issues.sort((a, b) => {
         return a.number - b.number;
       });
     }
-    setIssues(sort);
     setSortColumn(!sortColumn);
   };
 
   const sortWord = (e) => {
     let name = e.target.getAttribute('name');
-    let sort;
 
     if (sortColumn) {
-      sort = issues.sort(function (a, b) {
+      issues.sort(function (a, b) {
         if (a[name].toLowerCase() < b[name].toLowerCase()) {
           return -1;
         }
@@ -94,7 +92,7 @@ const Main = ({
         return 0;
       });
     } else {
-      sort = issues.sort(function (a, b) {
+      issues.sort(function (a, b) {
         if (b[name].toLowerCase() < a[name].toLowerCase()) {
           return -1;
         }
@@ -104,7 +102,7 @@ const Main = ({
         return 0;
       });
     }
-    setIssues(sort);
+
     setSortColumn(!sortColumn);
   };
 
@@ -115,26 +113,24 @@ const Main = ({
   // sorts on closed issues
 
   const sortClosedNumber = () => {
-    let sort;
     if (sortColumn) {
-      sort = closedIssues.sort(function (a, b) {
+      closed.sort(function (a, b) {
         return b.number - a.number;
       });
     } else {
-      sort = closedIssues.sort(function (a, b) {
+      closed.sort(function (a, b) {
         return a.number - b.number;
       });
     }
 
-    setClosedIssues(sort);
+    // setClosedIssues(sort);
     setSortColumn(!sortColumn);
   };
 
   const sortClosedWord = (e) => {
-    let sort;
     let name = e.target.getAttribute('name');
     if (sortColumn) {
-      sort = closedIssues.sort(function (a, b) {
+      closed.sort(function (a, b) {
         if (a[name].toLowerCase() < b[name].toLowerCase()) {
           return -1;
         }
@@ -145,7 +141,7 @@ const Main = ({
         return 0;
       });
     } else {
-      sort = closedIssues.sort(function (a, b) {
+      closed.sort(function (a, b) {
         if (b[name].toLowerCase() < a[name].toLowerCase()) {
           return -1;
         }
@@ -157,7 +153,6 @@ const Main = ({
       });
     }
 
-    setClosedIssues(sort);
     setSortColumn(!sortColumn);
   };
 
@@ -169,9 +164,9 @@ const Main = ({
     e.preventDefault();
 
     if (number === '') {
-      showAlert('Please enter an issue number to search');
+      setErrors('Please enter an issue number to search');
     } else if (number.length !== 6) {
-      showAlert('Please enter a valid number');
+      setErrors('Please enter a valid number');
     } else {
       axios
         .get(`issue?&number=${number}&select=_id`)
@@ -322,7 +317,7 @@ const Main = ({
               See All
             </Link>
           </div>
-          <ShowAlert alert={alert} />
+          <ShowAlert alert={error} />
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <label>Search Issue # </label>
@@ -360,7 +355,23 @@ const Main = ({
 Main.propTypes = {
   user: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  setAlert: PropTypes.func.isRequired,
+  setAlert: PropTypes.func,
+  issues: PropTypes.array.isRequired,
+  getIssues: PropTypes.func.isRequired,
+  getRecentClosed: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  issues: state.issues.issues,
+  closed: state.issues.closed,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+  error: state.error.msg,
+});
+
+export default connect(mapStateToProps, {
+  getIssues,
+  getRecentClosed,
+  setErrors,
+})(Main);

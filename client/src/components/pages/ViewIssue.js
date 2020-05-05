@@ -1,44 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import DeleteModal from '../DeleteModal';
 import PropTypes from 'prop-types';
 
-class ViewIssue extends Component {
-  constructor(props) {
-    super(props);
+const ViewIssue = ({ match, user }) => {
+  const [issueData, setIssueData] = useState({
+    name: '',
+    number: '',
+    issueTitle: '',
+    issueLog: [],
+    assignedTo: '',
+    status: '',
+    issueDescription: '',
+  });
 
-    this.state = {
-      name: '',
-      number: '',
-      issueTitle: '',
-      issueDescription: '',
-      issueLog: [],
-      assignedTo: '',
-      status: '',
-      date: '',
-      users: [],
-    };
-  }
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-  };
+  const [users, setUsers] = useState([]);
 
-  componentDidMount() {
-    let today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
-    const year = String(today.getFullYear());
-
-    today = month + '/' + day + '/' + year;
-
+  useEffect(() => {
     axios
-      .get('/issue/' + this.props.match.params.id)
+      .get('/issue/' + match.params.id)
       .then((response) => {
-        this.setState({
-          issueTitle: response.data.data.issueTitle,
-          date: today,
-          number: response.data.data.number,
+        setIssueData({
           name: response.data.data.name,
+          number: response.data.data.number,
+          issueTitle: response.data.data.issueTitle,
           issueLog: response.data.data.issueLog,
           assignedTo: response.data.data.assignedTo,
           status: response.data.data.status,
@@ -52,34 +38,17 @@ class ViewIssue extends Component {
       .get('/users')
       .then((response) => {
         if (response.data.length > 0) {
-          this.setState({
-            users: response.data.map((user) => user.name),
-            username: response.data[0].name,
-          });
+          setUsers(response.data.map((user) => user.name));
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+    // eslint-disable-next-line
+  }, []);
 
-  tokenConfig = () => {
-    const token = localStorage.getItem('token');
-
-    const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    };
-
-    if (token) {
-      config.headers['x-auth-token'] = token;
-    }
-    return config;
-  };
-
-  LogList() {
-    return this.state.issueLog.map((currentlog, i) => {
+  const LogList = () => {
+    return issueData.issueLog.map((currentlog, i) => {
       const logDate = currentlog.date;
       const day = logDate.substring(8, 10).padStart(2, '0');
       const month = logDate.substring(6, 7).padStart(2, '0');
@@ -93,51 +62,38 @@ class ViewIssue extends Component {
         </tr>
       );
     });
-  }
+  };
 
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const {
-      name,
-      issueDescription,
-      issueLog,
-      issueTitle,
-      date,
-      number,
-      assignedTo,
-      status,
-    } = this.state;
 
     const issue = {
-      name,
-      issueDescription,
-      issueLog: issueLog.concat([
-        {
-          name: this.state.name,
-          desc: this.state.issueDescription,
-          date: this.state.date,
-        },
-      ]),
-      issueTitle,
-      date,
-      number,
-      assignedTo,
-      status,
+      name: issueData.name,
+      issueDescription: issueData.issueDescription,
+      issueLog: [
+        ...issueData.issueLog,
+        { name: user.name, desc: issueData.issueDescription },
+      ],
+      issueTitle: issueData.issueTitle,
+      number: issueData.number,
+      assignedTo: issueData.assignedTo,
+      status: issueData.status,
     };
 
     axios
-      .put('/issue/' + this.props.match.params.id, issue)
+      .put('/issue/' + match.params.id, issue)
       .then((res) => console.log(res.data));
 
     setTimeout(() => (window.location = '/main'), 500);
   };
 
-  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  const onChange = (e) =>
+    setIssueData({ ...issueData, [e.target.name]: e.target.value });
 
-  statusList = () => {
+  const statusList = () => {
     const statuses = ['Open', 'Urgent', 'Closed'];
     const filteredStatuses = statuses.filter(
-      (currentstatus) => currentstatus.status !== this.state.status
+      (currentstatus) => currentstatus.status !== issueData.status
     );
 
     return filteredStatuses.map((currentstatus) => {
@@ -149,92 +105,99 @@ class ViewIssue extends Component {
     });
   };
 
-  render() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+  var yyyy = today.getFullYear();
 
-    today = mm + '/' + dd + '/' + yyyy;
+  today = mm + '/' + dd + '/' + yyyy;
 
-    if (!this.state.issueLog.length) {
-      return <div />;
-    }
-    return (
-      <div className="container mt-3">
-        <h3>Issue #{this.state.number}</h3>
-        <h5>{this.state.issueTitle}</h5>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Username: </label>
-            <p>{this.state.name}</p>
-          </div>
-          <div className="form-group">
-            <label>Description: </label>
-            <textarea
-              type="text"
-              required
-              className="form-control description-input"
-              name="issueDescription"
-              value={this.state.issueDescription}
-              onChange={this.onChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Assign To: </label>
-            <select
-              required
-              className="form-control"
-              name="assignedTo"
-              value={this.state.assignedTo}
-              onChange={this.onChange}
-              id="assign-to"
-            >
-              {this.state.users.map(function (user) {
-                return (
-                  <option key={user} value={user}>
-                    {user}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Status</label>
-            <select
-              required
-              className="form-control"
-              name="status"
-              value={this.state.status}
-              onChange={this.onChange}
-              id="status-input"
-            >
-              {this.statusList()}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Date: </label>
-            <div>{this.state.date}</div>
-          </div>
-
-          <div className="form-group">
-            <input type="submit" value="Submit" className="btn btn-primary" />
-          </div>
-        </form>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>{this.LogList()}</tbody>
-        </table>
-        <DeleteModal id={this.props.match.params.id} />
-      </div>
-    );
+  if (!issueData.issueLog.length) {
+    return <div />;
   }
-}
+  return (
+    <div className="container mt-3">
+      <h3>Issue #{issueData.number}</h3>
+      <h5>{issueData.issueTitle}</h5>
+      <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <label>Username: </label>
+          <p>{issueData.name}</p>
+        </div>
+        <div className="form-group">
+          <label>Description: </label>
+          <textarea
+            type="text"
+            required
+            className="form-control description-input"
+            name="issueDescription"
+            value={issueData.issueDescription}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Assign To: </label>
+          <select
+            required
+            className="form-control"
+            name="assignedTo"
+            value={issueData.assignedTo}
+            onChange={onChange}
+            id="assign-to"
+          >
+            {users.map(function (user) {
+              return (
+                <option key={user} value={user}>
+                  {user}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Status</label>
+          <select
+            required
+            className="form-control"
+            name="status"
+            value={issueData.status}
+            onChange={onChange}
+            id="status-input"
+          >
+            {statusList()}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Date: </label>
+          <div>{today}</div>
+        </div>
 
-export default ViewIssue;
+        <div className="form-group">
+          <input type="submit" value="Submit" className="btn btn-primary" />
+        </div>
+      </form>
+      <table className="table">
+        <thead className="thead-light">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>{LogList()}</tbody>
+      </table>
+      <DeleteModal id={match.params.id} />
+    </div>
+  );
+};
+
+ViewIssue.propTypes = {
+  match: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(ViewIssue);
