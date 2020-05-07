@@ -70,7 +70,6 @@ exports.register = asyncHandler(async (req, res, next) => {
     console.error(err.message);
     res.status(500).send('server error');
   }
-  next();
 });
 
 // @desc Login user
