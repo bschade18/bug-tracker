@@ -48,6 +48,7 @@ export const register = ({ name, email, team, password }) => async (
     });
     dispatch(loadUser());
   } catch (err) {
+    console.log(err);
     dispatch(setErrors(err.response.data.msg));
     dispatch({
       type: REGISTER_FAIL,

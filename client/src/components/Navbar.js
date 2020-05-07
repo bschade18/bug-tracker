@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from './auth/Logout';
 import PropTypes from 'prop-types';
-
 import RegisterModal from './auth/RegisterModal';
 
 const Navbar = ({ user, isAuthenticated, loading }) => {
