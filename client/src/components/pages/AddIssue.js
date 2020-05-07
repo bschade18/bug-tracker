@@ -27,7 +27,7 @@ const AddIssue = ({ user }) => {
       });
 
     axios
-      .get('/users')
+      .get(`/users?team=${user.team}`)
       .then((res) => {
         if (res.data.length > 0) {
           setUsers(res.data.map((user) => user.name));
@@ -36,7 +36,7 @@ const AddIssue = ({ user }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [user.team]);
 
   const onChange = (e) =>
     setIssueData({ ...issueData, [e.target.name]: e.target.value });
@@ -59,9 +59,8 @@ const AddIssue = ({ user }) => {
         ...issueData.issueLog,
         { name: user.name, desc: issueData.issueDescription },
       ],
+      team: user.team,
     };
-
-    // call addIssue action here
 
     axios
       .post('/issue', newIssue, tokenConfig())
@@ -90,6 +89,22 @@ const AddIssue = ({ user }) => {
     setIssueData({ ...issueData, projectTitle: '' });
   };
 
+  const listProjects = () => {
+    const projects = issues.map((issue) => issue.projectTitle);
+
+    const uniqueProjects = [...new Set(projects)];
+
+    const sortProjects = uniqueProjects.sort((a, b) => {
+      const projA = a.toLowerCase();
+      const projB = b.toLowerCase();
+      if (projA < projB) return -1;
+      if (projA > projB) return 1;
+      return 0;
+    });
+
+    return sortProjects;
+  };
+
   let today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
@@ -97,26 +112,12 @@ const AddIssue = ({ user }) => {
 
   today = month + '/' + day + '/' + year;
 
-  const projects = issues.map((issue) => {
-    return issue.projectTitle;
-  });
-
-  const uniqueProjects = [...new Set(projects)];
-
-  const sortedProjects = uniqueProjects.sort((a, b) => {
-    const projA = a.toLowerCase();
-    const projB = b.toLowerCase();
-    if (projA < projB) return -1;
-    if (projA > projB) return 1;
-    return 0;
-  });
-
   return (
     <div className="container mt-3">
       <h3>Create New Issue Log</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Username: </label>
+          <label>User: </label>
           <p>{user.name}</p>
         </div>
         <div className="form-group">
@@ -155,7 +156,7 @@ const AddIssue = ({ user }) => {
               id="project-title"
             >
               <option value="">--Select Project--</option>
-              {sortedProjects.map((project) => {
+              {listProjects().map((project) => {
                 return (
                   <option key={project} value={project}>
                     {project}

@@ -1,7 +1,7 @@
 import { GET_ISSUES, GET_CLOSED } from '../actions/types';
 
 const initialState = {
-  issues: [],
+  issues: null,
   closed: [],
   loading: false,
 };

@@ -1,28 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { login } from '../../actions/authActions';
+import PropTypes from 'prop-types';
 
-const Home = ({ auth }) => {
-  if (auth.isAuthenticated) {
+const Home = ({ isAuthenticated, error, login }) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    login({ email, password });
+  };
+
+  if (isAuthenticated) {
     return <Redirect to="/main" />;
   }
 
   return (
-    <div>
-      <div className="container mt-5">
-        <h1 className="h3">Log in or Register to start tracking issues! </h1>
-        <div>Guest Email: guest@gmail.com</div>
-        <div>Guest Password: guest123</div>
-        <footer>
-          <div className="py-3">© 2020 Schade Media, Inc.</div>
-        </footer>
-      </div>
+    <div className="form-container">
+      <h1>
+        Account <span className="text-primary">Login</span>
+      </h1>
+      <form onSubmit={onSubmit}>
+        {error ? <Alert color="danger">{error}</Alert> : null}
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input onChange={onChange} type="email" name="email" />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input onChange={onChange} type="password" name="password" />
+        </div>
+        <input
+          type="submit"
+          value="Login"
+          className="btn btn-primary btn-block"
+        />
+      </form>
     </div>
   );
 };
 
+Home.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  login: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};
+
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error.msg,
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { login })(Home);

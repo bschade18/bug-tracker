@@ -111,3 +111,17 @@ exports.getClosedissues = asyncHandler(async (req, res, next) => {
 // wherever we want to send error, instead of passing err, we want to create a new ErrorResponse obj with a message and status code
 
 // this is the format we want to use whenever we want to explicitly set an error
+
+// exports.updateIssues = asyncHandler(async (req, res, next) => {
+//   const issues = await Issue.updateMany({}, { team: 'Schade Media' });
+//   if (!issues) {
+//     return next(
+//       new ErrorResponse(`Issue not found with id of ${req.params.id}`, 404)
+//     );
+//   }
+
+//   res.status(200).json({
+//     success: true,
+//     data: issue,
+//   });
+// });

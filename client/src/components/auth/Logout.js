@@ -8,7 +8,7 @@ function Logout({ logout }) {
   return (
     <Fragment>
       <NavLink onClick={logout} href="#">
-        Logout
+        <i className="fas fa-sign-out-alt"></i> Logout
       </NavLink>
     </Fragment>
   );

@@ -26,9 +26,9 @@ const Main = ({
   const [sortColumn, setSortColumn] = useState(false);
 
   useEffect(() => {
-    getIssues();
-    getRecentClosed();
-  }, [getIssues, getRecentClosed]);
+    getIssues(user.team);
+    getRecentClosed(user.team);
+  }, [getIssues, getRecentClosed, user.team]);
 
   const onChange = (e) => {
     setProjectTitle(e.target.value);
@@ -64,7 +64,6 @@ const Main = ({
 
   const onChangeNumber = (e) => setNumber(e.target.value);
 
-  // add to app level state and pass down
   const sortNumber = () => {
     if (sortColumn) {
       issues.sort((a, b) => {
@@ -175,21 +174,24 @@ const Main = ({
     }
   };
 
-  const projects = issues.map(function (issue) {
-    return issue.projectTitle;
-  });
+  const listProjects = () => {
+    const projects = issues.map((issue) => issue.projectTitle);
 
-  const uniqueProjects = [...new Set(projects)];
+    const uniqueProjects = [...new Set(projects)];
 
-  const sortProjects = uniqueProjects.sort((a, b) => {
-    const projA = a.toLowerCase();
-    const projB = b.toLowerCase();
-    if (projA < projB) return -1;
-    if (projA > projB) return 1;
-    return 0;
-  });
+    const sortProjects = uniqueProjects.sort((a, b) => {
+      const projA = a.toLowerCase();
+      const projB = b.toLowerCase();
+      if (projA < projB) return -1;
+      if (projA > projB) return 1;
+      return 0;
+    });
 
-  if (!issues[0]) {
+    return sortProjects;
+  };
+
+  // review this
+  if (issues === null) {
     return <Spinner />;
   }
   return (
@@ -212,7 +214,7 @@ const Main = ({
             id="project-title"
           >
             <option>--All--</option>
-            {sortProjects.map(function (project) {
+            {listProjects().map(function (project) {
               return (
                 <option key={project} value={project}>
                   {project}
@@ -267,46 +269,53 @@ const Main = ({
         )}
 
         <h5 className="mt-5">Recently Closed Issues</h5>
-        <table className="table mt-3">
-          <thead className="thead-light">
-            <tr>
-              <th>
-                Issue #{' '}
-                <i onClick={sortClosedNumber} className="fa fa-fw fa-sort"></i>
-              </th>
-              <th>
-                Status{' '}
-                <i
-                  name="status"
-                  onClick={sortClosedWord}
-                  className="fa fa-fw fa-sort"
-                ></i>
-              </th>
-              <th>
-                Title{' '}
-                <i
-                  name="issueTitle"
-                  onClick={sortClosedWord}
-                  className="fa fa-fw fa-sort"
-                ></i>
-              </th>
-              <th>
-                Assigned To{' '}
-                <i
-                  name="assignedTo"
-                  onClick={sortClosedWord}
-                  className="fa fa-fw fa-sort"
-                ></i>
-              </th>
-              <th>
-                Date Initiated{' '}
-                <i onClick={sortClosedDate} className="fa fa-fw fa-sort"></i>
-              </th>
-              <th>Open Issue</th>
-            </tr>
-          </thead>
-          <tbody>{completedIssuesList()}</tbody>
-        </table>
+        {completedIssuesList().length === 0 ? (
+          <p>You have no completed issues</p>
+        ) : (
+          <table className="table mt-3">
+            <thead className="thead-light">
+              <tr>
+                <th>
+                  Issue #{' '}
+                  <i
+                    onClick={sortClosedNumber}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Status{' '}
+                  <i
+                    name="status"
+                    onClick={sortClosedWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Title{' '}
+                  <i
+                    name="issueTitle"
+                    onClick={sortClosedWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Assigned To{' '}
+                  <i
+                    name="assignedTo"
+                    onClick={sortClosedWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Date Initiated{' '}
+                  <i onClick={sortClosedDate} className="fa fa-fw fa-sort"></i>
+                </th>
+                <th>Open Issue</th>
+              </tr>
+            </thead>
+            <tbody>{completedIssuesList()}</tbody>
+          </table>
+        )}
 
         <div className="form-group">
           <Link to={'/all'} id="see-more-link">

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Logout from './auth/Logout';
 import PropTypes from 'prop-types';
 
-import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
 
 const Navbar = ({ user, isAuthenticated, loading }) => {
@@ -13,16 +12,13 @@ const Navbar = ({ user, isAuthenticated, loading }) => {
       <div className="nav-item">
         <RegisterModal />
       </div>
-      <div className="nav-item">
-        <LoginModal />
-      </div>
     </Fragment>
   );
 
   const authLinks = (
     <Fragment>
       <span className="navbar-text mr-3">
-        <strong>{user ? `${user.name}` : ''}</strong>
+        <strong>{user ? `${user.name} (${user.team})` : ''}</strong>
       </span>
       <Logout />
     </Fragment>
@@ -35,13 +31,8 @@ const Navbar = ({ user, isAuthenticated, loading }) => {
           <div className="collpase navbar-collapse">
             <ul className="navbar-nav mr-auto">
               <Link to="/main" className="navbar-brand">
-                Issue Tracker
+                <i className="fas fa-scroll"></i> Issue Tracker
               </Link>
-              <li className="navbar-item">
-                <Link to="/main" className="nav-link">
-                  Issues
-                </Link>
-              </li>
             </ul>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav ml-auto">

@@ -27,12 +27,13 @@ const RegisterModal = ({
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    team: '',
     password: '',
     password2: '',
   });
   const [modal, setModal] = useState(false);
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, team, password, password2 } = formData;
 
   const toggle = () => {
     clearErrors();
@@ -47,7 +48,7 @@ const RegisterModal = ({
     if (password !== password2) {
       setErrors('passwords do not match');
     } else {
-      register({ name, email, password });
+      register({ name, email, team, password });
     }
   };
 
@@ -61,7 +62,9 @@ const RegisterModal = ({
         Register
       </NavLink>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Register</ModalHeader>
+        <ModalHeader toggle={toggle}>
+          Account <span className="text-primary">Register</span>
+        </ModalHeader>
         <ModalBody>
           {error ? <Alert color="danger">{error}</Alert> : null}
           <Form onSubmit={onSubmit}>
@@ -86,6 +89,16 @@ const RegisterModal = ({
                 className="mb-3"
               />
 
+              <Label for="email">Team</Label>
+              <Input
+                type="text"
+                name="team"
+                id="team"
+                placeholder="Team"
+                onChange={onChange}
+                className="mb-3"
+              />
+
               <Label for="password">Password</Label>
               <Input
                 type="password"
@@ -105,7 +118,7 @@ const RegisterModal = ({
                 onChange={onChange}
                 className="mb-3"
               />
-              <Button color="dark" style={{ marginTop: '2rem' }} block>
+              <Button color="primary" style={{ marginTop: '2rem' }} block>
                 Register
               </Button>
             </FormGroup>

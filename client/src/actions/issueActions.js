@@ -1,9 +1,9 @@
 import { GET_ISSUES, GET_CLOSED } from '../actions/types';
 import axios from 'axios';
 
-export const getIssues = () => async (dispatch) => {
+export const getIssues = (team) => async (dispatch) => {
   try {
-    const res = await axios.get('/issue');
+    const res = await axios.get(`/issue?team=${team}`);
 
     dispatch({
       type: GET_ISSUES,
@@ -18,9 +18,11 @@ export const getIssues = () => async (dispatch) => {
   }
 };
 
-export const getRecentClosed = () => async (dispatch) => {
+export const getRecentClosed = (team) => async (dispatch) => {
   try {
-    const res = await axios.get('/issue?limit=5&status=Closed&sort=-updatedAt');
+    const res = await axios.get(
+      `/issue?team=${team}&limit=5&status=Closed&sort=-updatedAt`
+    );
     dispatch({
       type: GET_CLOSED,
       payload: res.data.data,

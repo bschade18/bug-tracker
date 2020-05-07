@@ -5,7 +5,7 @@ import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const AdvancedSearch = ({ isAuthenticated }) => {
+const AdvancedSearch = ({ isAuthenticated, user }) => {
   const [searchData, setSearchData] = useState({
     assignedTo: '',
     initiatedBy: '',
@@ -28,7 +28,7 @@ const AdvancedSearch = ({ isAuthenticated }) => {
 
   useEffect(() => {
     axios
-      .get(`/issue?page=${page}&limit=20`)
+      .get(`/issue?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
@@ -37,7 +37,7 @@ const AdvancedSearch = ({ isAuthenticated }) => {
         console.log(error);
       });
     // eslint-disable-next-line
-  }, []);
+  }, [user.team]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ const AdvancedSearch = ({ isAuthenticated }) => {
 
     const limit = 20;
     axios
-      .get(`/issue?${string}`)
+      .get(`/issue?team=${user.team}&${string}`)
       .then((response) => {
         setTotalPages(Math.ceil(response.data.count / limit));
       })
@@ -75,7 +75,7 @@ const AdvancedSearch = ({ isAuthenticated }) => {
       });
 
     axios
-      .get(`/issue?${string}&limit=${limit}&page=1`)
+      .get(`/issue?team=${user.team}&${string}&limit=${limit}&page=1`)
       .then((response) => {
         setIssues(response.data.data);
         setWasSearched(true);
@@ -258,10 +258,12 @@ const AdvancedSearch = ({ isAuthenticated }) => {
 
 AdvancedSearch.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps)(AdvancedSearch);

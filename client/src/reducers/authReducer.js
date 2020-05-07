@@ -52,7 +52,7 @@ export default function (state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: null,
-        loading: true,
+        loading: false,
         user: null,
       };
     default:

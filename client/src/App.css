@@ -1,4 +1,11 @@
 /* Utility Class */
+:root {
+  --primary-color: #003699;
+  --dark-color: #333333;
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
 
 /* Issues */
 #issue-search {
@@ -158,4 +165,72 @@ footer {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* home */
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  overflow: hidden;
+  padding: 0 2rem;
+}
+
+.form-container h1,
+h2,
+h3 {
+  text-align: center;
+}
+.thing {
+  margin: 1.2rem 0;
+}
+
+.thing input {
+  margin: 0.2rem 0;
+}
+
+.text-cool {
+  color: #003699;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--light-color);
+  color: #333;
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/* Forms */
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='date'],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+}
+
+input[type='submit'],
+button {
+  font: inherit;
 }

@@ -33,6 +33,7 @@ const issueSchema = new Schema(
       required: [true, 'Please add a project title'],
       trim: true,
     },
+    team: String,
   },
   { timestamps: true }
 );

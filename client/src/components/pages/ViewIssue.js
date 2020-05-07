@@ -35,7 +35,7 @@ const ViewIssue = ({ match, user }) => {
       });
 
     axios
-      .get('/users')
+      .get(`/users?team=${user.team}`)
       .then((response) => {
         if (response.data.length > 0) {
           setUsers(response.data.map((user) => user.name));
@@ -118,10 +118,10 @@ const ViewIssue = ({ match, user }) => {
   return (
     <div className="container mt-3">
       <h3>Issue #{issueData.number}</h3>
-      <h5>{issueData.issueTitle}</h5>
+      <h5 style={{ textAlign: 'center' }}>{issueData.issueTitle}</h5>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Username: </label>
+          <label>User: </label>
           <p>{issueData.name}</p>
         </div>
         <div className="form-group">

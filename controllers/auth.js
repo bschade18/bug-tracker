@@ -24,7 +24,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 // @access Public
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, team, password } = req.body;
   // validate user data
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
@@ -39,6 +39,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     user = new User({
       name,
       email,
+      team,
       password,
     });
 
@@ -58,6 +59,7 @@ exports.register = asyncHandler(async (req, res, next) => {
         user: {
           id: user._id,
           name: user.name,
+          team: user.team,
           email: user.email,
         },
       });
@@ -104,6 +106,7 @@ exports.login = asyncHandler(async (req, res, next) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          team: user.team,
         },
       });
     });

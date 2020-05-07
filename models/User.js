@@ -26,6 +26,12 @@ const userSchema = new Schema(
       minLength: 6,
       maxLength: 1024,
     },
+    team: {
+      type: String,
+      required: [true, 'Please enter a team name'],
+      minLength: 3,
+      maxLength: 50,
+    },
   },
   { timestamps: true }
 );

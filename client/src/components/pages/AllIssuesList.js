@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Issue from '../Issue';
 import Spinner from '../Spinner';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const AllIssuesList = () => {
+const AllIssuesList = ({ user }) => {
   const [issues, setIssues] = useState([]);
   const [sortColumn, setSortColumn] = useState(false);
   const [page, setPage] = useState(1);
@@ -13,14 +15,14 @@ const AllIssuesList = () => {
   useEffect(() => {
     let page = 1;
     axios
-      .get(`/issue?page=${page}&limit=20`)
+      .get(`/issue?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
         setTotalPages(response.data.totalPages);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [user.team]);
 
   const IssuesList = () => {
     return issues.map((issue) => {
@@ -85,7 +87,7 @@ const AllIssuesList = () => {
       page = pagination.prev.page;
     }
     axios
-      .get(`/issue?page=${page}&limit=20`)
+      .get(`/issue?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
@@ -183,4 +185,12 @@ const AllIssuesList = () => {
   );
 };
 
-export default AllIssuesList;
+AllIssuesList.propTypes = {
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(AllIssuesList);
