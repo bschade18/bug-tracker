@@ -12,7 +12,7 @@ import {
   Alert,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { loadUser, register } from '../../actions/authActions';
+import { register } from '../../actions/authActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setErrors, clearErrors } from '../../actions/errorActions';
@@ -43,17 +43,9 @@ const RegisterModal = ({
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (password !== password2) {
-  //     setErrors('passwords do not match');
-  //   } else {
-  //     register({ name, email, team, password });
-  //   }
-  // };
-
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
+
     if (password !== password2) {
       setErrors('passwords do not match');
     } else {
@@ -140,7 +132,6 @@ const RegisterModal = ({
 
 RegisterModal.propTypes = {
   isAuthenticated: PropTypes.bool,
-  loadUser: PropTypes.func.isRequired,
   register: PropTypes.func,
   error: PropTypes.string,
   setErrors: PropTypes.func,
@@ -153,7 +144,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  loadUser,
   register,
   setErrors,
   clearErrors,
