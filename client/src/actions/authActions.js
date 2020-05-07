@@ -38,6 +38,7 @@ export const register = ({ name, email, team, password }) => async (
   };
 
   const body = JSON.stringify({ name, email, team, password });
+  console.log(body);
 
   try {
     const res = await axios.post('/auth/register', body, config);

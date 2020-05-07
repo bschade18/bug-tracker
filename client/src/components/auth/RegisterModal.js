@@ -43,7 +43,16 @@ const RegisterModal = ({
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (password !== password2) {
+  //     setErrors('passwords do not match');
+  //   } else {
+  //     register({ name, email, team, password });
+  //   }
+  // };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       setErrors('passwords do not match');
