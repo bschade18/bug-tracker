@@ -43,14 +43,13 @@
 #init-end-dt,
 #init-start-dt,
 #initiated-by-search {
-  width: 20vw;
+  width: 25vw;
 }
 
 #issue-title,
 #project-title {
   width: 20vw;
   display: block;
-  padding: 15px;
 }
 
 #username {
@@ -62,12 +61,10 @@
 #assign-to {
   width: 20vw;
   display: block;
-  padding: 15px;
 }
 #status-input {
   width: 20vw;
   display: block;
-  padding: 15px;
 }
 
 .form-control.description-input {
@@ -184,6 +181,7 @@ input[type='email'],
 input[type='password'],
 input[type='date'],
 select,
+option,
 textarea {
   display: block;
   width: 100%;

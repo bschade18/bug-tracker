@@ -190,7 +190,6 @@ const Main = ({
     return sortProjects;
   };
 
-  // review this
   if (issues === null) {
     return <Spinner />;
   }
@@ -340,7 +339,7 @@ const Main = ({
               value="Search Issue"
               className="btn btn-primary"
             >
-              Search Issue
+              Search
             </button>
           </div>
         </form>
