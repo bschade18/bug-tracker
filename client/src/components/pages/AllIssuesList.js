@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import Issue from '../Issue';
 import Spinner from '../Spinner';
@@ -11,15 +11,18 @@ const AllIssuesList = ({ user }) => {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
   const [totalPages, setTotalPages] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let page = 1;
+    setLoading(true);
     axios
       .get(`/issue?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
         setTotalPages(response.data.totalPages);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   }, [user.team]);
@@ -29,8 +32,6 @@ const AllIssuesList = ({ user }) => {
       return <Issue issue={issue} key={issue._id} />;
     });
   };
-
-  // add to app level state and pass down
 
   const sortNumber = () => {
     let sort;
@@ -108,79 +109,90 @@ const AllIssuesList = ({ user }) => {
       </li>
     );
   }
-  if (!issues[0]) {
-    return <Spinner />;
-  }
+
   return (
     <div className="container mt-3">
-      <h5>All Issues</h5>
-      <table className="table mt-4">
-        <thead className="thead-light">
-          <tr>
-            <th>
-              Issue #<i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
-            </th>
-            <th>
-              Status
-              <i
-                name="status"
-                onClick={sortWord}
-                className="fa fa-fw fa-sort"
-              ></i>
-            </th>
-            <th>
-              Title
-              <i
-                name="issueTitle"
-                onClick={sortWord}
-                className="fa fa-fw fa-sort"
-              ></i>
-            </th>
-            <th>
-              Assigned To
-              <i
-                name="assignedTo"
-                onClick={sortWord}
-                className="fa fa-fw fa-sort"
-              ></i>
-            </th>
-            <th>
-              Date Initiated
-              <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
-            </th>
-            <th>Open Issue</th>
-          </tr>
-        </thead>
-        <tbody>{IssuesList()}</tbody>
-      </table>
+      {loading ? (
+        <Spinner />
+      ) : !issues[0] ? (
+        <h3>You have not submitted any issues yet</h3>
+      ) : (
+        <Fragment>
+          <h5>All Issues</h5>
+          <table className="table mt-4">
+            <thead className="thead-light">
+              <tr>
+                <th>
+                  Issue #
+                  <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
+                </th>
+                <th>
+                  Status
+                  <i
+                    name="status"
+                    onClick={sortWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Title
+                  <i
+                    name="issueTitle"
+                    onClick={sortWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Assigned To
+                  <i
+                    name="assignedTo"
+                    onClick={sortWord}
+                    className="fa fa-fw fa-sort"
+                  ></i>
+                </th>
+                <th>
+                  Date Initiated
+                  <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
+                </th>
+                <th>Open Issue</th>
+              </tr>
+            </thead>
+            <tbody>{IssuesList()}</tbody>
+          </table>
 
-      <nav>
-        <ul className="pagination">
-          <li className={pagination.prev ? 'page-item' : 'page-item disabled'}>
-            <a
-              className="page-link"
-              onClick={() => selectPage('prev')}
-              href="#!"
-            >
-              <span>&laquo;</span>
-              <span className="sr-only">Previous</span>
-            </a>
-          </li>
+          <nav>
+            <ul className="pagination">
+              <li
+                className={pagination.prev ? 'page-item' : 'page-item disabled'}
+              >
+                <a
+                  className="page-link"
+                  onClick={() => selectPage('prev')}
+                  href="#!"
+                >
+                  <span>&laquo;</span>
+                  <span className="sr-only">Previous</span>
+                </a>
+              </li>
 
-          {rows}
+              {rows}
 
-          <li className={pagination.next ? 'page-item' : 'page-item disabled'}>
-            <a
-              className="page-link"
-              onClick={() => selectPage('next')}
-              href="#!"
-            >
-              <span>&raquo;</span>
-              <span className="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+              <li
+                className={pagination.next ? 'page-item' : 'page-item disabled'}
+              >
+                <a
+                  className="page-link"
+                  onClick={() => selectPage('next')}
+                  href="#!"
+                >
+                  <span>&raquo;</span>
+                  <span className="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </Fragment>
+      )}
     </div>
   );
 };

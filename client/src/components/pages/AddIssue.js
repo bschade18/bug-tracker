@@ -3,7 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const AddIssue = ({ user }) => {
+const AddIssue = ({ user: { team, name }, issues }) => {
   const [issueData, setIssueData] = useState({
     issueTitle: '',
     projectTitle: '',
@@ -12,22 +12,21 @@ const AddIssue = ({ user }) => {
     assignedTo: '--Select User--',
     status: 'Open',
   });
-  const [issues, setIssues] = useState([]);
   const [users, setUsers] = useState([]);
   const [isNewProject, setIsNewProject] = useState(false);
 
+  const {
+    issueTitle,
+    projectTitle,
+    issueDescription,
+    issueLog,
+    assignedTo,
+    status,
+  } = issueData;
+
   useEffect(() => {
     axios
-      .get('/issue')
-      .then((res) => {
-        setIssues(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get(`/users?team=${user.team}`)
+      .get(`/users?team=${team}`)
       .then((res) => {
         if (res.data.length > 0) {
           setUsers(res.data.map((user) => user.name));
@@ -36,7 +35,7 @@ const AddIssue = ({ user }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user.team]);
+  }, [team]);
 
   const onChange = (e) =>
     setIssueData({ ...issueData, [e.target.name]: e.target.value });
@@ -44,22 +43,23 @@ const AddIssue = ({ user }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // got issues so that i could see the previous issue number
-    let newNumber = issues[0].number + 1 || 100000;
+    let newNumber;
+    if (!issues[0]) {
+      newNumber = 100000;
+    } else {
+      newNumber = issues[0].number + 1;
+    }
 
     const newIssue = {
-      name: user.name,
+      name,
       number: newNumber,
-      issueTitle: issueData.issueTitle,
-      projectTitle: issueData.projectTitle,
-      issueDescription: issueData.projectTitle,
-      assignedTo: issueData.assignedTo,
-      status: issueData.status,
-      issueLog: [
-        ...issueData.issueLog,
-        { name: user.name, desc: issueData.issueDescription },
-      ],
-      team: user.team,
+      issueTitle,
+      projectTitle,
+      issueDescription,
+      assignedTo,
+      status,
+      issueLog: [...issueLog, { name, desc: issueDescription }],
+      team,
     };
 
     axios
@@ -118,7 +118,7 @@ const AddIssue = ({ user }) => {
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label>User: </label>
-          <p>{user.name}</p>
+          <p>{name}</p>
         </div>
         <div className="form-group">
           <label>Title:</label>
@@ -127,7 +127,7 @@ const AddIssue = ({ user }) => {
             required
             className="form-control"
             name="issueTitle"
-            value={issueData.issueTitle}
+            value={issueTitle}
             onChange={onChange}
             id="issue-title"
             maxLength="25"
@@ -141,7 +141,7 @@ const AddIssue = ({ user }) => {
               required
               className="form-control"
               name="projectTitle"
-              value={issueData.projectTitle}
+              value={projectTitle}
               onChange={onChange}
               id="project-title"
               maxLength="25"
@@ -150,7 +150,7 @@ const AddIssue = ({ user }) => {
             <select
               required
               className="form-control"
-              value={issueData.projectTitle}
+              value={projectTitle}
               name="projectTitle"
               onChange={onChange}
               id="project-title"
@@ -179,7 +179,7 @@ const AddIssue = ({ user }) => {
             type="text"
             required
             className="form-control description-input"
-            value={issueData.description}
+            value={issueDescription}
             name="issueDescription"
             onChange={onChange}
           />
@@ -189,7 +189,7 @@ const AddIssue = ({ user }) => {
           <select
             required
             className="form-control"
-            value={issueData.assignedTo}
+            value={assignedTo}
             name="assignedTo"
             onChange={onChange}
             id="assign-to"
@@ -209,7 +209,7 @@ const AddIssue = ({ user }) => {
           <select
             required
             className="form-control"
-            value={issueData.status}
+            value={status}
             name="status"
             onChange={onChange}
             id="status-input"
@@ -238,10 +238,12 @@ const AddIssue = ({ user }) => {
 
 AddIssue.propTypes = {
   user: PropTypes.object.isRequired,
+  issues: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  issues: state.issues.issues,
 });
 
 export default connect(mapStateToProps)(AddIssue);

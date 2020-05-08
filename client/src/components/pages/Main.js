@@ -10,10 +10,7 @@ import { getIssues, getRecentClosed } from '../../actions/issueActions';
 import { setErrors } from '../../actions/errorActions';
 
 const Main = ({
-  user,
-  alert,
-  showAlert,
-  isAuthenticated,
+  user: { team, name },
   getIssues,
   issues,
   closed,
@@ -26,9 +23,9 @@ const Main = ({
   const [sortColumn, setSortColumn] = useState(false);
 
   useEffect(() => {
-    getIssues(user.team);
-    getRecentClosed(user.team);
-  }, [getIssues, getRecentClosed, user.team]);
+    getIssues(team);
+    getRecentClosed(team);
+  }, [getIssues, getRecentClosed, team]);
 
   const onChange = (e) => {
     setProjectTitle(e.target.value);
@@ -40,14 +37,13 @@ const Main = ({
     if (projectTitle === '' || projectTitle === '--All--') {
       filter = issues.filter(
         (currentissue) =>
-          currentissue.status !== 'Closed' &&
-          currentissue.assignedTo === user.name
+          currentissue.status !== 'Closed' && currentissue.assignedTo === name
       );
     } else {
       filter = issues.filter(
         (currentissue) =>
           currentissue.status !== 'Closed' &&
-          currentissue.assignedTo === user.name &&
+          currentissue.assignedTo === name &&
           currentissue.projectTitle === projectTitle
       );
     }

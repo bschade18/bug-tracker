@@ -17,17 +17,35 @@ const ViewIssue = ({ match, user }) => {
 
   const [users, setUsers] = useState([]);
 
+  const {
+    name,
+    number,
+    issueTitle,
+    issueLog,
+    assignedTo,
+    status,
+    issueDescription,
+  } = issueData;
+
   useEffect(() => {
     axios
       .get('/issue/' + match.params.id)
-      .then((response) => {
+      .then((res) => {
+        const {
+          name,
+          number,
+          issueTitle,
+          issueLog,
+          assignedTo,
+          status,
+        } = res.data.data;
         setIssueData({
-          name: response.data.data.name,
-          number: response.data.data.number,
-          issueTitle: response.data.data.issueTitle,
-          issueLog: response.data.data.issueLog,
-          assignedTo: response.data.data.assignedTo,
-          status: response.data.data.status,
+          name,
+          number,
+          issueTitle,
+          issueLog,
+          assignedTo,
+          status,
         });
       })
       .catch(function (error) {
@@ -48,7 +66,7 @@ const ViewIssue = ({ match, user }) => {
   }, []);
 
   const LogList = () => {
-    return issueData.issueLog.map((currentlog, i) => {
+    return issueLog.map((currentlog, i) => {
       const logDate = currentlog.date;
       const day = logDate.substring(8, 10).padStart(2, '0');
       const month = logDate.substring(6, 7).padStart(2, '0');
@@ -68,16 +86,13 @@ const ViewIssue = ({ match, user }) => {
     e.preventDefault();
 
     const issue = {
-      name: issueData.name,
-      issueDescription: issueData.issueDescription,
-      issueLog: [
-        ...issueData.issueLog,
-        { name: user.name, desc: issueData.issueDescription },
-      ],
-      issueTitle: issueData.issueTitle,
-      number: issueData.number,
-      assignedTo: issueData.assignedTo,
-      status: issueData.status,
+      name,
+      issueDescription,
+      issueLog: [...issueLog, { name: user.name, desc: issueDescription }],
+      issueTitle,
+      number,
+      assignedTo,
+      status,
     };
 
     axios
@@ -93,7 +108,7 @@ const ViewIssue = ({ match, user }) => {
   const statusList = () => {
     const statuses = ['Open', 'Urgent', 'Closed'];
     const filteredStatuses = statuses.filter(
-      (currentstatus) => currentstatus.status !== issueData.status
+      (currentstatus) => currentstatus.status !== status
     );
 
     return filteredStatuses.map((currentstatus) => {
@@ -112,17 +127,17 @@ const ViewIssue = ({ match, user }) => {
 
   today = mm + '/' + dd + '/' + yyyy;
 
-  if (!issueData.issueLog.length) {
+  if (!issueLog.length) {
     return <div />;
   }
   return (
     <div className="container mt-3">
-      <h3>Issue #{issueData.number}</h3>
-      <h5 style={{ textAlign: 'center' }}>{issueData.issueTitle}</h5>
+      <h3>Issue #{number}</h3>
+      <h5 style={{ textAlign: 'center' }}>{issueTitle}</h5>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label>User: </label>
-          <p>{issueData.name}</p>
+          <p>{name}</p>
         </div>
         <div className="form-group">
           <label>Description: </label>
@@ -131,7 +146,7 @@ const ViewIssue = ({ match, user }) => {
             required
             className="form-control description-input"
             name="issueDescription"
-            value={issueData.issueDescription}
+            value={issueDescription}
             onChange={onChange}
           />
         </div>
@@ -141,7 +156,7 @@ const ViewIssue = ({ match, user }) => {
             required
             className="form-control"
             name="assignedTo"
-            value={issueData.assignedTo}
+            value={assignedTo}
             onChange={onChange}
             id="assign-to"
           >
@@ -160,7 +175,7 @@ const ViewIssue = ({ match, user }) => {
             required
             className="form-control"
             name="status"
-            value={issueData.status}
+            value={status}
             onChange={onChange}
             id="status-input"
           >
