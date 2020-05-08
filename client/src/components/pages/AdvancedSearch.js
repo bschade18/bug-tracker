@@ -5,7 +5,7 @@ import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const AdvancedSearch = ({ isAuthenticated, user }) => {
+const AdvancedSearch = ({ user }) => {
   const [searchData, setSearchData] = useState({
     assignedTo: '',
     initiatedBy: '',
@@ -18,6 +18,7 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
   const [pagination, setPagination] = useState(null);
   const [totalPages, setTotalPages] = useState(null);
   const [searchString, setSearchString] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const {
     assignedTo,
@@ -41,6 +42,7 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     let string = '';
 
@@ -82,6 +84,7 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
         setPagination(response.data.pagination);
         setPage(1);
         setSearchString(string);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -107,7 +110,7 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
       page = pagination.prev.page;
     }
     axios
-      .get(`/issue?${string}&page=${page}&limit=20`)
+      .get(`/issue?team=${user.team}&${string}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
@@ -130,72 +133,70 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
   }
   return (
     <div className="container mt-3">
-      {isAuthenticated ? (
-        <div>
-          <h5>Advanced Search</h5>
+      <div>
+        <h5>Advanced Search</h5>
 
-          <form onSubmit={onSubmit}>
-            <div className="form-group">
-              <input
-                placeholder="Assigned To"
-                type="text"
-                name="assignedTo"
-                className="form-control mt-3"
-                onChange={onChange}
-                id="assigned-to-search"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                placeholder="Initiated By"
-                type="text"
-                name="initiatedBy"
-                className="form-control mt-3"
-                onChange={onChange}
-                id="initiated-by-search"
-              />
-            </div>
-
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
             <input
+              placeholder="Assigned To"
               type="text"
-              name="initiatedStartDt"
+              name="assignedTo"
+              className="form-control mt-3"
               onChange={onChange}
-              id="init-start-dt"
-              placeholder="Date Initiated - dd/mm/yyyy"
-              className="mt-3 form-control"
+              id="assigned-to-search"
             />
-
-            <p id="to" className="ml-2 mt-3">
-              to
-            </p>
-
+          </div>
+          <div className="form-group">
             <input
+              placeholder="Initiated By"
               type="text"
-              name="initiatedEndDt"
+              name="initiatedBy"
+              className="form-control mt-3"
               onChange={onChange}
-              id="init-end-dt"
-              placeholder="Date Initiated - dd/mm/yyyy"
-              className="ml-2 mt-3 form-control"
+              id="initiated-by-search"
             />
+          </div>
 
-            <div className="form-group">
-              <button
-                type="submit"
-                value="Search"
-                className="btn btn-primary mt-5"
-              >
-                Search
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        <p></p>
-      )}
+          <input
+            type="text"
+            name="initiatedStartDt"
+            onChange={onChange}
+            id="init-start-dt"
+            placeholder="Date Initiated - dd/mm/yyyy"
+            className="mt-3 form-control"
+          />
 
-      {wasSearched ? (
-        !issues[0] ? (
+          <p id="to" className="ml-2 mt-3">
+            to
+          </p>
+
+          <input
+            type="text"
+            name="initiatedEndDt"
+            onChange={onChange}
+            id="init-end-dt"
+            placeholder="Date Initiated - dd/mm/yyyy"
+            className="ml-2 mt-3 form-control"
+          />
+
+          <div className="form-group">
+            <button
+              type="submit"
+              value="Search"
+              className="btn btn-primary mt-5"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {wasSearched &&
+        (loading ? (
           <Spinner />
+        ) : !issues[0] ? (
+          <h3>No issues were found in search</h3>
         ) : (
           <Fragment>
             <table className="table mt-5">
@@ -248,21 +249,16 @@ const AdvancedSearch = ({ isAuthenticated, user }) => {
               </ul>
             </nav>
           </Fragment>
-        )
-      ) : (
-        <div></div>
-      )}
+        ))}
     </div>
   );
 };
 
 AdvancedSearch.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
 });
 
