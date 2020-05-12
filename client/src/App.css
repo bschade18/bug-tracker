@@ -35,14 +35,16 @@
 #assigned-to-search,
 #init-end-dt,
 #init-start-dt,
-#initiated-by-search {
+#initiated-by-search,
+#status {
   display: inline;
   padding: 15px;
 }
 #assigned-to-search,
 #init-end-dt,
 #init-start-dt,
-#initiated-by-search {
+#initiated-by-search,
+#status {
   width: 25vw;
 }
 

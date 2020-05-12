@@ -11,6 +11,7 @@ const AdvancedSearch = ({ user }) => {
     initiatedBy: '',
     initiatedStartDt: '',
     initiatedEndDt: '',
+    status: '',
   });
   const [issues, setIssues] = useState([]);
   const [wasSearched, setWasSearched] = useState(false);
@@ -25,6 +26,7 @@ const AdvancedSearch = ({ user }) => {
     initiatedBy,
     initiatedStartDt,
     initiatedEndDt,
+    status,
   } = searchData;
 
   useEffect(() => {
@@ -52,6 +54,10 @@ const AdvancedSearch = ({ user }) => {
 
     if (assignedTo) {
       string += `&assignedTo=${assignedTo}`;
+    }
+
+    if (status) {
+      string += `&status=${status}`;
     }
 
     if (initiatedStartDt && !initiatedEndDt) {
@@ -155,6 +161,16 @@ const AdvancedSearch = ({ user }) => {
               className="form-control mt-3"
               onChange={onChange}
               id="initiated-by-search"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              placeholder="Status"
+              type="text"
+              name="status"
+              className="form-control mt-3"
+              onChange={onChange}
+              id="status"
             />
           </div>
 
