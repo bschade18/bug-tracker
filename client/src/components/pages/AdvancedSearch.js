@@ -1,9 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
 import Issue from '../Issue';
 import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const AdvancedSearch = ({ user }) => {
   const [searchData, setSearchData] = useState({
@@ -101,6 +104,14 @@ const AdvancedSearch = ({ user }) => {
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
   };
 
+  const onChangeDateInitStart = (date) => {
+    setSearchData({ ...searchData, initiatedStartDt: date });
+  };
+
+  const onChangeDateInitEnd = (date) => {
+    setSearchData({ ...searchData, initiatedEndDt: date });
+  };
+
   const searchResultsList = () => {
     return issues.map((currentissue) => {
       return <Issue issue={currentissue} key={currentissue._id} />;
@@ -158,7 +169,7 @@ const AdvancedSearch = ({ user }) => {
               placeholder="Initiated By"
               type="text"
               name="initiatedBy"
-              className="form-control mt-3"
+              className="form-control mt-4"
               onChange={onChange}
               id="initiated-by-search"
             />
@@ -168,39 +179,36 @@ const AdvancedSearch = ({ user }) => {
               placeholder="Status"
               type="text"
               name="status"
-              className="form-control mt-3"
+              className="form-control mt-4"
               onChange={onChange}
               id="status"
             />
           </div>
-
-          <input
-            type="text"
-            name="initiatedStartDt"
-            onChange={onChange}
-            id="init-start-dt"
-            placeholder="Date Initiated - dd/mm/yyyy"
-            className="mt-3 form-control"
-          />
-
-          <p id="to" className="ml-2 mt-3">
-            to
-          </p>
-
-          <input
-            type="text"
-            name="initiatedEndDt"
-            onChange={onChange}
-            id="init-end-dt"
-            placeholder="Date Initiated - dd/mm/yyyy"
-            className="ml-2 mt-3 form-control"
-          />
-
+          <div className="form-group">
+            <DatePicker
+              name="initiatedStartDt"
+              selected={initiatedStartDt}
+              onChange={onChangeDateInitStart}
+              id="init-start-dt"
+              className="mt-1 form-control"
+              placeholderText="Date Initiated - Start"
+            />
+          </div>
+          <div className="form-group">
+            <DatePicker
+              name="initiatedEndDt"
+              selected={initiatedEndDt}
+              onChange={onChangeDateInitEnd}
+              id="init-end-dt"
+              className="mt-1 form-control"
+              placeholderText="Date Initiated - End"
+            />
+          </div>
           <div className="form-group">
             <button
               type="submit"
               value="Search"
-              className="btn btn-primary mt-5"
+              className="btn btn-primary mt-3"
             >
               Search
             </button>

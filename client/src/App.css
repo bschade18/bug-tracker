@@ -4,12 +4,6 @@
   display: block;
 }
 
-#init-start-dt,
-#init-end-dt,
-#to {
-  display: inline;
-}
-
 .icon-folder-open-alt {
   text-decoration: none;
 }
@@ -37,7 +31,7 @@
 #init-start-dt,
 #initiated-by-search,
 #status {
-  display: inline;
+  display: block;
   padding: 15px;
 }
 #assigned-to-search,
@@ -45,7 +39,8 @@
 #init-start-dt,
 #initiated-by-search,
 #status {
-  width: 25vw;
+  /* width: 25vw; */
+  width: 400px;
 }
 
 #issue-title,
