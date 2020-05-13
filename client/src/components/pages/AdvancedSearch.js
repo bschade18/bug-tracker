@@ -223,20 +223,21 @@ const AdvancedSearch = ({ user }) => {
           <h3>No issues were found in search</h3>
         ) : (
           <Fragment>
-            <table className="table mt-5">
-              <thead className="light-bg">
-                <tr>
-                  <th>Issue # </th>
-                  <th>Status </th>
-                  <th>Title </th>
-                  <th>Assigned To </th>
-                  <th>Date Initiated </th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{searchResultsList()}</tbody>
-            </table>
-
+            <div className="table-responsive">
+              <table className="table mt-5">
+                <thead className="light-bg">
+                  <tr>
+                    <th>Issue # </th>
+                    <th>Status </th>
+                    <th>Title </th>
+                    <th>Assigned To </th>
+                    <th>Date Initiated </th>
+                    <th>Open Issue</th>
+                  </tr>
+                </thead>
+                <tbody>{searchResultsList()}</tbody>
+              </table>
+            </div>
             <nav>
               <ul className="pagination">
                 <li

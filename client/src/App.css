@@ -10,7 +10,7 @@
 
 /* Issues */
 #issue-search {
-  width: 20vw;
+  width: 300px;
   display: block;
 }
 
@@ -49,28 +49,27 @@
 #init-start-dt,
 #initiated-by-search,
 #status {
-  /* width: 25vw; */
-  width: 400px;
+  width: 18rem;
 }
 
 #issue-title,
 #project-title {
-  width: 20vw;
+  width: 300px;
   display: block;
 }
 
 #username {
-  width: 20vw;
+  width: 300px;
   display: block;
   padding: 15px;
 }
 
 #assign-to {
-  width: 20vw;
+  width: 300px;
   display: block;
 }
 #status-input {
-  width: 20vw;
+  width: 300px;
   display: block;
 }
 
@@ -80,14 +79,14 @@
 }
 
 #change-username {
-  width: 20vw;
+  width: 300px;
   display: block;
   padding: 15px;
 }
 
 #add-user-input,
 #search {
-  width: 20vw;
+  width: 300px;
   display: block;
   padding: 15px;
 }
@@ -183,13 +182,8 @@ h3 {
 
 /* Forms */
 
-input[type='text'],
 input[type='email'],
-input[type='password'],
-input[type='date'],
-select,
-option,
-textarea {
+input[type='password'] {
   display: block;
   width: 100%;
   padding: 0.4rem;

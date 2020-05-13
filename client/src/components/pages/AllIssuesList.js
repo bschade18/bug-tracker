@@ -119,47 +119,48 @@ const AllIssuesList = ({ user }) => {
       ) : (
         <Fragment>
           <h5>All Issues</h5>
-          <table className="table mt-4">
-            <thead className="light-bg">
-              <tr>
-                <th>
-                  Issue #
-                  <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
-                </th>
-                <th>
-                  Status
-                  <i
-                    name="status"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Title
-                  <i
-                    name="issueTitle"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Assigned To
-                  <i
-                    name="assignedTo"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Date Initiated
-                  <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
-                </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{IssuesList()}</tbody>
-          </table>
-
+          <div className="table-responsive">
+            <table className="table mt-4">
+              <thead className="light-bg">
+                <tr>
+                  <th>
+                    Issue #
+                    <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
+                  </th>
+                  <th>
+                    Status
+                    <i
+                      name="status"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Title
+                    <i
+                      name="issueTitle"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Assigned To
+                    <i
+                      name="assignedTo"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Date Initiated
+                    <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
+                  </th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{IssuesList()}</tbody>
+            </table>
+          </div>
           <nav>
             <ul className="pagination">
               <li

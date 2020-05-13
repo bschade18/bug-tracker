@@ -220,46 +220,48 @@ const Main = ({
           </select>
         </div>
         {issuesList().length > 0 ? (
-          <table className="table">
-            <thead className="light-bg">
-              <tr>
-                <th>
-                  Issue #{' '}
-                  <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
-                </th>
-                <th>
-                  Status{' '}
-                  <i
-                    name="status"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Title{' '}
-                  <i
-                    name="issueTitle"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Assigned To{' '}
-                  <i
-                    name="assignedTo"
-                    onClick={sortWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Date Initiated{' '}
-                  <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
-                </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{issuesList()}</tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="table">
+              <thead className="light-bg">
+                <tr>
+                  <th>
+                    Issue #{' '}
+                    <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
+                  </th>
+                  <th>
+                    Status{' '}
+                    <i
+                      name="status"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Title{' '}
+                    <i
+                      name="issueTitle"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Assigned To{' '}
+                    <i
+                      name="assignedTo"
+                      onClick={sortWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Date Initiated{' '}
+                    <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
+                  </th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{issuesList()}</tbody>
+            </table>
+          </div>
         ) : (
           <p id="issues-message">You have no open issues</p>
         )}
@@ -268,49 +270,54 @@ const Main = ({
         {completedIssuesList().length === 0 ? (
           <p>You have no completed issues</p>
         ) : (
-          <table className="table mt-3">
-            <thead className="light-bg">
-              <tr>
-                <th>
-                  Issue #{' '}
-                  <i
-                    onClick={sortClosedNumber}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Status{' '}
-                  <i
-                    name="status"
-                    onClick={sortClosedWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Title{' '}
-                  <i
-                    name="issueTitle"
-                    onClick={sortClosedWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Assigned To{' '}
-                  <i
-                    name="assignedTo"
-                    onClick={sortClosedWord}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Date Initiated{' '}
-                  <i onClick={sortClosedDate} className="fa fa-fw fa-sort"></i>
-                </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{completedIssuesList()}</tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="table mt-3">
+              <thead className="light-bg">
+                <tr>
+                  <th>
+                    Issue #{' '}
+                    <i
+                      onClick={sortClosedNumber}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Status{' '}
+                    <i
+                      name="status"
+                      onClick={sortClosedWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Title{' '}
+                    <i
+                      name="issueTitle"
+                      onClick={sortClosedWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Assigned To{' '}
+                    <i
+                      name="assignedTo"
+                      onClick={sortClosedWord}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>
+                    Date Initiated{' '}
+                    <i
+                      onClick={sortClosedDate}
+                      className="fa fa-fw fa-sort"
+                    ></i>
+                  </th>
+                  <th>Open Issue</th>
+                </tr>
+              </thead>
+              <tbody>{completedIssuesList()}</tbody>
+            </table>
+          </div>
         )}
 
         <div className="form-group">

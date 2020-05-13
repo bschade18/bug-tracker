@@ -192,7 +192,7 @@ const ViewIssue = ({ match, user }) => {
         </div>
       </form>
       <table className="table">
-        <thead className="thead-light">
+        <thead className="light-bg">
           <tr>
             <th>Name</th>
             <th>Description</th>
