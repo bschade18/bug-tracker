@@ -171,8 +171,9 @@ const Main = ({
   };
 
   const listProjects = () => {
-    const projects = issues.map((issue) => issue.projectTitle);
-
+    const projects = issues
+      .filter((issue) => issue.assignedTo === name && issue.status !== 'Closed')
+      .map((issue) => issue.projectTitle);
     const uniqueProjects = [...new Set(projects)];
 
     const sortProjects = uniqueProjects.sort((a, b) => {
