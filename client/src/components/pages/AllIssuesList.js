@@ -120,7 +120,7 @@ const AllIssuesList = ({ user }) => {
         <Fragment>
           <h5>All Issues</h5>
           <table className="table mt-4">
-            <thead className="thead-light">
+            <thead className="light-bg">
               <tr>
                 <th>
                   Issue #

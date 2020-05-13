@@ -224,7 +224,7 @@ const AdvancedSearch = ({ user }) => {
         ) : (
           <Fragment>
             <table className="table mt-5">
-              <thead className="thead-light">
+              <thead className="light-bg">
                 <tr>
                   <th>Issue # </th>
                   <th>Status </th>

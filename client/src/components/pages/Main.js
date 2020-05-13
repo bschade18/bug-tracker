@@ -220,7 +220,7 @@ const Main = ({
         </div>
         {issuesList().length > 0 ? (
           <table className="table">
-            <thead className="thead-light">
+            <thead className="light-bg">
               <tr>
                 <th>
                   Issue #{' '}
@@ -268,7 +268,7 @@ const Main = ({
           <p>You have no completed issues</p>
         ) : (
           <table className="table mt-3">
-            <thead className="thead-light">
+            <thead className="light-bg">
               <tr>
                 <th>
                   Issue #{' '}

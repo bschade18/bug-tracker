@@ -2,6 +2,12 @@
   font-family: 'Roboto', sans-serif;
 }
 
+/* Utility */
+
+.light-bg {
+  background: #f5f5f5;
+}
+
 /* Issues */
 #issue-search {
   width: 20vw;
