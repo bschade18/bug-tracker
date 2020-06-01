@@ -263,12 +263,16 @@ const Main = ({
             </table>
           </div>
         ) : (
-          <p id="issues-message">You have no open issues</p>
+          <p class="issues-message">
+            <em>No open issues</em>
+          </p>
         )}
 
         <h5 className="mt-5">Recently Closed Issues</h5>
         {completedIssuesList().length === 0 ? (
-          <p>You have no completed issues</p>
+          <p class="issues-message">
+            <em>No closed issues</em>
+          </p>
         ) : (
           <div className="table-responsive">
             <table className="table mt-3">

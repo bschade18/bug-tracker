@@ -128,8 +128,9 @@ footer {
   width: 47rem;
 }
 
-#issues-message {
-  font-size: 1.5rem;
+.issues-message {
+  font-size: 1.1rem;
+  margin-top: 2rem;
 }
 
 .pagination-btns {
