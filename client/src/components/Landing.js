@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../../actions/authActions';
+import { login } from '../actions/authActions';
 import PropTypes from 'prop-types';
 
-const Home = ({ isAuthenticated, error, login }) => {
+const Landing = ({ isAuthenticated, error, login }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -22,7 +22,7 @@ const Home = ({ isAuthenticated, error, login }) => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/main" />;
+    return <Redirect to="/home" />;
   }
 
   return (
@@ -50,7 +50,7 @@ const Home = ({ isAuthenticated, error, login }) => {
   );
 };
 
-Home.propTypes = {
+Landing.propTypes = {
   isAuthenticated: PropTypes.bool,
   login: PropTypes.func.isRequired,
   error: PropTypes.string,
@@ -61,4 +61,4 @@ const mapStateToProps = (state) => ({
   error: state.error.msg,
 });
 
-export default connect(mapStateToProps, { login })(Home);
+export default connect(mapStateToProps, { login })(Landing);

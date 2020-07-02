@@ -12,9 +12,8 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
-// Routes
-// change /issue routes to /issues
-app.use('/issue', require('./routes/issues'));
+// routes
+app.use('/issues', require('./routes/issues'));
 app.use('/auth', require('./routes/auth'));
 app.use('/users', require('./routes/user'));
 

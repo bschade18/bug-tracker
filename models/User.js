@@ -8,7 +8,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Please add a name'],
       trim: true,
-      unique: true,
       minLength: 3,
       maxlength: 50,
     },
@@ -35,5 +34,7 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.index({ name: 1, team: 1 }, { unique: true });
 
 module.exports = mongoose.model('User', userSchema);

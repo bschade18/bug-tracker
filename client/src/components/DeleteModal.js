@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import axios from 'axios';
+import { deleteIssue } from '../actions/issueActions';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const DeleteModal = ({ id }) => {
+const DeleteModal = ({ id, history, deleteIssue }) => {
   const [modal, setModal] = useState(false);
 
-  const toggle = () => {
-    setModal(!modal);
-  };
-
-  const deleteIssue = (id) => {
-    axios.delete(`/issue/${id}`).then((response) => {
-      console.log(response.data);
-    });
-    setTimeout(() => (window.location = '/main'), 500);
-  };
+  const toggle = () => setModal(!modal);
 
   return (
-    <div>
+    <Fragment>
       <input
         type="button"
         onClick={toggle}
@@ -34,19 +26,20 @@ const DeleteModal = ({ id }) => {
           </Button>{' '}
           <Button
             color="danger"
-            onClick={() => deleteIssue(id)}
+            onClick={() => deleteIssue(id, history)}
             className="mt-3"
           >
             Delete
           </Button>
         </ModalBody>
       </Modal>
-    </div>
+    </Fragment>
   );
 };
 
 DeleteModal.propTypes = {
   id: PropTypes.string.isRequired,
+  deleteIssue: PropTypes.func.isRequired,
 };
 
-export default DeleteModal;
+export default connect(null, { deleteIssue })(DeleteModal);

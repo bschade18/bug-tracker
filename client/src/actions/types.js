@@ -1,4 +1,5 @@
 export const GET_ISSUES = 'GET_ISSUES';
+export const ISSUES_LOADING = 'ISSUES_LOADING';
 export const ADD_ISSUE = 'ADD_ISSUE';
 export const DELETE_ISSUE = 'DELETE_ISSUE';
 export const UPDATE_ISSUE = 'UPDATE_ISSUE';
@@ -18,3 +19,8 @@ export const LOAD_USER = 'LOAD_USER';
 export const LOADED_SUCCESS = 'LOADED_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCESS';
 export const SET_ALERT = 'SET_ALERT';
+
+export const SET_PROJECT = 'SET_PROJECT';
+export const GET_PROJECT = 'GET_PROJECT';
+
+export const GET_USERS = 'GET_USERS';

@@ -10,9 +10,7 @@ import {
   REGISTER_FAIL,
 } from './types';
 
-// check token & load user
 export const loadUser = () => async (dispatch) => {
-  // user loading
   dispatch({ type: USER_LOADING });
 
   try {
@@ -27,7 +25,6 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-// register user
 export const register = ({ name, email, team, password }) => async (
   dispatch
 ) => {
@@ -38,7 +35,6 @@ export const register = ({ name, email, team, password }) => async (
   };
 
   const body = JSON.stringify({ name, email, team, password });
-  console.log(body);
 
   try {
     const res = await axios.post('/auth/register', body, config);
@@ -49,7 +45,6 @@ export const register = ({ name, email, team, password }) => async (
     });
     dispatch(loadUser());
   } catch (err) {
-    console.log(err);
     dispatch(setErrors(err.response.data.msg));
     dispatch({
       type: REGISTER_FAIL,
@@ -57,7 +52,6 @@ export const register = ({ name, email, team, password }) => async (
   }
 };
 
-// login user
 export const login = ({ email, password }) => async (dispatch) => {
   const config = {
     headers: {
@@ -81,7 +75,6 @@ export const login = ({ email, password }) => async (dispatch) => {
   }
 };
 
-// logout
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT_SUCCESS,

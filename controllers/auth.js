@@ -1,4 +1,4 @@
-let User = require('../models/User');
+const User = require('../models/User');
 const asyncHandler = require('../middleware/async');
 const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
@@ -42,8 +42,6 @@ exports.register = asyncHandler(async (req, res, next) => {
       team,
       password,
     });
-
-    console.log(user);
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);

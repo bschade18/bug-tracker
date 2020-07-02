@@ -4,14 +4,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import AddIssue from './components/pages/AddIssue';
-import Main from './components/pages/Main';
-import Navbar from './components/Navbar';
-import ViewIssue from './components/pages/ViewIssue';
-import AllIssuesList from './components/pages/AllIssuesList';
-import AdvancedSearch from './components/pages/AdvancedSearch';
+import AddIssue from './components/AddIssue';
+import Home from './components/Home';
+import Navbar from './components/layout/Navbar';
+import ViewIssue from './components/ViewIssue';
+import AllIssuesList from './components/AllIssuesList';
+import AdvancedSearch from './components/AdvancedSearch';
 import NotFound from './components/layout/NotFound';
-import Home from './components/pages/Home';
+import Landing from './components/Landing';
 import { loadUser } from './actions/authActions';
 import PrivateRoute from '../src/components/routing/PrivateRoute';
 import setAuthToken from './utils/setAuthToken';
@@ -29,12 +29,12 @@ const App = () => {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <PrivateRoute exact path="/main" component={Main} />
-          <PrivateRoute exact path="/create" component={AddIssue} />
-          <PrivateRoute exact path="/review/:id" component={ViewIssue} />
-          <PrivateRoute exact path="/all" component={AllIssuesList} />
-          <PrivateRoute exact path="/advanced" component={AdvancedSearch} />
+          <Route exact path="/" component={Landing} />
+          <PrivateRoute exact path="/home" component={Home} />
+          <PrivateRoute exact path="/issue/new" component={AddIssue} />
+          <PrivateRoute exact path="/issue/:id" component={ViewIssue} />
+          <PrivateRoute exact path="/issues" component={AllIssuesList} />
+          <PrivateRoute exact path="/search" component={AdvancedSearch} />
           <Route component={NotFound} />
         </Switch>
       </Router>

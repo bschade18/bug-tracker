@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
-import Issue from '../Issue';
-import Spinner from '../Spinner';
+import Issue from './Issue';
+import Spinner from './layout/Spinner';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -17,7 +17,7 @@ const AllIssuesList = ({ user }) => {
     let page = 1;
     setLoading(true);
     axios
-      .get(`/issue?team=${user.team}&page=${page}&limit=20`)
+      .get(`/issues?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);
@@ -35,15 +35,10 @@ const AllIssuesList = ({ user }) => {
 
   const sortNumber = () => {
     let sort;
-    if (sortColumn) {
-      sort = issues.sort((a, b) => {
-        return b.number - a.number;
-      });
-    } else {
-      sort = issues.sort((a, b) => {
-        return a.number - b.number;
-      });
-    }
+    sort = issues.sort((a, b) =>
+      sortColumn ? b.number - a.number : a.number - b.number
+    );
+
     setIssues(sort);
     setSortColumn(!sortColumn);
   };
@@ -52,34 +47,18 @@ const AllIssuesList = ({ user }) => {
     let name = e.target.getAttribute('name');
     let sort;
 
-    if (sortColumn) {
-      sort = issues.sort(function (a, b) {
-        if (a[name].toLowerCase() < b[name].toLowerCase()) {
-          return -1;
-        }
-        if (a[name].toLowerCase() > b[name].toLowerCase()) {
-          return 1;
-        }
-        return 0;
-      });
-    } else {
-      sort = issues.sort(function (a, b) {
-        if (b[name].toLowerCase() < a[name].toLowerCase()) {
-          return -1;
-        }
-        if (b[name].toLowerCase() > a[name].toLowerCase()) {
-          return 1;
-        }
-        return 0;
-      });
-    }
+    sort = issues.sort((a, b) => {
+      const wordA = a[name].toLowerCase();
+      const wordB = b[name].toLowerCase();
+      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
+      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
+    });
+
     setIssues(sort);
     setSortColumn(!sortColumn);
   };
 
-  const sortDate = () => {
-    sortNumber();
-  };
+  const sortDate = () => sortNumber();
 
   const selectPage = (page) => {
     if (page === 'next') {
@@ -88,7 +67,7 @@ const AllIssuesList = ({ user }) => {
       page = pagination.prev.page;
     }
     axios
-      .get(`/issue?team=${user.team}&page=${page}&limit=20`)
+      .get(`/issues?team=${user.team}&page=${page}&limit=20`)
       .then((response) => {
         setIssues(response.data.data);
         setPagination(response.data.pagination);

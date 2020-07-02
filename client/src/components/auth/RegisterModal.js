@@ -11,11 +11,11 @@ import {
   NavLink,
   Alert,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setErrors, clearErrors } from '../../actions/errorActions';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const RegisterModal = ({
   isAuthenticated,
@@ -54,7 +54,7 @@ const RegisterModal = ({
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/main" />;
+    return <Redirect to="/home" />;
   }
 
   return (
@@ -67,7 +67,7 @@ const RegisterModal = ({
           Account <span className="text-primary">Register</span>
         </ModalHeader>
         <ModalBody>
-          {error ? <Alert color="danger">{error}</Alert> : null}
+          {error && <Alert color="danger">{error}</Alert>}
           <Form onSubmit={onSubmit}>
             <FormGroup>
               <Label for="name">Name</Label>
@@ -79,7 +79,6 @@ const RegisterModal = ({
                 onChange={onChange}
                 className="mb-3"
               />
-
               <Label for="email">Email</Label>
               <Input
                 type="email"
@@ -89,7 +88,6 @@ const RegisterModal = ({
                 onChange={onChange}
                 className="mb-3"
               />
-
               <Label for="email">Team</Label>
               <Input
                 type="text"
@@ -99,7 +97,6 @@ const RegisterModal = ({
                 onChange={onChange}
                 className="mb-3"
               />
-
               <Label for="password">Password</Label>
               <Input
                 type="password"
@@ -109,7 +106,6 @@ const RegisterModal = ({
                 onChange={onChange}
                 className="mb-3"
               />
-
               <Label for="password"> Confirm Password</Label>
               <Input
                 type="password"
@@ -132,10 +128,10 @@ const RegisterModal = ({
 
 RegisterModal.propTypes = {
   isAuthenticated: PropTypes.bool,
-  register: PropTypes.func,
+  register: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   error: PropTypes.string,
-  setErrors: PropTypes.func,
-  clearErrors: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
