@@ -14,18 +14,17 @@ const AllIssuesList = ({ user }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let page = 1;
     setLoading(true);
     axios
-      .get(`/issues?team=${user.team}&page=${page}&limit=20`)
-      .then((response) => {
-        setIssues(response.data.data);
-        setPagination(response.data.pagination);
-        setTotalPages(response.data.totalPages);
+      .get(`/issues?team=${user.team}&limit=20`)
+      .then((res) => {
+        setIssues(res.data.data);
+        setPagination(res.data.pagination);
+        setTotalPages(res.data.totalPages);
         setLoading(false);
       })
-      .catch((error) => console.log(error));
-  }, [user.team]);
+      .catch((err) => console.log(err));
+  }, []);
 
   const IssuesList = () => {
     return issues.map((issue) => {
@@ -68,21 +67,19 @@ const AllIssuesList = ({ user }) => {
     }
     axios
       .get(`/issues?team=${user.team}&page=${page}&limit=20`)
-      .then((response) => {
-        setIssues(response.data.data);
-        setPagination(response.data.pagination);
+      .then((res) => {
+        setIssues(res.data.data);
+        setPagination(res.data.pagination);
         setPage(page);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((err) => console.log(err));
   };
 
-  let rows = [];
+  let pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
-    rows.push(
+    pageNumbers.push(
       <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-        <a className="page-link" onClick={() => selectPage(i)} href="#!">
+        <a onClick={() => selectPage(i)} className="page-link" href="#!">
           {i}
         </a>
       </li>
@@ -154,9 +151,7 @@ const AllIssuesList = ({ user }) => {
                   <span className="sr-only">Previous</span>
                 </a>
               </li>
-
-              {rows}
-
+              {pageNumbers}
               <li
                 className={pagination.next ? 'page-item' : 'page-item disabled'}
               >

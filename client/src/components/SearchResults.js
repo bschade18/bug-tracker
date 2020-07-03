@@ -10,7 +10,7 @@ const SearchResults = ({
   page,
   totalPages,
   selectPage,
-  rows,
+  pageNumbers,
 }) => (
   <Fragment>
     {wasSearched &&
@@ -50,7 +50,7 @@ const SearchResults = ({
                 </a>
               </li>
 
-              {rows}
+              {pageNumbers}
 
               <li
                 className={

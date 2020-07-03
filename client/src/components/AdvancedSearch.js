@@ -30,19 +30,6 @@ const AdvancedSearch = ({ user }) => {
     status,
   } = searchData;
 
-  useEffect(() => {
-    axios
-      .get(`/issues?team=${user.team}&page=${page}&limit=20`)
-      .then((response) => {
-        setIssues(response.data.data);
-        setPagination(response.data.pagination);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // eslint-disable-next-line
-  }, [user.team]);
-
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -76,15 +63,14 @@ const AdvancedSearch = ({ user }) => {
     const limit = 20;
     axios
       .get(`/issues?team=${user.team}&${string}`)
-      .then((res) => setTotalPages(Math.ceil(res.data.count / limit)))
-      .catch((error) => console.log(error));
-
-    axios
-      .get(`/issues?team=${user.team}&${string}&limit=${limit}&page=1`)
-      .then((response) => {
-        setIssues(response.data.data);
+      .then((res) => {
+        setTotalPages(Math.ceil(res.data.count / limit));
+        return axios.get(`/issues?team=${user.team}&${string}&limit=${limit}`);
+      })
+      .then((res) => {
+        setIssues(res.data.data);
         setWasSearched(true);
-        setPagination(response.data.pagination);
+        setPagination(res.data.pagination);
         setPage(1);
         setSearchString(string);
         setLoading(false);
@@ -120,19 +106,17 @@ const AdvancedSearch = ({ user }) => {
     }
     axios
       .get(`/issues?team=${user.team}&${string}&page=${page}&limit=20`)
-      .then((response) => {
-        setIssues(response.data.data);
-        setPagination(response.data.pagination);
+      .then((res) => {
+        setIssues(res.data.data);
+        setPagination(res.data.pagination);
         setPage(page);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
 
-  let rows = [];
+  let pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
-    rows.push(
+    pageNumbers.push(
       <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
         <a className="page-link" onClick={() => selectPage(i)} href="#!">
           {i}
@@ -159,7 +143,7 @@ const AdvancedSearch = ({ user }) => {
         page={page}
         totalPages={totalPages}
         selectPage={selectPage}
-        rows={rows}
+        pageNumbers={pageNumbers}
       />
     </div>
   );

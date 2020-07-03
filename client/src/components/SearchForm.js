@@ -14,7 +14,7 @@ const SearchForm = ({
     <div>
       <h5>Advanced Search</h5>
 
-      <form onSubmit={onSubmit}>
+      <form>
         <div className="form-group">
           <input
             placeholder="Assigned To"
@@ -66,7 +66,11 @@ const SearchForm = ({
           />
         </div>
         <div className="form-group">
-          <button type="submit" value="Search" className="btn btn-primary mt-3">
+          <button
+            onClick={onSubmit}
+            value="Search"
+            className="btn btn-primary mt-3"
+          >
             Search
           </button>
         </div>
