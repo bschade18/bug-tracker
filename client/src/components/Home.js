@@ -123,7 +123,7 @@ const Home = ({
     }
   };
 
-  if (!issues.length || loading) {
+  if (loading) {
     return <Spinner />;
   }
   return (

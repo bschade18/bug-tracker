@@ -18,6 +18,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     assignedTo: '',
     status: '',
     issueDescription: '',
+    projectTitle: '',
   });
 
   const {
@@ -28,6 +29,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     assignedTo,
     status,
     issueDescription,
+    projectTitle,
   } = issueData;
 
   useEffect(() => {
@@ -97,6 +99,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         users={users}
         status={status}
         today={today}
+        projectTitle={projectTitle}
         onSubmit={onSubmit}
       />
       <IssueLog LogList={LogList} />

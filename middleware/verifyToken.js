@@ -7,11 +7,8 @@ function auth(req, res, next) {
     return res.status(401).json({ msg: 'no token, authorization denied' });
 
   try {
-    // verify token
     const verified = jwt.verify(token, process.env.SECRET);
-    // add user from payload (take user from token?)
 
-    // you can set any request values in your middleware functions
     req.user = verified;
     next();
   } catch (e) {

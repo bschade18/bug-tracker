@@ -96,10 +96,10 @@ const AddIssue = ({
     <div className="container mt-3">
       <h3>Create New Issue Log</h3>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>User: </label>
           <p>{name}</p>
-        </div>
+        </div> */}
         <div className="form-group">
           <label>Title:</label>
           <input

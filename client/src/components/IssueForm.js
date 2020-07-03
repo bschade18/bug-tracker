@@ -10,6 +10,7 @@ const IssueForm = ({
   users,
   status,
   today,
+  projectTitle,
   onSubmit,
 }) => {
   return (
@@ -18,8 +19,8 @@ const IssueForm = ({
       <h5 style={{ textAlign: 'center' }}>{issueTitle}</h5>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>User: </label>
-          <p>{name}</p>
+          <label>Project: </label>
+          <p>{projectTitle}</p>
         </div>
         <div className="form-group">
           <label>Description: </label>
