@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import SearchForm from './SearchForm';
 import Issue from './Issue';
@@ -17,7 +17,7 @@ const AdvancedSearch = ({ user }) => {
   const [issues, setIssues] = useState([]);
   const [wasSearched, setWasSearched] = useState(false);
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState(null);
+  const [pagination, setPagination] = useState([]);
   const [totalPages, setTotalPages] = useState(null);
   const [searchString, setSearchString] = useState('');
   const [loading, setLoading] = useState(false);
