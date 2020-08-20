@@ -21,6 +21,16 @@
   color: #007bff;
 }
 
+/* Landing */
+
+.form-container form label {
+  margin-bottom: 0;
+}
+
+.form-container form input {
+  border-radius: 3px;
+}
+
 /* Issues */
 #issue-search {
   width: 300px;
@@ -178,7 +188,7 @@ footer {
 /* home */
 .form-container {
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 5rem auto;
   overflow: hidden;
   padding: 0 2rem;
 }
