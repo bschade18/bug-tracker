@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import './App.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import AddIssue from './components/AddIssue';
