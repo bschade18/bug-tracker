@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 const IssueForm = ({
   number,
   issueTitle,
-  name,
-  issueDescription,
   onChange,
   assignedTo,
   users,
@@ -29,7 +28,6 @@ const IssueForm = ({
             required
             className="form-control description-input"
             name="issueDescription"
-            value={issueDescription}
             onChange={onChange}
           />
         </div>
@@ -78,4 +76,15 @@ const IssueForm = ({
   );
 };
 
+IssueForm.propTypes = {
+  number: PropTypes.number.isRequired,
+  issueTitle: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  assignedTo: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired,
+  status: PropTypes.string.isRequired,
+  today: PropTypes.string.isRequired,
+  projectTitle: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 export default IssueForm;

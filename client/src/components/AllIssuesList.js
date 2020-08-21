@@ -24,7 +24,7 @@ const AllIssuesList = ({ user }) => {
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [user.team]);
 
   const IssuesList = () => {
     return issues.map((issue) => {

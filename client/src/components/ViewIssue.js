@@ -93,7 +93,6 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         number={number}
         issueTitle={issueTitle}
         name={name}
-        issueDescription={issueDescription}
         onChange={onChange}
         assignedTo={assignedTo}
         users={users}

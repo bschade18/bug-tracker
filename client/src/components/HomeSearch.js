@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 const HomeSearch = ({ onSubmit, onChangeNumber }) => {
   return (
     <div>
@@ -31,6 +33,11 @@ const HomeSearch = ({ onSubmit, onChangeNumber }) => {
       </div>
     </div>
   );
+};
+
+HomeSearch.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onChangeNumber: PropTypes.func.isRequired,
 };
 
 export default HomeSearch;

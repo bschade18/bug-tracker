@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from 'prop-types';
 
 const SearchForm = ({
   onSubmit,
@@ -77,6 +78,13 @@ const SearchForm = ({
       </form>
     </div>
   );
+};
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onChangeDateInitStart: PropTypes.func.isRequired,
+  onChangeDateInitEnd: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

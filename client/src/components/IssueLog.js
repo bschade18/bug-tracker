@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const IssueLog = ({ LogList }) => {
   return (
@@ -13,6 +14,10 @@ const IssueLog = ({ LogList }) => {
       <tbody>{LogList()}</tbody>
     </table>
   );
+};
+
+IssueLog.propTypes = {
+  LogList: PropTypes.func.isRequired,
 };
 
 export default IssueLog;

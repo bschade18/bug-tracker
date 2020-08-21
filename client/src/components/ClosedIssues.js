@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ClosedIssues = ({
   completedIssuesList,
@@ -66,6 +67,14 @@ const ClosedIssues = ({
       )}
     </div>
   );
+};
+
+ClosedIssues.propTypes = {
+  completedIssuesList: PropTypes.func.isRequired,
+  sortNumber: PropTypes.func.isRequired,
+  sortWord: PropTypes.func.isRequired,
+  sortDate: PropTypes.func.isRequired,
+  closed: PropTypes.array.isRequired,
 };
 
 export default ClosedIssues;

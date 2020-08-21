@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const OpenIssues = ({
   projectTitle,
@@ -95,6 +96,17 @@ const OpenIssues = ({
       )}
     </Fragment>
   );
+};
+
+OpenIssues.propTypes = {
+  projectTitle: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  listProjects: PropTypes.func.isRequired,
+  issuesList: PropTypes.func.isRequired,
+  sortNumber: PropTypes.func.isRequired,
+  sortWord: PropTypes.func.isRequired,
+  sortDate: PropTypes.func.isRequired,
+  issues: PropTypes.array.isRequired,
 };
 
 export default OpenIssues;

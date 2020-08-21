@@ -31,7 +31,6 @@ const Home = ({
   const [sortColumn, setSortColumn] = useState(false);
 
   useEffect(() => {
-    console.log('home effect');
     getIssues(team);
     getRecentClosed(team);
     // eslint-disable-next-line
