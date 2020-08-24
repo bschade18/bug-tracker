@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../actions/authActions';
 import PropTypes from 'prop-types';
+import { clearErrors } from '../actions/errorActions';
 
-const Landing = ({ isAuthenticated, error, login }) => {
+const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -21,7 +21,22 @@ const Landing = ({ isAuthenticated, error, login }) => {
     login({ email, password });
   };
 
+  const checkAlert = (inputField) => {
+    if (alerts.filter((alert) => alert.param === inputField).length) {
+      const msg = alerts.filter((alert) => alert.param === inputField)[0].msg;
+      return (
+        <p className="error">
+          <strong>{msg}</strong>
+        </p>
+      );
+    }
+  };
+
+  const applyErrorStyle = (inputField) =>
+    alerts.filter((alert) => alert.param === inputField).length;
+
   if (isAuthenticated) {
+    clearErrors();
     return <Redirect to="/home" />;
   }
 
@@ -30,15 +45,34 @@ const Landing = ({ isAuthenticated, error, login }) => {
       <h1>
         Account <span className="text-primary">Login</span>
       </h1>
-      <form onSubmit={onSubmit}>
-        {error ? <Alert color="danger">{error}</Alert> : null}
+      <form onSubmit={onSubmit} id="login-form" noValidate>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input onChange={onChange} type="email" name="email" />
+          <input
+            onChange={onChange}
+            type="email"
+            name="email"
+            className={
+              applyErrorStyle('email')
+                ? 'login-input error-border'
+                : 'login-input'
+            }
+          />
+          {checkAlert('email')}
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input onChange={onChange} type="password" name="password" />
+          <input
+            onChange={onChange}
+            type="password"
+            name="password"
+            className={
+              applyErrorStyle('password')
+                ? 'login-input error-border'
+                : 'login-input'
+            }
+          />
+          {checkAlert('password')}
         </div>
         <input
           type="submit"
@@ -53,12 +87,13 @@ const Landing = ({ isAuthenticated, error, login }) => {
 Landing.propTypes = {
   isAuthenticated: PropTypes.bool,
   login: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.array,
+  clearErrors: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error.msg,
+  alerts: state.error.errors,
 });
 
-export default connect(mapStateToProps, { login })(Landing);
+export default connect(mapStateToProps, { login, clearErrors })(Landing);

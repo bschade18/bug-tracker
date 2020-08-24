@@ -25,7 +25,7 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const register = ({ name, email, team, password }) => async (
+export const register = ({ name, email, team, password, password2 }) => async (
   dispatch
 ) => {
   const config = {
@@ -34,7 +34,7 @@ export const register = ({ name, email, team, password }) => async (
     },
   };
 
-  const body = JSON.stringify({ name, email, team, password });
+  const body = JSON.stringify({ name, email, team, password, password2 });
 
   try {
     const res = await axios.post('/auth/register', body, config);
@@ -45,7 +45,7 @@ export const register = ({ name, email, team, password }) => async (
     });
     dispatch(loadUser());
   } catch (err) {
-    dispatch(setErrors(err.response.data.msg));
+    dispatch(setErrors(err.response.data.errors));
     dispatch({
       type: REGISTER_FAIL,
     });
@@ -71,7 +71,7 @@ export const login = ({ email, password }) => async (dispatch) => {
 
     dispatch(loadUser());
   } catch (err) {
-    dispatch(setErrors(err.response.data.msg));
+    dispatch(setErrors(err.response.data.errors));
   }
 };
 

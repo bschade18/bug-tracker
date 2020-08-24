@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Issue from './Issue';
 import Spinner from './layout/Spinner';
 import PropTypes from 'prop-types';
-import ShowAlert from './Alert';
 import OpenIssues from './OpenIssues';
 import ClosedIssues from './ClosedIssues';
 import HomeSearch from './HomeSearch';
@@ -15,7 +14,7 @@ import {
   getRecentClosed,
   setProject,
 } from '../actions/issueActions';
-import { setErrors } from '../actions/errorActions';
+import { setErrors, clearErrors } from '../actions/errorActions';
 
 const Home = ({
   user: { team, name },
@@ -26,6 +25,8 @@ const Home = ({
   error,
   setProject,
   history,
+  alerts,
+  clearErrors,
 }) => {
   const [number, setNumber] = useState('');
   const [sortColumn, setSortColumn] = useState(false);
@@ -33,6 +34,7 @@ const Home = ({
   useEffect(() => {
     getIssues(team);
     getRecentClosed(team);
+    clearErrors();
     // eslint-disable-next-line
   }, [team, issues.length]);
 
@@ -108,15 +110,20 @@ const Home = ({
     e.preventDefault();
 
     if (number === '') {
-      setErrors('Please enter an issue number to search');
+      setErrors([{ msg: 'Enter an issue number to search', param: 'search' }]);
     } else if (number.length !== 6 || !/^\d+$/.test(number)) {
-      setErrors('Please enter a valid number');
+      setErrors([{ msg: 'Enter a valid 6 digit number', param: 'search' }]);
     } else {
       axios
         .get(`issues?&number=${number}&select=_id`)
         .then((res) => history.push(`issue/${res.data.data[0]._id}`))
         .catch((err) => {
-          setErrors('No issues found - try searching a different number');
+          setErrors([
+            {
+              msg: 'No issues found - try searching a different number',
+              param: 'search',
+            },
+          ]);
           console.log(err);
         });
     }
@@ -149,8 +156,11 @@ const Home = ({
           See All
         </Link>
       </div>
-      <ShowAlert alert={error} />
-      <HomeSearch onSubmit={onSubmit} onChangeNumber={onChangeNumber} />
+      <HomeSearch
+        onSubmit={onSubmit}
+        onChangeNumber={onChangeNumber}
+        alerts={alerts}
+      />
     </div>
   );
 };
@@ -161,12 +171,14 @@ Home.propTypes = {
   getIssues: PropTypes.func.isRequired,
   getRecentClosed: PropTypes.func.isRequired,
   error: PropTypes.string,
+  clearErrors: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   issues: state.issues,
   user: state.auth.user,
   error: state.error.msg,
+  alerts: state.error.errors,
 });
 
 export default connect(mapStateToProps, {
@@ -174,4 +186,5 @@ export default connect(mapStateToProps, {
   getRecentClosed,
   setErrors,
   setProject,
+  clearErrors,
 })(Home);

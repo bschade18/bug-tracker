@@ -1,7 +1,7 @@
 import { SET_ERRORS, CLEAR_ERRORS } from '../actions/types';
 
 const initialState = {
-  msg: null,
+  errors: [],
 };
 
 export default function (state = initialState, action) {
@@ -9,11 +9,13 @@ export default function (state = initialState, action) {
   switch (type) {
     case SET_ERRORS:
       return {
-        msg: payload,
+        ...state,
+        errors: [...payload],
       };
     case CLEAR_ERRORS:
       return {
-        msg: '',
+        ...state,
+        errors: [],
       };
     default:
       return state;

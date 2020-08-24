@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const asyncHandler = require('../middleware/async');
-const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -25,9 +24,6 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, team, password } = req.body;
-  // validate user data
-  const { error } = registerValidation(req.body);
-  if (error) return res.status(400).json({ msg: error.details[0].message });
 
   try {
     // check if user already in db
@@ -76,21 +72,23 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  // validate user data
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).json({ msg: error.details[0].message });
 
   try {
     // check if user in db
     let user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json({ msg: 'User does not exist' });
+    if (!user)
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'User does not exist', param: 'email' }] });
 
     // check pw
     let isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      res.status(400).json({ msg: 'Invalid credentials' });
+      res
+        .status(400)
+        .json({ errors: [{ msg: 'Invalid credentials', param: 'password' }] });
     }
 
     const payload = {

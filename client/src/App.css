@@ -25,6 +25,7 @@
 
 .form-container form label {
   margin-bottom: 0;
+  font-weight: bold;
 }
 
 .form-container form input {
@@ -187,7 +188,7 @@ footer {
 
 /* home */
 .form-container {
-  max-width: 500px;
+  max-width: 450px;
   margin: 5rem auto;
   overflow: hidden;
   padding: 0 2rem;
@@ -206,11 +207,10 @@ h3 {
 
 /* Forms */
 
-input[type='email'],
-input[type='password'] {
+form input.login-input {
   display: block;
   width: 100%;
-  padding: 0.4rem;
+  padding: 0.6rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
 }
@@ -218,4 +218,52 @@ input[type='password'] {
 input[type='submit'],
 button {
   font: inherit;
+}
+
+form input.error-border {
+  border-color: #e74c3c;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+#login-form .form-group,
+#homeSearch-form .form-group {
+  padding-bottom: 1.5rem;
+  margin-bottom: 0;
+  position: relative;
+}
+
+#login-form input[type='submit']:focus,
+#register-form button:focus,
+#homeSearch-form button:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#register-form .form-group {
+  margin-bottom: 0;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+#register-form label {
+  margin-bottom: 0;
+}
+
+#login-form .form-group p,
+#register-form .form-group p,
+#homeSearch-form .form-group p {
+  color: #e74c3c;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+input#issue-search.form-control {
+  display: block;
 }

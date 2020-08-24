@@ -3,9 +3,11 @@ const router = express.Router();
 const auth = require('../middleware/verifyToken');
 const { register, login, getUser } = require('../controllers/auth');
 
-router.route('/register').post(register);
+const { validateRegister, validateLogin } = require('../validation');
 
-router.route('/login').post(login);
+router.route('/register').post(validateRegister, register);
+
+router.route('/login').post(validateLogin, login);
 
 router.route('/user').get(auth, getUser);
 
