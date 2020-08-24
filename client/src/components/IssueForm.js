@@ -14,8 +14,8 @@ const IssueForm = ({
 }) => {
   return (
     <Fragment>
-      <h3>Issue #{number}</h3>
-      <h5 style={{ textAlign: 'center' }}>{issueTitle}</h5>
+      <h3 className="text-center">{issueTitle}</h3>
+      <h5 className="text-center">Issue #{number}</h5>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label>Project</label>

@@ -14,14 +14,14 @@ const OpenIssues = ({
 }) => {
   return (
     <Fragment>
-      <h5>My Open Issues</h5>
+      <h2 className="lg-heading">My Open Issues</h2>
       <div className="form-group">
         <Link to="/issue/new" id="submit-issue-link">
           Submit New Issue
         </Link>
       </div>
       <div className="form-group">
-        <label>Project: </label>
+        <label className="bold-text">Project</label>
         <select
           required
           className="form-control"

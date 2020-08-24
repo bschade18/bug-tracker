@@ -8,6 +8,18 @@
   background: #f5f5f5;
 }
 
+.lg-heading {
+  font-size: 1.75rem;
+}
+
+.md-heading {
+  font-size: 1.25rem;
+}
+
+.bold-text {
+  font-weight: bolder;
+}
+
 /* Navbar */
 
 .navbar-dark .navbar-nav .nav-link,
@@ -195,9 +207,7 @@ footer {
   padding: 0 2rem;
 }
 
-.form-container h1,
-h2,
-h3 {
+.form-container h1 {
   text-align: center;
 }
 

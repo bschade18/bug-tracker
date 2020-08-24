@@ -19,7 +19,7 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
   return (
     <form onSubmit={onSubmit} id="homeSearch-form">
       <div className="form-group">
-        <label>Search Issue # </label>
+        <label className="bold-text">Search Issue # </label>
         <div className="search-container">
           <input
             type="text"

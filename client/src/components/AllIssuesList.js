@@ -94,7 +94,7 @@ const AllIssuesList = ({ user }) => {
         <h3>You have not submitted any issues yet</h3>
       ) : (
         <Fragment>
-          <h5>All Issues</h5>
+          <h5 className="lg-heading">All Issues</h5>
           <div className="table-responsive">
             <table className="table mt-4">
               <thead className="light-bg">

@@ -13,7 +13,7 @@ const SearchForm = ({
 }) => {
   return (
     <div>
-      <h5>Advanced Search</h5>
+      <h5 className="lg-heading">Advanced Search</h5>
 
       <form>
         <div className="form-group">

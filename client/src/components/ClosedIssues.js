@@ -10,7 +10,7 @@ const ClosedIssues = ({
 }) => {
   return (
     <div>
-      <h5 className="mt-5">Recently Closed Issues</h5>
+      <h5 className="mt-5 lg-heading">Recently Closed Issues</h5>
       {completedIssuesList().length === 0 ? (
         <p className="issues-message">
           <em>No closed issues</em>
