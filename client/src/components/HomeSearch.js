@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
@@ -18,10 +17,10 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
     alerts.filter((alert) => alert.param === inputField).length;
 
   return (
-    <div>
-      <form onSubmit={onSubmit} id="homeSearch-form">
-        <div className="form-group">
-          <label>Search Issue # </label>
+    <form onSubmit={onSubmit} id="homeSearch-form">
+      <div className="form-group">
+        <label>Search Issue # </label>
+        <div className="search-container">
           <input
             type="text"
             className={
@@ -32,25 +31,13 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
             onChange={onChangeNumber}
             id="issue-search"
           />
-          {checkAlert('search')}
-        </div>
-
-        <div className="form-group">
-          <button
-            type="submit"
-            value="Search Issue"
-            className="btn btn-primary mt-1"
-          >
-            Search
+          <button>
+            <i className="fa fa-search" aria-hidden="true"></i>
           </button>
         </div>
-      </form>
-      <div className="form-group mb-4">
-        <Link to={'/search'} id="advanced-search-link">
-          Advanced Search
-        </Link>
+        {checkAlert('search')}
       </div>
-    </div>
+    </form>
   );
 };
 

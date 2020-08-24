@@ -151,16 +151,22 @@ const Home = ({
         sortWord={sortWord}
         sortDate={sortDate}
       />
-      <div className="form-group">
-        <Link to={'/issues'} id="see-more-link">
-          See All
-        </Link>
-      </div>
       <HomeSearch
         onSubmit={onSubmit}
         onChangeNumber={onChangeNumber}
         alerts={alerts}
       />
+      <div>
+        <Link to={'/search'} id="advanced-search-link" className="mb-2">
+          Advanced Search
+        </Link>
+      </div>
+
+      <div>
+        <Link to={'/issues'} id="see-more-link" className="mb-5">
+          See All Issues
+        </Link>
+      </div>
     </div>
   );
 };
