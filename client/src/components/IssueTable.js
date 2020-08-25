@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const IssueTable = ({
-  list,
-  displayIssuesFunc,
-  sortNumber,
-  sortWord,
-  sortDate,
-}) => {
+const IssueTable = ({ list, displayIssuesFunc }) => {
+  const [sortColumn, setSortColumn] = useState(false);
+
+  const sortNumber = (list) => {
+    list.sort((a, b) =>
+      sortColumn ? b.number - a.number : a.number - b.number
+    );
+
+    setSortColumn(!sortColumn);
+  };
+
+  const sortDate = (list) => sortNumber(list);
+
+  const sortWord = (list, e) => {
+    let name = e.target.getAttribute('name');
+
+    list.sort((a, b) => {
+      const wordA = a[name].toLowerCase();
+      const wordB = b[name].toLowerCase();
+      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
+      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
+    });
+
+    setSortColumn(!sortColumn);
+  };
+
   return (
     <div className="table-responsive">
       <table className="table">
@@ -15,7 +34,7 @@ const IssueTable = ({
             <th>
               Issue #{' '}
               <i
-                onClick={(e) => sortNumber(list, e)}
+                onClick={() => sortNumber(list)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
@@ -53,7 +72,6 @@ const IssueTable = ({
             <th>Open Issue</th>
           </tr>
         </thead>
-        {/* <tbody>{issuesList()}</tbody> */}
         <tbody>{displayIssuesFunc()}</tbody>
       </table>
     </div>

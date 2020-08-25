@@ -8,9 +8,6 @@ const OpenIssues = ({
   onChange,
   listProjects,
   issuesList,
-  sortNumber,
-  sortWord,
-  sortDate,
   issues,
 }) => {
   return (
@@ -41,14 +38,8 @@ const OpenIssues = ({
           })}
         </select>
       </div>
-      {issuesList().length > 0 ? (
-        <IssueTable
-          list={issues}
-          displayIssuesFunc={issuesList}
-          sortNumber={sortNumber}
-          sortWord={sortWord}
-          sortDate={sortDate}
-        />
+      {issuesList().length ? (
+        <IssueTable list={issues} displayIssuesFunc={issuesList} />
       ) : (
         <p className="issues-message">
           <em>No open issues</em>
@@ -63,9 +54,6 @@ OpenIssues.propTypes = {
   onChange: PropTypes.func.isRequired,
   listProjects: PropTypes.func.isRequired,
   issuesList: PropTypes.func.isRequired,
-  sortNumber: PropTypes.func.isRequired,
-  sortWord: PropTypes.func.isRequired,
-  sortDate: PropTypes.func.isRequired,
   issues: PropTypes.array.isRequired,
 };
 

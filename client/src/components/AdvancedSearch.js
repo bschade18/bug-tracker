@@ -21,7 +21,6 @@ const AdvancedSearch = ({ user }) => {
   const [totalPages, setTotalPages] = useState(null);
   const [searchString, setSearchString] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sortColumn, setSortColumn] = useState(false);
 
   const {
     assignedTo,
@@ -126,29 +125,6 @@ const AdvancedSearch = ({ user }) => {
     );
   }
 
-  const sortNumber = (list) => {
-    list.sort((a, b) =>
-      sortColumn ? b.number - a.number : a.number - b.number
-    );
-
-    setSortColumn(!sortColumn);
-  };
-
-  const sortWord = (list, e) => {
-    let name = e.target.getAttribute('name');
-
-    list.sort((a, b) => {
-      const wordA = a[name].toLowerCase();
-      const wordB = b[name].toLowerCase();
-      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
-      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
-    });
-
-    setSortColumn(!sortColumn);
-  };
-
-  const sortDate = (list) => sortNumber(list);
-
   return (
     <div className="container mt-3">
       <SearchForm
@@ -169,9 +145,6 @@ const AdvancedSearch = ({ user }) => {
         totalPages={totalPages}
         selectPage={selectPage}
         pageNumbers={pageNumbers}
-        sortNumber={sortNumber}
-        sortWord={sortWord}
-        sortDate={sortDate}
       />
     </div>
   );

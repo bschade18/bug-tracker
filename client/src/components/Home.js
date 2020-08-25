@@ -22,14 +22,12 @@ const Home = ({
   issues: { issues, closed, loading, currentProject },
   getRecentClosed,
   setErrors,
-  error,
   setProject,
   history,
   alerts,
   clearErrors,
 }) => {
   const [number, setNumber] = useState('');
-  const [sortColumn, setSortColumn] = useState(false);
 
   useEffect(() => {
     getIssues(team);
@@ -81,29 +79,6 @@ const Home = ({
     });
   };
 
-  const sortNumber = (list) => {
-    list.sort((a, b) =>
-      sortColumn ? b.number - a.number : a.number - b.number
-    );
-
-    setSortColumn(!sortColumn);
-  };
-
-  const sortWord = (list, e) => {
-    let name = e.target.getAttribute('name');
-
-    list.sort((a, b) => {
-      const wordA = a[name].toLowerCase();
-      const wordB = b[name].toLowerCase();
-      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
-      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
-    });
-
-    setSortColumn(!sortColumn);
-  };
-
-  const sortDate = (list) => sortNumber(list);
-
   const onChangeNumber = (e) => setNumber(e.target.value);
 
   const onSubmit = (e) => {
@@ -140,17 +115,8 @@ const Home = ({
         projectTitle={currentProject}
         listProjects={listProjects}
         onChange={onChange}
-        sortNumber={sortNumber}
-        sortWord={sortWord}
-        sortDate={sortDate}
       />
-      <ClosedIssues
-        closed={closed}
-        completedIssuesList={completedIssuesList}
-        sortNumber={sortNumber}
-        sortWord={sortWord}
-        sortDate={sortDate}
-      />
+      <ClosedIssues closed={closed} completedIssuesList={completedIssuesList} />
       <HomeSearch
         onSubmit={onSubmit}
         onChangeNumber={onChangeNumber}

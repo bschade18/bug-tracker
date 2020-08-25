@@ -8,7 +8,6 @@ import IssueTable from './IssueTable';
 
 const AllIssuesList = ({ user }) => {
   const [issues, setIssues] = useState([]);
-  const [sortColumn, setSortColumn] = useState(false);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
   const [totalPages, setTotalPages] = useState(null);
@@ -32,33 +31,6 @@ const AllIssuesList = ({ user }) => {
       return <Issue issue={issue} key={issue._id} />;
     });
   };
-
-  const sortNumber = () => {
-    let sort;
-    sort = issues.sort((a, b) =>
-      sortColumn ? b.number - a.number : a.number - b.number
-    );
-
-    setIssues(sort);
-    setSortColumn(!sortColumn);
-  };
-
-  const sortWord = (e) => {
-    let name = e.target.getAttribute('name');
-    let sort;
-
-    sort = issues.sort((a, b) => {
-      const wordA = a[name].toLowerCase();
-      const wordB = b[name].toLowerCase();
-      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
-      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
-    });
-
-    setIssues(sort);
-    setSortColumn(!sortColumn);
-  };
-
-  const sortDate = () => sortNumber();
 
   const selectPage = (page) => {
     if (page === 'next') {
@@ -96,13 +68,7 @@ const AllIssuesList = ({ user }) => {
       ) : (
         <Fragment>
           <h5 className="lg-heading">All Issues</h5>
-          <IssueTable
-            list={issues}
-            displayIssuesFunc={IssuesList}
-            sortNumber={sortNumber}
-            sortWord={sortWord}
-            sortDate={sortDate}
-          />
+          <IssueTable list={issues} displayIssuesFunc={IssuesList} />
           <nav>
             <ul className="pagination">
               <li
