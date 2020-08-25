@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import Spinner from './layout/Spinner';
 import PropTypes from 'prop-types';
+import IssueTable from './IssueTable';
 
 const SearchResults = ({
   wasSearched,
@@ -12,6 +13,9 @@ const SearchResults = ({
   totalPages,
   selectPage,
   pageNumbers,
+  sortDate,
+  sortNumber,
+  sortWord,
 }) => (
   <Fragment>
     {wasSearched &&
@@ -21,21 +25,13 @@ const SearchResults = ({
         <h3>No issues were found in search</h3>
       ) : (
         <Fragment>
-          <div className="table-responsive">
-            <table className="table mt-5">
-              <thead className="light-bg">
-                <tr>
-                  <th>Issue # </th>
-                  <th>Status </th>
-                  <th>Title </th>
-                  <th>Assigned To </th>
-                  <th>Date Initiated </th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{searchResultsList()}</tbody>
-            </table>
-          </div>
+          <IssueTable
+            list={issues}
+            displayIssuesFunc={searchResultsList}
+            sortNumber={sortNumber}
+            sortWord={sortWord}
+            sortDate={sortDate}
+          />
           <nav>
             <ul className="pagination">
               <li

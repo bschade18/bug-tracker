@@ -4,6 +4,7 @@ import Issue from './Issue';
 import Spinner from './layout/Spinner';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import IssueTable from './IssueTable';
 
 const AllIssuesList = ({ user }) => {
   const [issues, setIssues] = useState([]);
@@ -95,48 +96,13 @@ const AllIssuesList = ({ user }) => {
       ) : (
         <Fragment>
           <h5 className="lg-heading">All Issues</h5>
-          <div className="table-responsive">
-            <table className="table mt-4">
-              <thead className="light-bg">
-                <tr>
-                  <th>
-                    Issue #
-                    <i onClick={sortNumber} className="fa fa-fw fa-sort"></i>
-                  </th>
-                  <th>
-                    Status
-                    <i
-                      name="status"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Title
-                    <i
-                      name="issueTitle"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Assigned To
-                    <i
-                      name="assignedTo"
-                      onClick={sortWord}
-                      className="fa fa-fw fa-sort"
-                    ></i>
-                  </th>
-                  <th>
-                    Date Initiated
-                    <i onClick={sortDate} className="fa fa-fw fa-sort"></i>
-                  </th>
-                  <th>Open Issue</th>
-                </tr>
-              </thead>
-              <tbody>{IssuesList()}</tbody>
-            </table>
-          </div>
+          <IssueTable
+            list={issues}
+            displayIssuesFunc={IssuesList}
+            sortNumber={sortNumber}
+            sortWord={sortWord}
+            sortDate={sortDate}
+          />
           <nav>
             <ul className="pagination">
               <li

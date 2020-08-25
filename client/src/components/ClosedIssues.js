@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import IssueTable from './IssueTable';
 
 const ClosedIssues = ({
   completedIssuesList,
@@ -16,54 +17,13 @@ const ClosedIssues = ({
           <em>No closed issues</em>
         </p>
       ) : (
-        <div className="table-responsive">
-          <table className="table mt-3">
-            <thead className="light-bg">
-              <tr>
-                <th>
-                  Issue #{' '}
-                  <i
-                    onClick={() => sortNumber(closed)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Status{' '}
-                  <i
-                    name="status"
-                    onClick={(e) => sortWord(closed, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Title{' '}
-                  <i
-                    name="issueTitle"
-                    onClick={(e) => sortWord(closed, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Assigned To{' '}
-                  <i
-                    name="assignedTo"
-                    onClick={(e) => sortWord(closed, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Date Initiated{' '}
-                  <i
-                    onClick={() => sortDate(closed)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{completedIssuesList()}</tbody>
-          </table>
-        </div>
+        <IssueTable
+          list={closed}
+          displayIssuesFunc={completedIssuesList}
+          sortNumber={sortNumber}
+          sortWord={sortWord}
+          sortDate={sortDate}
+        />
       )}
     </div>
   );

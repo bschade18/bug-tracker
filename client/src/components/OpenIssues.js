@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import IssueTable from './IssueTable';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -41,54 +42,13 @@ const OpenIssues = ({
         </select>
       </div>
       {issuesList().length > 0 ? (
-        <div className="table-responsive">
-          <table className="table">
-            <thead className="light-bg">
-              <tr>
-                <th>
-                  Issue #{' '}
-                  <i
-                    onClick={(e) => sortNumber(issues, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Status{' '}
-                  <i
-                    name="status"
-                    onClick={(e) => sortWord(issues, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Title{' '}
-                  <i
-                    name="issueTitle"
-                    onClick={(e) => sortWord(issues, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Assigned To{' '}
-                  <i
-                    name="assignedTo"
-                    onClick={(e) => sortWord(issues, e)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>
-                  Date Initiated{' '}
-                  <i
-                    onClick={() => sortDate(issues)}
-                    className="fa fa-fw fa-sort"
-                  ></i>
-                </th>
-                <th>Open Issue</th>
-              </tr>
-            </thead>
-            <tbody>{issuesList()}</tbody>
-          </table>
-        </div>
+        <IssueTable
+          list={issues}
+          displayIssuesFunc={issuesList}
+          sortNumber={sortNumber}
+          sortWord={sortWord}
+          sortDate={sortDate}
+        />
       ) : (
         <p className="issues-message">
           <em>No open issues</em>
