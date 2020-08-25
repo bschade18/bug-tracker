@@ -110,7 +110,7 @@ const AddIssue = ({
           />
         </div>
         <div className="form-group">
-          <label>Project</label>
+          <label>Project:</label>
           {isNewProject ? (
             <input
               type="text"

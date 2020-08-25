@@ -2,13 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IssueTable from './IssueTable';
 
-const ClosedIssues = ({
-  completedIssuesList,
-  sortNumber,
-  sortWord,
-  sortDate,
-  closed,
-}) => {
+const ClosedIssues = ({ completedIssuesList, closed }) => {
   return (
     <div>
       <h5 className="mt-5 lg-heading">Recently Closed Issues</h5>
@@ -17,13 +11,7 @@ const ClosedIssues = ({
           <em>No closed issues</em>
         </p>
       ) : (
-        <IssueTable
-          list={closed}
-          displayIssuesFunc={completedIssuesList}
-          sortNumber={sortNumber}
-          sortWord={sortWord}
-          sortDate={sortDate}
-        />
+        <IssueTable list={closed} displayIssuesFunc={completedIssuesList} />
       )}
     </div>
   );
@@ -31,9 +19,6 @@ const ClosedIssues = ({
 
 ClosedIssues.propTypes = {
   completedIssuesList: PropTypes.func.isRequired,
-  sortNumber: PropTypes.func.isRequired,
-  sortWord: PropTypes.func.isRequired,
-  sortDate: PropTypes.func.isRequired,
   closed: PropTypes.array.isRequired,
 };
 

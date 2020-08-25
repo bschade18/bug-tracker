@@ -18,7 +18,7 @@ const IssueForm = ({
       <h5 className="text-center">Issue #{number}</h5>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Project</label>
+          <label>Project:</label>
           <p>{projectTitle}</p>
         </div>
         <div className="form-group">

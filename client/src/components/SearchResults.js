@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Spinner from './layout/Spinner';
 import PropTypes from 'prop-types';
 import IssueTable from './IssueTable';
+import Pagination from './Pagination';
 
 const SearchResults = ({
   wasSearched,
@@ -32,39 +33,14 @@ const SearchResults = ({
             sortWord={sortWord}
             sortDate={sortDate}
           />
-          <nav>
-            <ul className="pagination">
-              <li
-                className={pagination.prev ? 'page-item' : 'page-item disabled'}
-              >
-                <a
-                  className="page-link"
-                  onClick={() => selectPage('prev')}
-                  href="#!"
-                >
-                  <span>&laquo;</span>
-                  <span className="sr-only">Previous</span>
-                </a>
-              </li>
-
-              {pageNumbers}
-
-              <li
-                className={
-                  page !== totalPages ? 'page-item' : 'page-item disabled'
-                }
-              >
-                <a
-                  className="page-link"
-                  onClick={() => selectPage('next')}
-                  href="#!"
-                >
-                  <span>&raquo;</span>
-                  <span className="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <Pagination
+            pagination={pagination}
+            selectPage={selectPage}
+            pageNumbers={pageNumbers}
+            page={page}
+            totalPages={totalPages}
+            component="AdvancedSearch"
+          />
         </Fragment>
       ))}
   </Fragment>

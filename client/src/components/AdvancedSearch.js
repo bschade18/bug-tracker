@@ -141,10 +141,10 @@ const AdvancedSearch = ({ user }) => {
         issues={issues}
         searchResultsList={searchResultsList}
         pagination={pagination}
-        page={page}
-        totalPages={totalPages}
         selectPage={selectPage}
         pageNumbers={pageNumbers}
+        totalPages={totalPages}
+        page={page}
       />
     </div>
   );
