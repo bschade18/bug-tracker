@@ -15,12 +15,9 @@ const IssueForm = ({
   return (
     <Fragment>
       <h3 className="text-center">{issueTitle}</h3>
-      <h5 className="text-center">Issue #{number}</h5>
+      <h5 className="text-center">{projectTitle}</h5>
+      <p>Issue #{number}</p>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label>Project:</label>
-          <p>{projectTitle}</p>
-        </div>
         <div className="form-group">
           <label>Description: </label>
           <textarea
