@@ -1,4 +1,4 @@
-* {
+body {
   font-family: 'Roboto', sans-serif;
 }
 
@@ -20,91 +20,7 @@
   font-weight: bolder;
 }
 
-/* Navbar */
-
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-nav .nav-link:active,
-.navbar-dark .navbar-nav .nav-link:focus,
-.navbar-dark .navbar-text {
-  color: #fff;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: #007bff;
-}
-
-/* Landing */
-
-.form-container form label {
-  margin-bottom: 0;
-  font-weight: bold;
-}
-
-.form-container form input {
-  border-radius: 3px;
-}
-
-/* Issues */
-#issue-search {
-  width: 300px;
-  display: block;
-}
-
-.icon-folder-open-alt {
-  text-decoration: none;
-}
-
-.folder {
-  margin: auto;
-  position: relative;
-  left: 30px;
-}
-
-.icon-folder-open-alt:hover {
-  text-decoration: none;
-}
-
-#submit-issue-link:hover {
-  text-decoration: none;
-}
-
-#add-user-link:hover {
-  text-decoration: none;
-}
-
-#assigned-to-search,
-#init-end-dt,
-#init-start-dt,
-#initiated-by-search,
-#status {
-  display: block;
-  padding: 15px;
-}
-#assigned-to-search,
-#init-end-dt,
-#init-start-dt,
-#initiated-by-search,
-#status {
-  width: 18rem;
-}
-
-#issue-title,
-#project-title {
-  width: 300px;
-  display: block;
-}
-
-#username {
-  width: 300px;
-  display: block;
-  padding: 15px;
-}
-
-#assign-to {
-  width: 300px;
-  display: block;
-}
-#status-input {
+.form-input {
   width: 300px;
   display: block;
 }
@@ -114,68 +30,30 @@
   height: 180px;
 }
 
-#change-username {
-  width: 300px;
-  display: block;
-  padding: 15px;
-}
-
-#add-user-input,
-#search {
-  width: 300px;
-  display: block;
-  padding: 15px;
-}
-
-.closed-issues-container {
-  margin-top: 75px;
-}
-
-.log-btn {
-  background: none !important;
-  border: none;
-  padding: 5 !important;
-  font-family: arial, sans-serif;
-  /*input has OS specific font-family*/
-  color: #069;
-  cursor: pointer;
-}
-
-footer {
-  font-size: 10px;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  color: black;
-  text-align: center;
-}
-
-#title {
-  width: 20rem;
-}
-
-#see-more-link,
-#advanced-search-link {
+.link {
   text-decoration: none;
   display: inline-block;
 }
 
-#log-description {
-  width: 47rem;
+.link:hover {
+  text-decoration: none;
 }
 
-.issues-message {
-  font-size: 1.1rem;
-  margin-top: 2rem;
+/* View Issue - IssueLog */
+
+.IssueLog .log-description {
+  width: 70%;
 }
 
-.pagination-btns {
-  display: flex;
+/* Issue */
+.Issue .folder {
+  margin: auto;
+  position: relative;
+  left: 30px;
 }
 
-.pagination-btns button {
-  margin: 0.5rem 0.5rem;
+.Issue-title {
+  width: 320px;
 }
 
 /* Spinner */
@@ -197,124 +75,4 @@ footer {
   100% {
     transform: rotate(360deg);
   }
-}
-
-/* home */
-.form-container {
-  max-width: 450px;
-  margin: 5rem auto;
-  overflow: hidden;
-  padding: 0 2rem;
-}
-
-.form-container h1 {
-  text-align: center;
-}
-
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-/* Forms */
-
-form input.login-input {
-  display: block;
-  width: 100%;
-  padding: 0.6rem;
-  font-size: 1.2rem;
-  border: 1px solid #ccc;
-}
-
-input[type='submit'],
-button {
-  font: inherit;
-}
-
-form input.error-border {
-  border-color: #e74c3c;
-}
-
-.error {
-  color: #e74c3c;
-}
-
-#login-form .form-group,
-#homeSearch-form .form-group {
-  padding-bottom: 1.5rem;
-  margin-bottom: 0;
-  position: relative;
-}
-
-#login-form input[type='submit']:focus,
-#register-form button:focus,
-#homeSearch-form .form-group .search-container input:focus {
-  border-color: inherit;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-#register-form .form-group {
-  margin-bottom: 0;
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-#register-form label {
-  margin-bottom: 0;
-}
-
-#login-form .form-group p,
-#register-form .form-group p,
-#homeSearch-form .form-group p {
-  color: #e74c3c;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-input#issue-search.form-control {
-  display: block;
-}
-
-/* Home Issue # Search */
-.search-container {
-  width: 300px;
-  display: flex;
-  position: relative;
-  align-items: center;
-}
-
-i.fa.fa-search {
-  color: #007bff;
-  font-size: 26px;
-  height: 100%;
-  padding: 4px 6px;
-  cursor: pointer;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  border: 1px solid rgb(206, 212, 218);
-  font-weight: 100;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#homeSearch-form button {
-  background: rgb(245, 245, 245);
-  z-index: 2;
-  position: absolute;
-  right: 0;
-  height: 100%;
-  padding: 0;
-  cursor: pointer;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  border: none;
-  font-weight: 100;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }

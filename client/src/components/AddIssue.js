@@ -93,7 +93,7 @@ const AddIssue = ({
     return <Spinner />;
   }
   return (
-    <div className="container mt-3">
+    <div className="AddIssue container mt-3">
       <h3>Create New Issue Log</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
@@ -101,7 +101,7 @@ const AddIssue = ({
           <input
             type="text"
             required
-            className="form-control"
+            className="form-control form-input"
             name="issueTitle"
             value={issueTitle}
             onChange={onChange}
@@ -115,7 +115,7 @@ const AddIssue = ({
             <input
               type="text"
               required
-              className="form-control"
+              className="form-control form-input"
               name="projectTitle"
               value={projectTitle}
               onChange={onChange}
@@ -125,7 +125,7 @@ const AddIssue = ({
           ) : (
             <select
               required
-              className="form-control"
+              className="form-control form-input"
               value={projectTitle}
               name="projectTitle"
               onChange={onChange}
@@ -162,7 +162,7 @@ const AddIssue = ({
           <label>Assign To:</label>
           <select
             required
-            className="form-control"
+            className="form-control form-input"
             value={assignedTo}
             name="assignedTo"
             onChange={onChange}
@@ -180,7 +180,7 @@ const AddIssue = ({
           <label>Status</label>
           <select
             required
-            className="form-control"
+            className="form-control form-input"
             value={status}
             name="status"
             onChange={onChange}

@@ -71,7 +71,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
       return (
         <tr key={log._id}>
           <td>{log.name}</td>
-          <td id="log-description">{log.desc}</td>
+          <td className="log-description">{log.desc}</td>
           <td>{date}</td>
         </tr>
       );

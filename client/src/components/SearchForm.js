@@ -21,7 +21,7 @@ const SearchForm = ({
             placeholder="Assigned To"
             type="text"
             name="assignedTo"
-            className="form-control mt-3"
+            className="form-control form-input mt-3"
             onChange={onChange}
             id="assigned-to-search"
           />
@@ -31,7 +31,7 @@ const SearchForm = ({
             placeholder="Initiated By"
             type="text"
             name="initiatedBy"
-            className="form-control mt-4"
+            className="form-control form-input mt-4"
             onChange={onChange}
             id="initiated-by-search"
           />
@@ -41,7 +41,7 @@ const SearchForm = ({
             placeholder="Status"
             type="text"
             name="status"
-            className="form-control mt-4"
+            className="form-control form-input mt-4"
             onChange={onChange}
             id="status"
           />
@@ -52,7 +52,7 @@ const SearchForm = ({
             selected={initiatedStartDt}
             onChange={onChangeDateInitStart}
             id="init-start-dt"
-            className="mt-1 form-control"
+            className="mt-1 form-input form-control"
             placeholderText="Date Initiated - Start"
           />
         </div>
@@ -62,7 +62,7 @@ const SearchForm = ({
             selected={initiatedEndDt}
             onChange={onChangeDateInitEnd}
             id="init-end-dt"
-            className="mt-1 form-control"
+            className="mt-1 form-input form-control"
             placeholderText="Date Initiated - End"
           />
         </div>

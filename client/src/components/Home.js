@@ -123,13 +123,13 @@ const Home = ({
         alerts={alerts}
       />
       <div>
-        <Link to={'/search'} id="advanced-search-link" className="mb-2">
+        <Link to={'/search'} className="link mb-2">
           Advanced Search
         </Link>
       </div>
 
       <div>
-        <Link to={'/issues'} id="see-more-link" className="mb-5">
+        <Link to={'/issues'} className="link mb-5">
           See All Issues
         </Link>
       </div>

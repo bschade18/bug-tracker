@@ -35,7 +35,7 @@ const IssueForm = ({
           <label>Assign To: </label>
           <select
             required
-            className="form-control"
+            className="form-control form-input"
             name="assignedTo"
             value={assignedTo}
             onChange={onChange}
@@ -52,7 +52,7 @@ const IssueForm = ({
           <label>Status</label>
           <select
             required
-            className="form-control"
+            className="form-control form-input"
             name="status"
             value={status}
             onChange={onChange}

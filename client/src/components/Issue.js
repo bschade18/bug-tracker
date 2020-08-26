@@ -10,15 +10,15 @@ const Issue = ({
   const year = createdAt.substring(0, 4);
   const date = month + '/' + day + '/' + year;
   return (
-    <tr>
+    <tr className="Issue">
       <td>{number}</td>
       <td>{status}</td>
-      <td id="title">{issueTitle}</td>
+      <td className="Issue-title">{issueTitle}</td>
       <td>{assignedTo}</td>
       <td>{date}</td>
       <td className="folder-container">
         <Link className="folder" to={'/issue/' + _id}>
-          <i className="icon-folder-open-alt"></i>
+          <i className="icon-folder-open-alt link"></i>
         </Link>
       </td>
     </tr>

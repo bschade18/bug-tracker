@@ -14,7 +14,7 @@ const OpenIssues = ({
     <Fragment>
       <h2 className="lg-heading">My Open Issues</h2>
       <div className="form-group">
-        <Link to="/issue/new" id="submit-issue-link">
+        <Link to="/issue/new" className="link">
           Submit New Issue
         </Link>
       </div>
@@ -22,7 +22,7 @@ const OpenIssues = ({
         <label className="bold-text">Project</label>
         <select
           required
-          className="form-control"
+          className="form-control form-input"
           value={projectTitle}
           name="projectTitle"
           onChange={onChange}
@@ -41,8 +41,8 @@ const OpenIssues = ({
       {issuesList().length ? (
         <IssueTable list={issues} displayIssuesFunc={issuesList} />
       ) : (
-        <p className="issues-message">
-          <em>No open issues</em>
+        <p className="issues-message mt-4">
+          <em>There are no issues assigned to you</em>
         </p>
       )}
     </Fragment>

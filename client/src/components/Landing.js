@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Landing.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../actions/authActions';
@@ -41,7 +42,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
   }
 
   return (
-    <div className="form-container">
+    <div className="Landing">
       <h1>
         Account <span className="text-primary">Login</span>
       </h1>

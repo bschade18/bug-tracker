@@ -1,0 +1,76 @@
+.HomeSearch #issue-search {
+  width: 300px;
+  display: block;
+}
+
+.HomeSearch .search-container {
+  width: 300px;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.HomeSearch i.fa.fa-search {
+  color: #007bff;
+  font-size: 26px;
+  height: 100%;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid rgb(206, 212, 218);
+  font-weight: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.HomeSearch button {
+  background: rgb(245, 245, 245);
+  z-index: 2;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  padding: 0;
+  cursor: pointer;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: none;
+  font-weight: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.HomeSearch input#issue-search.form-control {
+  display: block;
+}
+
+.HomeSearch .form-group p {
+  color: #e74c3c;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.HomeSearch .form-group .search-container input:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.HomeSearch .form-group {
+  padding-bottom: 1.5rem;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.HomeSearch .error {
+  color: #e74c3c;
+}
+
+.HomeSearch input.error-border {
+  border-color: #e74c3c;
+}

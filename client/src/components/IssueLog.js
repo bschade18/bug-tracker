@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const IssueLog = ({ LogList }) => {
   return (
-    <table className="table">
+    <table className="IssueLog table">
       <thead className="light-bg">
         <tr>
           <th>Name</th>

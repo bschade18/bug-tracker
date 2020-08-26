@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import './Navbar.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from '../auth/Logout';

@@ -1,4 +1,5 @@
 import React from 'react';
+import './HomeSearch.css';
 import PropTypes from 'prop-types';
 
 const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
@@ -17,7 +18,7 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
     alerts.filter((alert) => alert.param === inputField).length;
 
   return (
-    <form onSubmit={onSubmit} id="homeSearch-form">
+    <form onSubmit={onSubmit} className="HomeSearch">
       <div className="form-group">
         <label className="bold-text">Search Issue # </label>
         <div className="search-container">
