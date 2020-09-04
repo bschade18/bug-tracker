@@ -51,3 +51,7 @@
   bottom: 0;
   left: 0;
 }
+
+.Landing form input.error-border {
+  border-color: #e74c3c;
+}

@@ -1,12 +1,25 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const ShowAlert = ({ alert }) =>
-  alert !== '' && alert !== null && <Alert color="danger">{alert}</Alert>;
+const Alert = ({ field, alerts }) => {
+  const filterForFieldError = () =>
+    alerts.filter((alert) => alert.param === field);
 
-ShowAlert.propTypes = {
-  alert: PropTypes.string,
+  if (filterForFieldError().length) {
+    const msg = filterForFieldError()[0].msg;
+    return <p className="error">{msg}</p>;
+  } else {
+    return null;
+  }
 };
 
-export default ShowAlert;
+Alert.propTypes = {
+  alerts: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  alerts: state.error.errors,
+});
+
+export default connect(mapStateToProps)(Alert);

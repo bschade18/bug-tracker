@@ -1,19 +1,9 @@
 import React from 'react';
 import './HomeSearch.css';
+import Alert from './Alert';
 import PropTypes from 'prop-types';
 
 const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
-  const checkAlert = (inputField) => {
-    if (alerts.filter((alert) => alert.param === inputField).length) {
-      const msg = alerts.filter((alert) => alert.param === inputField)[0].msg;
-      return (
-        <p className="error">
-          <strong>{msg}</strong>
-        </p>
-      );
-    }
-  };
-
   const applyErrorStyle = (inputField) =>
     alerts.filter((alert) => alert.param === inputField).length;
 
@@ -36,7 +26,7 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
             <i className="fa fa-search" aria-hidden="true"></i>
           </button>
         </div>
-        {checkAlert('search')}
+        <Alert field="search" />
       </div>
     </form>
   );

@@ -11,6 +11,7 @@ import {
   Input,
   NavLink,
 } from 'reactstrap';
+import Alert from '../Alert';
 import { register } from '../../actions/authActions';
 import { Redirect } from 'react-router-dom';
 import { setErrors, clearErrors } from '../../actions/errorActions';
@@ -48,17 +49,6 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
     register({ name, email, team, password, password2 });
   };
 
-  const checkAlert = (inputField) => {
-    if (alerts.filter((alert) => alert.param === inputField).length) {
-      const msg = alerts.filter((alert) => alert.param === inputField)[0].msg;
-      return (
-        <p className="error">
-          <strong>{msg}</strong>
-        </p>
-      );
-    }
-  };
-
   const applyErrorStyle = (inputField) =>
     alerts.filter((alert) => alert.param === inputField).length;
 
@@ -89,8 +79,7 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
                   applyErrorStyle('name') ? 'mb-3 error-border' : 'mb-3'
                 }
               />
-
-              {checkAlert('name')}
+              <Alert field="name" />
             </FormGroup>
             <FormGroup>
               <Label for="email">Email</Label>
@@ -104,8 +93,7 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
                   applyErrorStyle('email') ? 'mb-3 error-border' : 'mb-3'
                 }
               />
-
-              {checkAlert('email')}
+              <Alert field="email" />
             </FormGroup>
             <FormGroup>
               <Label for="team">Team</Label>
@@ -119,7 +107,7 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
                   applyErrorStyle('team') ? 'mb-3 error-border' : 'mb-3'
                 }
               />
-              {checkAlert('team')}
+              <Alert field="team" />
             </FormGroup>
             <FormGroup>
               <Label for="password">Password</Label>
@@ -133,7 +121,7 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
                   applyErrorStyle('password') ? 'mb-3 error-border' : 'mb-3'
                 }
               />
-              {checkAlert('password')}
+              <Alert field="password" />
             </FormGroup>
             <FormGroup>
               <Label for="password2"> Confirm Password</Label>
@@ -147,7 +135,7 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
                   applyErrorStyle('password2') ? 'mb-3 error-border' : 'mb-3'
                 }
               />
-              {checkAlert('password2')}
+              <Alert field="password2" />
             </FormGroup>
             <Button color="primary" block>
               Register

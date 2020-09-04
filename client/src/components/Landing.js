@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Landing.css';
+import Alert from './Alert';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../actions/authActions';
@@ -20,17 +21,6 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     login({ email, password });
-  };
-
-  const checkAlert = (inputField) => {
-    if (alerts.filter((alert) => alert.param === inputField).length) {
-      const msg = alerts.filter((alert) => alert.param === inputField)[0].msg;
-      return (
-        <p className="error">
-          <strong>{msg}</strong>
-        </p>
-      );
-    }
   };
 
   const applyErrorStyle = (inputField) =>
@@ -59,7 +49,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
                 : 'login-input'
             }
           />
-          {checkAlert('email')}
+          <Alert field="email" />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -73,7 +63,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
                 : 'login-input'
             }
           />
-          {checkAlert('password')}
+          <Alert field="password" />
         </div>
         <input
           type="submit"

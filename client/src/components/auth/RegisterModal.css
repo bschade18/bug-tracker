@@ -22,3 +22,7 @@
   bottom: 0;
   left: 0;
 }
+
+#register-form input.error-border {
+  border-color: #e74c3c;
+}
