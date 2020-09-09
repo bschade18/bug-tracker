@@ -9,11 +9,6 @@ const issueSchema = new Schema(
       required: [true, 'Please add a title'],
       trim: true,
     },
-    issueDescription: {
-      type: String,
-      required: [true, 'Please add a description'],
-      trim: true,
-    },
     issueLog: [
       { name: String, desc: String, date: { type: Date, default: Date.now } },
     ],
