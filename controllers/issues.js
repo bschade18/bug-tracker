@@ -21,10 +21,7 @@ exports.getIssue = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    success: true,
-    data: issue,
-  });
+  res.status(200).send(issue);
 });
 
 exports.updateIssue = asyncHandler(async (req, res, next) => {
@@ -38,10 +35,7 @@ exports.updateIssue = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    success: true,
-    data: issue,
-  });
+  res.status(200).send(issue);
 });
 
 // @route POST /issue
@@ -49,10 +43,8 @@ exports.updateIssue = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.addIssue = asyncHandler(async (req, res, next) => {
   const issue = await Issue.create(req.body);
-  res.status(200).json({
-    success: true,
-    data: issue,
-  });
+
+  res.status(200).send(issue);
 });
 
 // @route PUT issue/:id
@@ -68,10 +60,8 @@ exports.updateIssue = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Issue not found with id of ${req.params.id}`, 404)
     );
   }
-  res.status(200).json({
-    success: true,
-    data: issue,
-  });
+
+  res.status(200).send(issue);
 });
 
 // @route DELETE issue/:id
@@ -85,24 +75,5 @@ exports.deleteIssue = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    success: true,
-    data: {},
-  });
-});
-
-exports.getClosedissues = asyncHandler(async (req, res, next) => {
-  try {
-    const issue = await Issue.find({ status: 'Closed' })
-      .sort({
-        updatedAt: -1,
-      })
-      .limit(5);
-
-    res.status(200).json({ success: true, data: issue });
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-
-  next();
+  res.status(200).send('Success!');
 });

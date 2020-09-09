@@ -28,6 +28,7 @@ export const getRecentClosed = (team) => async (dispatch) => {
     const res = await axios.get(
       `/issues?team=${team}&limit=5&status=Closed&sort=-updatedAt`
     );
+
     dispatch({
       type: GET_CLOSED,
       payload: res.data.data,
@@ -45,7 +46,7 @@ export const updateIssue = (id, issue, history) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_ISSUE,
-      payload: res.data.data,
+      payload: res.data,
     });
   } catch (err) {
     console.log(err);
@@ -66,7 +67,7 @@ export const addIssue = (newIssue, history) => async (dispatch) => {
 
     dispatch({
       type: ADD_ISSUE,
-      payload: res.data.data,
+      payload: res.data,
     });
   } catch (err) {
     console.log(err);

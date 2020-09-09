@@ -33,11 +33,15 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
   } = issueData;
 
   useEffect(() => {
-    axios
-      .get('/issues/' + match.params.id)
-      .then((res) => setIssueData(res.data.data))
-      .catch((error) => console.log(error));
-    // eslint-disable-next-line
+    async function getIssue() {
+      try {
+        const res = await axios.get('/issues/' + match.params.id);
+        setIssueData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getIssue();
   }, []);
 
   useEffect(() => {
