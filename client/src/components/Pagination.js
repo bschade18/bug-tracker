@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Pagination = ({
   pagination,
@@ -37,6 +38,15 @@ const Pagination = ({
       </ul>
     </nav>
   );
+};
+
+Pagination.propTypes = {
+  pagination: PropTypes.object,
+  selectPage: PropTypes.func.isRequired,
+  pageNumbers: PropTypes.array.isRequired,
+  page: PropTypes.number,
+  totalPages: PropTypes.number,
+  component: PropTypes.string,
 };
 
 export default Pagination;

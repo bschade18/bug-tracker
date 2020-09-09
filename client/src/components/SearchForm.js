@@ -85,6 +85,8 @@ SearchForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onChangeDateInitStart: PropTypes.func.isRequired,
   onChangeDateInitEnd: PropTypes.func.isRequired,
+  initiatedStartDt: PropTypes.instanceOf(Date),
+  initiatedEndDt: PropTypes.instanceOf(Date),
 };
 
 export default SearchForm;

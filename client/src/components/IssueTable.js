@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const IssueTable = ({ list, displayIssuesFunc }) => {
   const [sortColumn, setSortColumn] = useState(false);
@@ -76,6 +77,11 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
       </table>
     </div>
   );
+};
+
+IssueTable.propTypes = {
+  list: PropTypes.array.isRequired,
+  displayIssuesFunc: PropTypes.func.isRequired,
 };
 
 export default IssueTable;

@@ -144,6 +144,10 @@ Home.propTypes = {
   getRecentClosed: PropTypes.func.isRequired,
   error: PropTypes.string,
   clearErrors: PropTypes.func,
+  setErrors: PropTypes.func,
+  setProject: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  alerts: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({

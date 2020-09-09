@@ -113,6 +113,7 @@ ViewIssue.propTypes = {
   updateIssue: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired,
   getUsers: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

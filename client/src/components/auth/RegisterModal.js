@@ -14,7 +14,7 @@ import {
 import Alert from '../Alert';
 import { register } from '../../actions/authActions';
 import { Redirect } from 'react-router-dom';
-import { setErrors, clearErrors } from '../../actions/errorActions';
+import { clearErrors } from '../../actions/errorActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -150,7 +150,6 @@ const RegisterModal = ({ isAuthenticated, register, clearErrors, alerts }) => {
 RegisterModal.propTypes = {
   isAuthenticated: PropTypes.bool,
   register: PropTypes.func.isRequired,
-  setErrors: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   error: PropTypes.array,
 };
@@ -162,6 +161,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   register,
-  setErrors,
   clearErrors,
 })(RegisterModal);

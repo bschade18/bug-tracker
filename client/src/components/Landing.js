@@ -72,7 +72,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
 Landing.propTypes = {
   isAuthenticated: PropTypes.bool,
   login: PropTypes.func.isRequired,
-  error: PropTypes.array,
+  alerts: PropTypes.array,
   clearErrors: PropTypes.func,
 };
 

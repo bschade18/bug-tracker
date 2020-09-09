@@ -55,6 +55,10 @@ SearchResults.propTypes = {
   totalPages: PropTypes.number,
   selectPage: PropTypes.func.isRequired,
   pageNumbers: PropTypes.array.isRequired,
+  pagination: PropTypes.object.isRequired,
+  sortDate: PropTypes.func,
+  sortNumber: PropTypes.func,
+  sotWord: PropTypes.func,
 };
 
 export default SearchResults;

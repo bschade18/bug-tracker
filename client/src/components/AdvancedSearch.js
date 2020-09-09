@@ -10,14 +10,14 @@ const AdvancedSearch = ({ user }) => {
   const [searchData, setSearchData] = useState({
     assignedTo: '',
     initiatedBy: '',
-    initiatedStartDt: '',
-    initiatedEndDt: '',
+    initiatedStartDt: null,
+    initiatedEndDt: null,
     status: '',
   });
   const [issues, setIssues] = useState([]);
   const [wasSearched, setWasSearched] = useState(false);
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState([]);
+  const [pagination, setPagination] = useState({});
   const [totalPages, setTotalPages] = useState(null);
   const [searchString, setSearchString] = useState('');
   const [loading, setLoading] = useState(false);
@@ -70,7 +70,7 @@ const AdvancedSearch = ({ user }) => {
       .then((res) => {
         setIssues(res.data.data);
         setWasSearched(true);
-        setPagination(res.data.pagination);
+        setPagination({ ...res.data.pagination });
         setPage(1);
         setSearchString(string);
         setLoading(false);
@@ -108,7 +108,7 @@ const AdvancedSearch = ({ user }) => {
       .get(`/issues?team=${user.team}&${string}&page=${page}&limit=20`)
       .then((res) => {
         setIssues(res.data.data);
-        setPagination(res.data.pagination);
+        setPagination({ ...res.data.pagination });
         setPage(page);
       })
       .catch((error) => console.log(error));

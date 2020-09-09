@@ -40,6 +40,7 @@ const DeleteModal = ({ id, history, deleteIssue }) => {
 DeleteModal.propTypes = {
   id: PropTypes.string.isRequired,
   deleteIssue: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default connect(null, { deleteIssue })(DeleteModal);
