@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Landing.css';
 import Alert from './Alert';
 import { connect } from 'react-redux';
@@ -6,17 +6,11 @@ import { Redirect } from 'react-router-dom';
 import { login } from '../actions/authActions';
 import PropTypes from 'prop-types';
 import { clearErrors } from '../actions/errorActions';
+import useFormState from './hooks/useFormState';
 
 const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-
-  const { email, password } = formData;
-
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [email, setEmail] = useFormState('');
+  const [password, setPassword] = useFormState('');
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +34,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
-            onChange={onChange}
+            onChange={setEmail}
             type="email"
             name="email"
             className={
@@ -54,7 +48,7 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            onChange={onChange}
+            onChange={setPassword}
             type="password"
             name="password"
             className={
