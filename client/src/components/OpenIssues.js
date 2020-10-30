@@ -29,13 +29,11 @@ const OpenIssues = ({
           id="project-title"
         >
           <option>--All--</option>
-          {listProjects().map(function (project) {
-            return (
-              <option key={project} value={project}>
-                {project}
-              </option>
-            );
-          })}
+          {listProjects().map((project) => (
+            <option key={project} value={project}>
+              {project}
+            </option>
+          ))}
         </select>
       </div>
       {issuesList().length ? (
