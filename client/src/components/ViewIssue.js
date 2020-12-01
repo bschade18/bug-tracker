@@ -69,7 +69,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     return issueLog.map((log) => {
       const logDate = log.date;
       const day = logDate.substring(8, 10).padStart(2, '0');
-      const month = logDate.substring(6, 7).padStart(2, '0');
+      const month = logDate.substring(5, 7).padStart(2, '0');
       const year = logDate.substring(0, 4);
       const date = month + '/' + day + '/' + year;
       return (

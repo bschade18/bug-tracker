@@ -6,7 +6,7 @@ const Issue = ({
   issue: { createdAt, number, status, issueTitle, assignedTo, _id },
 }) => {
   const day = createdAt.substring(8, 10).padStart(2, '0');
-  const month = createdAt.substring(6, 7).padStart(2, '0');
+  const month = createdAt.substring(5, 7).padStart(2, '0');
   const year = createdAt.substring(0, 4);
   const date = month + '/' + day + '/' + year;
   return (
