@@ -42,7 +42,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
       }
     }
     getIssue();
-  }, []);
+  }, [match.params.id]);
 
   useEffect(() => {
     getUsers(user.team);

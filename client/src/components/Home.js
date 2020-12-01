@@ -54,8 +54,29 @@ const Home = ({
     issuesList();
   };
 
+  const emptyProjectsList = () => {
+    if (
+      currentProject !== '' &&
+      currentProject !== '--All--' &&
+      issues.filter(
+        (issue) =>
+          issue.status !== 'Closed' &&
+          issue.assignedTo === name &&
+          issue.projectTitle === currentProject
+      ).length === 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const issuesList = () => {
     let filter;
+
+    if (emptyProjectsList()) {
+      setProject('');
+    }
     if (currentProject === '' || currentProject === '--All--') {
       filter = issues.filter(
         (issue) => issue.status !== 'Closed' && issue.assignedTo === name
