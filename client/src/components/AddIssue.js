@@ -55,7 +55,6 @@ const AddIssue = ({
       number: newNumber,
       issueTitle,
       projectTitle,
-      issueDescription,
       assignedTo,
       status,
       issueLog: [{ name, desc: issueDescription }],

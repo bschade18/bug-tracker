@@ -56,7 +56,6 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     e.preventDefault();
 
     const updatedIssue = {
-      issueDescription,
       issueLog: [...issueLog, { name: user.name, desc: issueDescription }],
       assignedTo,
       status,
