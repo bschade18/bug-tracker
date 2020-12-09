@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import OpenIssues from './OpenIssues';
 import ClosedIssues from './ClosedIssues';
 import HomeSearch from './HomeSearch';
+import OpenIssuesPanel from './OpenIssuesPanel';
 
 import {
   getIssues,
@@ -28,6 +29,7 @@ const Home = ({
   clearErrors,
 }) => {
   const [number, setNumber] = useState('');
+  const [showClosed, setShowClosed] = useState(false);
 
   useEffect(() => {
     getIssues(team);
@@ -54,6 +56,9 @@ const Home = ({
     issuesList();
   };
 
+  const toggleShowClosed = () =>
+    showClosed ? setShowClosed(false) : setShowClosed(true);
+
   const emptyProjectsList = () => {
     if (
       currentProject !== '' &&
@@ -77,18 +82,31 @@ const Home = ({
     if (emptyProjectsList()) {
       setProject('');
     }
+
     if (currentProject === '' || currentProject === '--All--') {
-      filter = issues.filter(
-        (issue) => issue.status !== 'Closed' && issue.assignedTo === name
-      );
+      if (showClosed) {
+        filter = issues.filter((issue) => issue.assignedTo === name);
+      } else {
+        filter = issues.filter(
+          (issue) => issue.status !== 'Closed' && issue.assignedTo === name
+        );
+      }
     } else {
-      filter = issues.filter(
-        (issue) =>
-          issue.status !== 'Closed' &&
-          issue.assignedTo === name &&
-          issue.projectTitle === currentProject
-      );
+      if (showClosed) {
+        filter = issues.filter(
+          (issue) =>
+            issue.assignedTo === name && issue.projectTitle === currentProject
+        );
+      } else {
+        filter = issues.filter(
+          (issue) =>
+            issue.status !== 'Closed' &&
+            issue.assignedTo === name &&
+            issue.projectTitle === currentProject
+        );
+      }
     }
+
     return filter.map((issue) => {
       return <Issue issue={issue} key={issue._id} />;
     });
@@ -130,13 +148,13 @@ const Home = ({
   }
   return (
     <div className="container mt-3">
-      <OpenIssues
-        issues={issues}
-        issuesList={issuesList}
+      <OpenIssuesPanel
+        toggleShowClosed={toggleShowClosed}
         projectTitle={currentProject}
         listProjects={listProjects}
         onChange={onChange}
       />
+      <OpenIssues issues={issues} issuesList={issuesList} />
       <ClosedIssues closed={closed} completedIssuesList={completedIssuesList} />
       <HomeSearch
         onSubmit={onSubmit}
@@ -148,7 +166,6 @@ const Home = ({
           Advanced Search
         </Link>
       </div>
-
       <div>
         <Link to={'/issues'} className="link mb-5">
           See All Issues
