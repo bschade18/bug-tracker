@@ -93,7 +93,7 @@ const AddIssue = ({
   }
   return (
     <div className="AddIssue container mt-3">
-      <h3>Create New Issue Log</h3>
+      <h3>Create New Issue</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label>Title:</label>
