@@ -34,7 +34,17 @@ npm run build
 
 ## App Info
 
+Submit issues to be tracked. Give issues a title, assign them to a current project or a new one, write a description of the issue, assign the issue to a user on your team, and choose a status.
+
 ![image info](./img/pic1.png)
+
+View all open issues assigned to you in a single place
+
+![image info](./img/pic2.png)
+
+Do an advanced search for issues
+
+![image info](./img/pic2.png)
 
 ### Author
 
