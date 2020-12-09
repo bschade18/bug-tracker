@@ -34,6 +34,8 @@ npm run build
 
 ## App Info
 
+![image info](./img/pic1.png)
+
 ### Author
 
 Bobby Schade
