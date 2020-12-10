@@ -32,7 +32,7 @@ cd client
 npm run build
 ```
 
-## App Info
+## Features
 
 Submit issues to be tracked. Give issues a title, assign them to a current project or a new one, write a description of the issue, assign the issue to a user on your team, and choose a status.
 
@@ -44,7 +44,7 @@ View all open issues assigned to you in a single place
 
 Do an advanced search for issues
 
-![image info](./img/pic2.png)
+![image info](./img/pic3.png)
 
 ### Author
 
