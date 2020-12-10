@@ -92,6 +92,9 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
   }
   return (
     <div className="container mt-3">
+      <button className="btn btn-light" onClick={() => history.goBack()}>
+        Go Back
+      </button>
       <IssueForm
         number={number}
         issueTitle={issueTitle}
