@@ -17,7 +17,9 @@ const OpenIssuesPanel = ({
         </Link>
       </div>
       <div className="form-group">
-        <label className="bold-text">Project</label>
+        <label className="bold-text" htmlFor="project-title">
+          Project
+        </label>
         <select
           required
           className="form-control form-input"
@@ -47,7 +49,7 @@ const OpenIssuesPanel = ({
           />
         </div>
 
-        <div class="form-check"></div>
+        <div className="form-check"></div>
       </div>
     </div>
   );

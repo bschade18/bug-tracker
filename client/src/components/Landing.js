@@ -32,8 +32,9 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
       </h1>
       <form onSubmit={onSubmit} id="login-form" noValidate>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="landing-email">Email</label>
           <input
+            id="landing-email"
             onChange={setEmail}
             type="email"
             name="email"
@@ -46,8 +47,9 @@ const Landing = ({ isAuthenticated, alerts, login, clearErrors }) => {
           <Alert field="email" />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="landing-password">Password</label>
           <input
+            id="landing-password"
             onChange={setPassword}
             type="password"
             name="password"

@@ -24,6 +24,7 @@ const SearchForm = ({
             className="form-control form-input mt-3"
             onChange={onChange}
             id="assigned-to-search"
+            aria-label="Assigned To"
           />
         </div>
         <div className="form-group">
@@ -34,6 +35,7 @@ const SearchForm = ({
             className="form-control form-input mt-4"
             onChange={onChange}
             id="initiated-by-search"
+            aria-label="Initiated By"
           />
         </div>
         <div className="form-group">
@@ -44,6 +46,7 @@ const SearchForm = ({
             className="form-control form-input mt-4"
             onChange={onChange}
             id="status"
+            aria-label="Status"
           />
         </div>
         <div className="form-group">
@@ -54,6 +57,7 @@ const SearchForm = ({
             id="init-start-dt"
             className="mt-1 form-input form-control"
             placeholderText="Date Initiated - Start"
+            aria-label="Date Initiated - Start"
           />
         </div>
         <div className="form-group">
@@ -64,6 +68,7 @@ const SearchForm = ({
             id="init-end-dt"
             className="mt-1 form-input form-control"
             placeholderText="Date Initiated - End"
+            aria-label="Date Initiated - End"
           />
         </div>
         <div className="form-group">

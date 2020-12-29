@@ -96,7 +96,7 @@ const AddIssue = ({
       <h3>Create New Issue</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Title:</label>
+          <label htmlFor="issue-title">Title:</label>
           <input
             type="text"
             required
@@ -109,7 +109,7 @@ const AddIssue = ({
           />
         </div>
         <div className="form-group">
-          <label>Project:</label>
+          <label htmlFor="project-title">Project:</label>
           {isNewProject ? (
             <input
               type="text"
@@ -147,8 +147,9 @@ const AddIssue = ({
         />
 
         <div className="form-group">
-          <label>Description:</label>
+          <label htmlFor="issue-description">Description:</label>
           <textarea
+            id="issue-description"
             type="text"
             required
             className="form-control description-input"
@@ -158,7 +159,7 @@ const AddIssue = ({
           />
         </div>
         <div className="form-group">
-          <label>Assign To:</label>
+          <label htmlFor="assign-to">Assign To:</label>
           <select
             required
             className="form-control form-input"
@@ -176,7 +177,7 @@ const AddIssue = ({
           </select>
         </div>
         <div className="form-group">
-          <label>Status</label>
+          <label htmlFor="status-input">Status</label>
           <select
             required
             className="form-control form-input"

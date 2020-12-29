@@ -10,7 +10,9 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
   return (
     <form onSubmit={onSubmit} className="HomeSearch">
       <div className="form-group">
-        <label className="bold-text">Search Issue # </label>
+        <label className="bold-text" htmlFor="issue-search">
+          Search Issue #{' '}
+        </label>
         <div className="search-container">
           <input
             type="text"

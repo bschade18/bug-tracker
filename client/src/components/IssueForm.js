@@ -19,8 +19,9 @@ const IssueForm = ({
       <p>Issue #{number}</p>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Description: </label>
+          <label htmlFor="issue-form-description">Description: </label>
           <textarea
+            id="issue-form-description"
             type="text"
             required
             className="form-control description-input"
@@ -29,7 +30,7 @@ const IssueForm = ({
           />
         </div>
         <div className="form-group">
-          <label>Assign To: </label>
+          <label htmlFor="assign-to">Assign To: </label>
           <select
             required
             className="form-control form-input"
@@ -46,7 +47,7 @@ const IssueForm = ({
           </select>
         </div>
         <div className="form-group">
-          <label>Status</label>
+          <label htmlFor="status-input">Status</label>
           <select
             required
             className="form-control form-input"
