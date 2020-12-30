@@ -64,8 +64,8 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     updateIssue(match.params.id, updatedIssue, history);
   };
 
-  const LogList = () => {
-    return issueLog.map((log) => {
+  const LogList = () =>
+    issueLog.map((log) => {
       const logDate = log.date;
       const day = logDate.substring(8, 10).padStart(2, '0');
       const month = logDate.substring(5, 7).padStart(2, '0');
@@ -79,7 +79,6 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         </tr>
       );
     });
-  };
 
   let today = new Date();
   const dd = String(today.getDate()).padStart(2, '0');
@@ -95,8 +94,10 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
       <button className="btn btn-light" onClick={() => history.goBack()}>
         Go Back
       </button>
+      <h3 className="text-center">{issueTitle}</h3>
+      <h5 className="text-center">{projectTitle}</h5>
+      <p>Issue #{number}</p>
       <IssueForm
-        number={number}
         issueTitle={issueTitle}
         name={name}
         onChange={onChange}

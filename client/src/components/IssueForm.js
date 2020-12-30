@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 const IssueForm = ({
-  number,
   issueTitle,
   onChange,
   assignedTo,
@@ -11,13 +10,68 @@ const IssueForm = ({
   today,
   projectTitle,
   onSubmit,
+  component,
+  isNewProject,
+  listProjects,
+  newProject,
 }) => {
   return (
     <Fragment>
-      <h3 className="text-center">{issueTitle}</h3>
-      <h5 className="text-center">{projectTitle}</h5>
-      <p>Issue #{number}</p>
       <form onSubmit={onSubmit}>
+        {component === 'AddIssue' && (
+          <>
+            <div className="form-group">
+              <label htmlFor="issue-title">Title:</label>
+              <input
+                type="text"
+                required
+                className="form-control form-input"
+                name="issueTitle"
+                value={issueTitle}
+                onChange={onChange}
+                id="issue-title"
+                maxLength="25"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="project-title">Project:</label>
+              {isNewProject ? (
+                <input
+                  type="text"
+                  required
+                  className="form-control form-input"
+                  name="projectTitle"
+                  value={projectTitle}
+                  onChange={onChange}
+                  id="project-title"
+                  maxLength="25"
+                />
+              ) : (
+                <select
+                  required
+                  className="form-control form-input"
+                  value={projectTitle}
+                  name="projectTitle"
+                  onChange={onChange}
+                  id="project-title"
+                >
+                  <option value="">--Select Project--</option>
+                  {listProjects().map((project) => (
+                    <option key={project} value={project}>
+                      {project}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+            <input
+              type="button"
+              value="Add New Project"
+              className="btn btn-primary mb-3"
+              onClick={newProject}
+            />
+          </>
+        )}
         <div className="form-group">
           <label htmlFor="issue-form-description">Description: </label>
           <textarea
@@ -29,6 +83,7 @@ const IssueForm = ({
             onChange={onChange}
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="assign-to">Assign To: </label>
           <select
@@ -39,6 +94,7 @@ const IssueForm = ({
             onChange={onChange}
             id="assign-to"
           >
+            <option value="">--Select User--</option>
             {users.map((user, i) => (
               <option key={i} value={user}>
                 {user}
@@ -75,8 +131,7 @@ const IssueForm = ({
 };
 
 IssueForm.propTypes = {
-  number: PropTypes.number.isRequired,
-  issueTitle: PropTypes.string.isRequired,
+  issueTitle: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   assignedTo: PropTypes.string.isRequired,
   users: PropTypes.array.isRequired,
@@ -84,5 +139,9 @@ IssueForm.propTypes = {
   today: PropTypes.string.isRequired,
   projectTitle: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  component: PropTypes.string,
+  isNewProject: PropTypes.bool,
+  listProjects: PropTypes.func,
+  newProject: PropTypes.func,
 };
 export default IssueForm;

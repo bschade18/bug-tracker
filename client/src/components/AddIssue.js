@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import IssueForm from './IssueForm';
 import { addIssue } from '../actions/issueActions';
 import { getUsers } from '../actions/userActions';
 import Spinner from './layout/Spinner';
@@ -94,116 +95,19 @@ const AddIssue = ({
   return (
     <div className="AddIssue container mt-3">
       <h3>Create New Issue</h3>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="issue-title">Title:</label>
-          <input
-            type="text"
-            required
-            className="form-control form-input"
-            name="issueTitle"
-            value={issueTitle}
-            onChange={onChange}
-            id="issue-title"
-            maxLength="25"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="project-title">Project:</label>
-          {isNewProject ? (
-            <input
-              type="text"
-              required
-              className="form-control form-input"
-              name="projectTitle"
-              value={projectTitle}
-              onChange={onChange}
-              id="project-title"
-              maxLength="25"
-            />
-          ) : (
-            <select
-              required
-              className="form-control form-input"
-              value={projectTitle}
-              name="projectTitle"
-              onChange={onChange}
-              id="project-title"
-            >
-              <option value="">--Select Project--</option>
-              {listProjects().map((project) => (
-                <option key={project} value={project}>
-                  {project}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-        <input
-          type="button"
-          value="Add New Project"
-          className="btn btn-primary mb-3"
-          onClick={newProject}
-        />
-
-        <div className="form-group">
-          <label htmlFor="issue-description">Description:</label>
-          <textarea
-            id="issue-description"
-            type="text"
-            required
-            className="form-control description-input"
-            value={issueDescription}
-            name="issueDescription"
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="assign-to">Assign To:</label>
-          <select
-            required
-            className="form-control form-input"
-            value={assignedTo}
-            name="assignedTo"
-            onChange={onChange}
-            id="assign-to"
-          >
-            <option value="">--Select User--</option>
-            {users.map((user) => (
-              <option key={user} value={user}>
-                {user}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="status-input">Status</label>
-          <select
-            required
-            className="form-control form-input"
-            value={status}
-            name="status"
-            onChange={onChange}
-            id="status-input"
-          >
-            <option>Open</option>
-            <option>Urgent</option>
-            <option>Closed</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Date:</label>
-          <div>{today}</div>
-        </div>
-
-        <div className="form-group">
-          <input
-            type="submit"
-            value="Submit Issue"
-            className="btn btn-primary"
-          />
-        </div>
-      </form>
+      <IssueForm
+        onChange={onChange}
+        assignedTo={assignedTo}
+        users={users}
+        status={status}
+        today={today}
+        projectTitle={projectTitle}
+        onSubmit={onSubmit}
+        component="AddIssue"
+        isNewProject={isNewProject}
+        listProjects={listProjects}
+        newProject={newProject}
+      />
     </div>
   );
 };
