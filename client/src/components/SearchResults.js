@@ -14,9 +14,6 @@ const SearchResults = ({
   totalPages,
   selectPage,
   pageNumbers,
-  sortDate,
-  sortNumber,
-  sortWord,
 }) => (
   <Fragment>
     {wasSearched &&
@@ -26,13 +23,7 @@ const SearchResults = ({
         <h3>No issues were found in search</h3>
       ) : (
         <Fragment>
-          <IssueTable
-            list={issues}
-            displayIssuesFunc={searchResultsList}
-            sortNumber={sortNumber}
-            sortWord={sortWord}
-            sortDate={sortDate}
-          />
+          <IssueTable list={issues} displayIssuesFunc={searchResultsList} />
           <Pagination
             pagination={pagination}
             selectPage={selectPage}
@@ -56,9 +47,6 @@ SearchResults.propTypes = {
   selectPage: PropTypes.func.isRequired,
   pageNumbers: PropTypes.array.isRequired,
   pagination: PropTypes.object.isRequired,
-  sortDate: PropTypes.func,
-  sortNumber: PropTypes.func,
-  sotWord: PropTypes.func,
 };
 
 export default SearchResults;
