@@ -85,23 +85,19 @@ const AdvancedSearch = ({ user }) => {
       .catch((error) => console.log(error));
   };
 
-  const onChange = (e) => {
+  const onChange = (e) =>
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
-  };
 
-  const onChangeDateInitStart = (date) => {
+  const onChangeDateInitStart = (date) =>
     setSearchData({ ...searchData, initiatedStartDt: date });
-  };
 
-  const onChangeDateInitEnd = (date) => {
+  const onChangeDateInitEnd = (date) =>
     setSearchData({ ...searchData, initiatedEndDt: date });
-  };
 
-  const searchResultsList = () => {
-    return issues.map((issue) => {
+  const searchResultsList = () =>
+    issues.map((issue) => {
       return <Issue issue={issue} key={issue._id} />;
     });
-  };
 
   const selectPage = (page) => {
     let string = searchString;

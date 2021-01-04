@@ -28,11 +28,8 @@ const AllIssuesList = ({ user }) => {
       .catch((err) => console.log(err));
   }, [user.team]);
 
-  const IssuesList = () => {
-    return issues.map((issue) => {
-      return <Issue issue={issue} key={issue._id} />;
-    });
-  };
+  const IssuesList = () =>
+    issues.map((issue) => <Issue issue={issue} key={issue._id} />);
 
   const selectPage = (page) => {
     if (page === 'next') {

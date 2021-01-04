@@ -107,16 +107,11 @@ const Home = ({
       }
     }
 
-    return filter.map((issue) => {
-      return <Issue issue={issue} key={issue._id} />;
-    });
+    return filter.map((issue) => <Issue issue={issue} key={issue._id} />);
   };
 
-  const completedIssuesList = () => {
-    return closed.map((issue) => {
-      return <Issue issue={issue} key={issue._id} />;
-    });
-  };
+  const completedIssuesList = () =>
+    closed.map((issue) => <Issue issue={issue} key={issue._id} />);
 
   const onChangeNumber = (e) => setNumber(e.target.value);
 
