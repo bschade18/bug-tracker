@@ -4,6 +4,7 @@ import IssueLog from './IssueLog';
 import DeleteModal from './DeleteModal';
 import IssueForm from './IssueForm';
 import Spinner from './layout/Spinner';
+import { todaysDate } from '../utils/dates';
 import { updateIssue } from '../actions/issueActions';
 import { getUsers } from '../actions/userActions';
 import PropTypes from 'prop-types';
@@ -80,12 +81,6 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
       );
     });
 
-  let today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
-
   if (!issueLog.length) {
     return <Spinner />;
   }
@@ -104,7 +99,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         assignedTo={assignedTo}
         users={users}
         status={status}
-        today={today}
+        today={todaysDate()}
         projectTitle={projectTitle}
         onSubmit={onSubmit}
       />

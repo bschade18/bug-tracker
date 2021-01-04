@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import IssueForm from './IssueForm';
+import { todaysDate } from '../utils/dates';
 import { addIssue } from '../actions/issueActions';
 import { getUsers } from '../actions/userActions';
 import Spinner from './layout/Spinner';
@@ -82,13 +83,6 @@ const AddIssue = ({
     });
   };
 
-  let today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const year = String(today.getFullYear());
-
-  today = month + '/' + day + '/' + year;
-
   if (!issues) {
     return <Spinner />;
   }
@@ -100,7 +94,7 @@ const AddIssue = ({
         assignedTo={assignedTo}
         users={users}
         status={status}
-        today={today}
+        today={todaysDate()}
         projectTitle={projectTitle}
         onSubmit={onSubmit}
         component="AddIssue"
