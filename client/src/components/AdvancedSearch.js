@@ -3,6 +3,7 @@ import axios from 'axios';
 import SearchForm from './SearchForm';
 import Issue from './Issue';
 import SearchResults from './SearchResults';
+import { renderPageNumbers } from '../utils/setPages';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -120,17 +121,6 @@ const AdvancedSearch = ({ user }) => {
       .catch((error) => console.log(error));
   };
 
-  let pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(
-      <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-        <a className="page-link" onClick={() => selectPage(i)} href="#!">
-          {i}
-        </a>
-      </li>
-    );
-  }
-
   return (
     <div className="container mt-3">
       <SearchForm
@@ -148,7 +138,7 @@ const AdvancedSearch = ({ user }) => {
         searchResultsList={searchResultsList}
         pagination={pagination}
         selectPage={selectPage}
-        pageNumbers={pageNumbers}
+        pageNumbers={renderPageNumbers(totalPages, page, selectPage)}
         totalPages={totalPages}
         page={page}
       />

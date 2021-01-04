@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import IssueTable from './IssueTable';
 import Pagination from './Pagination';
+import { renderPageNumbers } from '../utils/setPages';
 
 const AllIssuesList = ({ user }) => {
   const [issues, setIssues] = useState([]);
@@ -49,17 +50,6 @@ const AllIssuesList = ({ user }) => {
       .catch((err) => console.log(err));
   };
 
-  let pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(
-      <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-        <a onClick={() => selectPage(i)} className="page-link" href="#!">
-          {i}
-        </a>
-      </li>
-    );
-  }
-
   return (
     <div className="container mt-3">
       {loading ? (
@@ -73,7 +63,7 @@ const AllIssuesList = ({ user }) => {
           <Pagination
             pagination={pagination}
             selectPage={selectPage}
-            pageNumbers={pageNumbers}
+            pageNumbers={renderPageNumbers(totalPages, page, selectPage)}
           />
         </Fragment>
       )}
