@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { sortDate } from '../utils/sort';
 import PropTypes from 'prop-types';
 
-const IssueLog = ({ LogList }) => {
+const IssueLog = ({ LogList, issueLog }) => {
+  const [sortColumn, setSortColumn] = useState(false);
   return (
     <>
       <h5 className="mt-3">Issue History</h5>
@@ -10,7 +12,15 @@ const IssueLog = ({ LogList }) => {
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Date</th>
+            <th>
+              Date
+              <i
+                onClick={() =>
+                  sortDate(issueLog, 'date', sortColumn, setSortColumn)
+                }
+                className="fa fa-fw fa-sort"
+              ></i>
+            </th>
           </tr>
         </thead>
         <tbody>{LogList()}</tbody>
@@ -21,6 +31,7 @@ const IssueLog = ({ LogList }) => {
 
 IssueLog.propTypes = {
   LogList: PropTypes.func.isRequired,
+  issueLog: PropTypes.array.isRequired,
 };
 
 export default IssueLog;

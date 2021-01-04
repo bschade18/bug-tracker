@@ -108,7 +108,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         projectTitle={projectTitle}
         onSubmit={onSubmit}
       />
-      <IssueLog LogList={LogList} />
+      <IssueLog LogList={LogList} issueLog={issueLog} />
       <DeleteModal id={match.params.id} history={history} />
     </div>
   );

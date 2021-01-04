@@ -4,11 +4,11 @@ export const sortNumber = (list, sortColumn, setSortColumn) => {
   setSortColumn(!sortColumn);
 };
 
-export const sortDate = (list, sortColumn, setSortColumn) => {
+export const sortDate = (list, dateField, sortColumn, setSortColumn) => {
   list.sort((a, b) =>
     sortColumn
-      ? new Date(b.createdAt) - new Date(a.createdAt)
-      : new Date(a.createdAt) - new Date(b.createdAt)
+      ? new Date(b[dateField]) - new Date(a[dateField])
+      : new Date(a[dateField]) - new Date(b[dateField])
   );
 
   setSortColumn(!sortColumn);

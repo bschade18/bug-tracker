@@ -44,7 +44,9 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
             <th>
               Date Initiated{' '}
               <i
-                onClick={() => sortDate(list, sortColumn, setSortColumn)}
+                onClick={() =>
+                  sortDate(list, 'createdAt', sortColumn, setSortColumn)
+                }
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
