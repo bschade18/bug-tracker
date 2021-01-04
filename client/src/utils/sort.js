@@ -4,8 +4,15 @@ export const sortNumber = (list, sortColumn, setSortColumn) => {
   setSortColumn(!sortColumn);
 };
 
-export const sortDate = (list, sortColumn, setSortColumn) =>
-  sortNumber(list, sortColumn, setSortColumn);
+export const sortDate = (list, sortColumn, setSortColumn) => {
+  list.sort((a, b) =>
+    sortColumn
+      ? new Date(b.createdAt) - new Date(a.createdAt)
+      : new Date(a.createdAt) - new Date(b.createdAt)
+  );
+
+  setSortColumn(!sortColumn);
+};
 
 export const sortWord = (list, sortColumn, setSortColumn, e) => {
   let name = e.target.getAttribute('name');
