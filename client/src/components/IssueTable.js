@@ -1,31 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { sortNumber, sortDate, sortWord } from '../utils/sort';
 
 const IssueTable = ({ list, displayIssuesFunc }) => {
   const [sortColumn, setSortColumn] = useState(false);
-
-  const sortNumber = (list) => {
-    list.sort((a, b) =>
-      sortColumn ? b.number - a.number : a.number - b.number
-    );
-
-    setSortColumn(!sortColumn);
-  };
-
-  const sortDate = (list) => sortNumber(list);
-
-  const sortWord = (list, e) => {
-    let name = e.target.getAttribute('name');
-
-    list.sort((a, b) => {
-      const wordA = a[name].toLowerCase();
-      const wordB = b[name].toLowerCase();
-      if (sortColumn) return wordA < wordB ? -1 : wordA > wordB ? 1 : 0;
-      else return wordB < wordA ? -1 : wordB > wordA ? 1 : 0;
-    });
-
-    setSortColumn(!sortColumn);
-  };
 
   return (
     <div className="table-responsive">
@@ -35,7 +13,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
             <th>
               Issue #{' '}
               <i
-                onClick={() => sortNumber(list)}
+                onClick={() => sortNumber(list, sortColumn, setSortColumn)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
@@ -43,7 +21,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
               Status{' '}
               <i
                 name="status"
-                onClick={(e) => sortWord(list, e)}
+                onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
@@ -51,7 +29,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
               Title{' '}
               <i
                 name="issueTitle"
-                onClick={(e) => sortWord(list, e)}
+                onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
@@ -59,14 +37,14 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
               Assigned To{' '}
               <i
                 name="assignedTo"
-                onClick={(e) => sortWord(list, e)}
+                onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
             <th>
               Date Initiated{' '}
               <i
-                onClick={() => sortDate(list)}
+                onClick={() => sortDate(list, sortColumn, setSortColumn)}
                 className="fa fa-fw fa-sort"
               ></i>
             </th>
