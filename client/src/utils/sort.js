@@ -26,3 +26,10 @@ export const sortWord = (list, sortColumn, setSortColumn, e) => {
 
   setSortColumn(!sortColumn);
 };
+
+export const sortProjects = (projects) =>
+  projects.sort((a, b) => {
+    const projA = a.toLowerCase();
+    const projB = b.toLowerCase();
+    return projA < projB ? -1 : projA > projB ? 1 : 0;
+  });

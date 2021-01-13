@@ -9,6 +9,7 @@ import OpenIssues from './OpenIssues';
 import ClosedIssues from './ClosedIssues';
 import HomeSearch from './HomeSearch';
 import OpenIssuesPanel from './OpenIssuesPanel';
+import { sortProjects } from '../utils/sort';
 
 import {
   getIssues,
@@ -38,18 +39,14 @@ const Home = ({
     // eslint-disable-next-line
   }, [team, issues.length]);
 
-  const listProjects = () => {
+  const uniqueProjects = () => {
     const projects = issues
       .filter((issue) => issue.assignedTo === name && issue.status !== 'Closed')
       .map((issue) => issue.projectTitle);
-    const uniqueProjects = [...new Set(projects)];
-
-    return uniqueProjects.sort((a, b) => {
-      const projA = a.toLowerCase();
-      const projB = b.toLowerCase();
-      return projA < projB ? -1 : projA > projB ? 1 : 0;
-    });
+    return [...new Set(projects)];
   };
+
+  const listProjects = () => sortProjects(uniqueProjects());
 
   const onChange = (e) => {
     setProject(e.target.value);

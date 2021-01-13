@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IssueForm from './IssueForm';
 import { todaysDate } from '../utils/dates';
+import { sortProjects } from '../utils/sort';
 import { addIssue } from '../actions/issueActions';
 import { getUsers } from '../actions/userActions';
 import Spinner from './layout/Spinner';
@@ -71,17 +72,11 @@ const AddIssue = ({
     setIssueData({ ...issueData, projectTitle: '' });
   };
 
-  const listProjects = () => {
-    const uniqueProjects = [
-      ...new Set(issues.map((issue) => issue.projectTitle)),
-    ];
+  const uniqueProjects = () => [
+    ...new Set(issues.map((issue) => issue.projectTitle)),
+  ];
 
-    return uniqueProjects.sort((a, b) => {
-      const projA = a.toLowerCase();
-      const projB = b.toLowerCase();
-      return projA < projB ? -1 : projA > projB ? 1 : 0;
-    });
-  };
+  const listProjects = () => sortProjects(uniqueProjects());
 
   if (!issues) {
     return <Spinner />;
