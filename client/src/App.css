@@ -56,6 +56,10 @@ body {
   width: 320px;
 }
 
+.Issue-project {
+  width: 250px;
+}
+
 /* Spinner */
 
 .spinner {

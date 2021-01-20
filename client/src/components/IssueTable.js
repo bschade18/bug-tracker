@@ -34,9 +34,9 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
               ></i>
             </th>
             <th>
-              Assigned To{' '}
+              Project{' '}
               <i
-                name="assignedTo"
+                name="projectTitle"
                 onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
               ></i>

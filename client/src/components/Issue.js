@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Issue = ({
-  issue: { createdAt, number, status, issueTitle, assignedTo, _id },
+  issue: { createdAt, number, status, issueTitle, projectTitle, _id },
 }) => {
   const day = createdAt.substring(8, 10).padStart(2, '0');
   const month = createdAt.substring(5, 7).padStart(2, '0');
@@ -14,7 +14,7 @@ const Issue = ({
       <td>{number}</td>
       <td>{status}</td>
       <td className="Issue-title">{issueTitle}</td>
-      <td>{assignedTo}</td>
+      <td className="Issue-project">{projectTitle}</td>
       <td>{date}</td>
       <td className="folder-container">
         <Link className="folder" to={'/issue/' + _id}>
