@@ -1,8 +1,22 @@
 import React, { Fragment } from 'react';
 import IssueTable from './IssueTable';
-import PropTypes from 'prop-types';
 
-const OpenIssues = ({ issuesList, issues }) => {
+
+interface Issue {
+  createdAt: string, 
+  number: number, 
+  status: string, 
+  issueTitle: string, 
+  projectTitle: string, 
+  _id: string
+} 
+
+interface openIssuesProps {
+  issues: Issue[],
+  issuesList: () => JSX.Element[]
+}
+
+const OpenIssues : React.FC<openIssuesProps> = ({ issuesList, issues }) => {
   return (
     <Fragment>
       {issuesList().length ? (
@@ -16,9 +30,5 @@ const OpenIssues = ({ issuesList, issues }) => {
   );
 };
 
-OpenIssues.propTypes = {
-  issuesList: PropTypes.func.isRequired,
-  issues: PropTypes.array.isRequired,
-};
 
 export default OpenIssues;
