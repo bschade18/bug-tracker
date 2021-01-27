@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { sortNumber, sortDate, sortWord } from '../utils/sort';
 
-const IssueTable = ({ list, displayIssuesFunc }) => {
+interface IssueTableProps {
+  list: {}[],
+  displayIssuesFunc: () => JSX.Element[]
+}
+
+const IssueTable = ({ list, displayIssuesFunc }: IssueTableProps) => {
   const [sortColumn, setSortColumn] = useState(false);
 
   return (
@@ -20,6 +25,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
             <th>
               Status{' '}
               <i
+              // @ts-ignore
                 name="status"
                 onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
@@ -28,6 +34,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
             <th>
               Title{' '}
               <i
+              // @ts-ignore
                 name="issueTitle"
                 onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"
@@ -36,6 +43,7 @@ const IssueTable = ({ list, displayIssuesFunc }) => {
             <th>
               Project{' '}
               <i
+              // @ts-ignore
                 name="projectTitle"
                 onClick={(e) => sortWord(list, sortColumn, setSortColumn, e)}
                 className="fa fa-fw fa-sort"

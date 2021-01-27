@@ -1,13 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+
+interface OpenIssuesPanelProps {
+toggleShowClosed: () => void,
+projectTitle: string,
+onChange: () => void,
+listProjects: () => string[]
+}
 
 const OpenIssuesPanel = ({
   toggleShowClosed,
   projectTitle,
   onChange,
   listProjects,
-}) => {
+} : OpenIssuesPanelProps) => {
   return (
     <div>
       <h2 className="lg-heading">My Open Issues</h2>
@@ -30,6 +36,7 @@ const OpenIssuesPanel = ({
         >
           <option>--All--</option>
           {listProjects().map((project) => (
+            // @ts-ignore
             <option key={project} value={project}>
               {project}
             </option>
@@ -55,11 +62,5 @@ const OpenIssuesPanel = ({
   );
 };
 
-OpenIssuesPanel.propTypes = {
-  projectTitle: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  listProjects: PropTypes.func.isRequired,
-  toggleShowClosed: PropTypes.func.isRequired,
-};
 
 export default OpenIssuesPanel;

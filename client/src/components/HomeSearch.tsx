@@ -1,10 +1,17 @@
 import React from 'react';
 import './HomeSearch.css';
 import Alert from './Alert';
-import PropTypes from 'prop-types';
 
-const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
-  const applyErrorStyle = (inputField) =>
+interface HomeSearchProps {
+onSubmit: () => void,
+onChangeNumber: () => void,
+alerts: {
+  param: string
+}[]
+}
+
+const HomeSearch = ({ onSubmit, onChangeNumber, alerts } : HomeSearchProps) => {
+  const applyErrorStyle = (inputField: string) =>
     alerts.filter((alert) => alert.param === inputField).length;
 
   return (
@@ -34,10 +41,6 @@ const HomeSearch = ({ onSubmit, onChangeNumber, alerts }) => {
   );
 };
 
-HomeSearch.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChangeNumber: PropTypes.func.isRequired,
-  alerts: PropTypes.array,
-};
+
 
 export default HomeSearch;

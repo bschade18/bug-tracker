@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { sortDate } from '../utils/sort';
 import PropTypes from 'prop-types';
 
-const IssueLog = ({ LogList, issueLog }) => {
+interface IssueLogProps {
+logList: () => JSX.Element,
+issueLog: {}[]
+}
+
+const IssueLog = ({ logList, issueLog } : IssueLogProps) => {
   const [sortColumn, setSortColumn] = useState(false);
   return (
     <>
@@ -23,7 +28,7 @@ const IssueLog = ({ LogList, issueLog }) => {
             </th>
           </tr>
         </thead>
-        <tbody>{LogList()}</tbody>
+        <tbody>{logList()}</tbody>
       </table>
     </>
   );

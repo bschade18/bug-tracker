@@ -65,7 +65,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
     updateIssue(match.params.id, updatedIssue, history);
   };
 
-  const LogList = () =>
+  const logList = () =>
     issueLog.map((log) => {
       const logDate = log.date;
       const day = logDate.substring(8, 10).padStart(2, '0');
@@ -103,7 +103,7 @@ const ViewIssue = ({ match, user, history, updateIssue, getUsers, users }) => {
         projectTitle={projectTitle}
         onSubmit={onSubmit}
       />
-      <IssueLog LogList={LogList} issueLog={issueLog} />
+      <IssueLog logList={logList} issueLog={issueLog} />
       <DeleteModal id={match.params.id} history={history} />
     </div>
   );

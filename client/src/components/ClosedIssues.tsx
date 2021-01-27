@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import IssueTable from './IssueTable';
 
-const ClosedIssues = ({ completedIssuesList, closed }) => (
+interface ClosedIssuesProps {
+  closed: {}[],
+  completedIssuesList: () => JSX.Element[]
+}
+
+const ClosedIssues = ({ completedIssuesList, closed } : ClosedIssuesProps) => (
   <div className="ClosedIssues">
     <h5 className="mt-5 lg-heading">Recently Closed Issues</h5>
     {completedIssuesList().length === 0 ? (
@@ -15,9 +19,6 @@ const ClosedIssues = ({ completedIssuesList, closed }) => (
   </div>
 );
 
-ClosedIssues.propTypes = {
-  completedIssuesList: PropTypes.func.isRequired,
-  closed: PropTypes.array.isRequired,
-};
+
 
 export default ClosedIssues;

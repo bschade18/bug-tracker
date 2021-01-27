@@ -1,6 +1,21 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+interface IssueFormProps {
+  issueTitle: string,
+  onChange: () => void,
+  assignedTo: string,
+  users: string[],
+  status: string,
+  today: string,
+  projectTitle: string,
+  onSubmit: () => void,
+  component: string,
+  isNewProject: boolean,
+  listProjects: () => string[],
+  newProject: () => void
+}
+
 const IssueForm = ({
   issueTitle,
   onChange,
@@ -14,7 +29,7 @@ const IssueForm = ({
   isNewProject,
   listProjects,
   newProject,
-}) => {
+}: IssueFormProps) => {
   return (
     <Fragment>
       <form onSubmit={onSubmit}>
@@ -30,7 +45,7 @@ const IssueForm = ({
                 value={issueTitle}
                 onChange={onChange}
                 id="issue-title"
-                maxLength="25"
+                maxLength={25}
               />
             </div>
             <div className="form-group">
@@ -44,7 +59,7 @@ const IssueForm = ({
                   value={projectTitle}
                   onChange={onChange}
                   id="project-title"
-                  maxLength="25"
+                  maxLength={25}
                 />
               ) : (
                 <select
@@ -76,7 +91,6 @@ const IssueForm = ({
           <label htmlFor="issue-form-description">Description: </label>
           <textarea
             id="issue-form-description"
-            type="text"
             required
             className="form-control description-input"
             name="issueDescription"
