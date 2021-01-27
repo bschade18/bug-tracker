@@ -15,7 +15,7 @@ const Alert = ({ field, alerts }) => {
 };
 
 Alert.propTypes = {
-  alerts: PropTypes.array.isRequired,
+  alerts: PropTypes.array,
   field: PropTypes.string.isRequired,
 };
 

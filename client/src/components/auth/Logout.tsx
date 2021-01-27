@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react';
 import { logout } from '../../actions/authActions';
 import { NavLink } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-function Logout({ logout }) {
+interface LogoutProps {
+  logout: () => void
+}
+
+function Logout({ logout } : LogoutProps) {
   return (
     <Fragment>
       <NavLink onClick={logout} href="#">
@@ -14,8 +17,5 @@ function Logout({ logout }) {
   );
 }
 
-Logout.propTypes = {
-  logout: PropTypes.func.isRequired,
-};
 
 export default connect(null, { logout })(Logout);
