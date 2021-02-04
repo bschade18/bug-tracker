@@ -60,6 +60,8 @@ const AllIssuesList = ({ user }) => {
           <Pagination
             pagination={pagination}
             selectPage={selectPage}
+            totalPages={totalPages}
+            page={page}
             pageNumbers={renderPageNumbers(totalPages, page, selectPage)}
           />
         </Fragment>

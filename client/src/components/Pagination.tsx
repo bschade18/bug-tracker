@@ -21,7 +21,7 @@ const Pagination = ({
   component,
 } : PaginationProps) => {
   return (
-    <nav>
+    <nav id='pagination-nav'>
       <ul className="pagination">
         <li className={pagination.prev ? 'page-item' : 'page-item disabled'}>
           <a className="page-link" onClick={() => selectPage('prev')} href="#!">
