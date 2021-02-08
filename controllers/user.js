@@ -5,7 +5,9 @@ const User = require('../models/User');
 // @access Private
 exports.getUsers = async (req, res) => {
   try {
-    const user = await User.find(req.query).sort({ name: 1 });
+    const user = await User.find(req.query)
+      .select('-password')
+      .sort({ name: 1 });
 
     res.json(user);
   } catch (err) {

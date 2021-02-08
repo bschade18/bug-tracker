@@ -35,7 +35,7 @@ const IssueLog = ({ logList, issueLog } : IssueLogProps) => {
 };
 
 IssueLog.propTypes = {
-  LogList: PropTypes.func.isRequired,
+  logList: PropTypes.func.isRequired,
   issueLog: PropTypes.array.isRequired,
 };
 
