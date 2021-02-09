@@ -31,12 +31,6 @@ const AdvancedSearch = ({ user }) => {
     status,
   } = searchData;
 
-  const titleCase = (string) =>
-    string
-      .split(' ')
-      .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
-      .join(' ');
-
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -44,15 +38,15 @@ const AdvancedSearch = ({ user }) => {
     let string = '';
 
     if (initiatedBy) {
-      string += `name=${titleCase(initiatedBy)}`;
+      string += `name=${initiatedBy}`;
     }
 
     if (assignedTo) {
-      string += `&assignedTo=${titleCase(assignedTo)}`;
+      string += `&assignedTo=${assignedTo}`;
     }
 
     if (status) {
-      string += `&status=${titleCase(status)}`;
+      string += `&status=${status}`;
     }
 
     if (initiatedStartDt && !initiatedEndDt) {

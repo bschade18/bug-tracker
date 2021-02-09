@@ -16,7 +16,9 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     (match) => `$${match}`
   );
 
-  query = model.find(JSON.parse(queryStr));
+  query = model
+    .find(JSON.parse(queryStr))
+    .collation({ locale: 'en', strength: 2 });
 
   // Select
   if (req.query.select) {
