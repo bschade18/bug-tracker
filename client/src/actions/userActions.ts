@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GET_USERS } from './types';
 import { Dispatch } from 'redux';
-import { User, GetUsersAction } from './interfaces';
+import { User, GetUsersAction } from './types';
 
 export const getUsers = (team: string) => async (dispatch: Dispatch) => {
   try {

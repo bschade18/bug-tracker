@@ -1,10 +1,15 @@
 import { GET_USERS } from '../actions/types';
+import { User, GetUsersAction } from '../actions/types';
 
-const initialState = {
+interface UserState {
+  users: User[];
+}
+
+const initialState: UserState = {
   users: [],
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: GetUsersAction) {
   const { type, payload } = action;
   switch (type) {
     case GET_USERS:

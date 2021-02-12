@@ -1,9 +1,8 @@
 import { SET_ERRORS, CLEAR_ERRORS } from './types';
 import { Dispatch } from 'redux';
-import { Errors, SetErrorsAction } from './interfaces';
+import { Error, SetErrorsAction, ClearErrorsAction } from './types';
 
-export const setErrors = (errors: Errors) => (dispatch: Dispatch) => {
-  console.log(errors);
+export const setErrors = (errors: Error[]) => (dispatch: Dispatch) => {
   dispatch<SetErrorsAction>({
     type: SET_ERRORS,
     payload: errors,
@@ -11,7 +10,7 @@ export const setErrors = (errors: Errors) => (dispatch: Dispatch) => {
 };
 
 export const clearErrors = () => (dispatch: Dispatch) => {
-  dispatch({
+  dispatch<ClearErrorsAction>({
     type: CLEAR_ERRORS,
   });
 };

@@ -7,20 +7,32 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-} from './types';
-import {
-  RegisterProps,
-  LoginProps,
   UserLoadedAction,
-  RegisterAction,
+  RegisterSuccessAction,
   UserWithToken,
-  LoginAction,
+  LoginSuccessAction,
+  UserLoadingAction,
+  RegisterFailAction,
+  LogoutSuccessAction,
   User,
-} from './interfaces';
+} from './types';
 import { Dispatch } from 'redux';
 
+interface RegisterProps {
+  name: string;
+  email: string;
+  team: string;
+  password: string;
+  password2: string;
+}
+
+interface LoginProps {
+  email: string;
+  password: string;
+}
+
 export const loadUser = () => async (dispatch: Dispatch) => {
-  dispatch({ type: USER_LOADING });
+  dispatch<UserLoadingAction>({ type: USER_LOADING });
 
   try {
     const res = await axios.get<User>('/auth/user');
@@ -52,7 +64,7 @@ export const register = ({
   try {
     const res = await axios.post<UserWithToken>('/auth/register', body, config);
 
-    dispatch<RegisterAction>({
+    dispatch<RegisterSuccessAction>({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
@@ -61,7 +73,7 @@ export const register = ({
   } catch (err) {
     // @ts-ignore
     dispatch(setErrors(err.response.data.errors));
-    dispatch({
+    dispatch<RegisterFailAction>({
       type: REGISTER_FAIL,
     });
   }
@@ -81,7 +93,7 @@ export const login = ({ email, password }: LoginProps) => async (
   try {
     const res = await axios.post<UserWithToken>('/auth/login', body, config);
 
-    dispatch<LoginAction>({
+    dispatch<LoginSuccessAction>({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
@@ -94,7 +106,7 @@ export const login = ({ email, password }: LoginProps) => async (
 };
 
 export const logout = () => (dispatch: Dispatch) => {
-  dispatch({
+  dispatch<LogoutSuccessAction>({
     type: LOGOUT_SUCCESS,
   });
 };

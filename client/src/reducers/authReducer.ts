@@ -1,4 +1,5 @@
 import {
+  AuthAction,
   USER_LOADED,
   USER_LOADING,
   LOGIN_SUCCESS,
@@ -6,17 +7,24 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
 } from '../actions/types';
+import { UserWithToken } from '../actions/types';
 
-const initialState = {
+interface AuthState {
+  token: string | null;
+  isAuthenticated: boolean | null;
+  loading: boolean;
+  user: UserWithToken | null;
+}
+
+const initialState: AuthState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
   user: null,
 };
 
-export default function (state = initialState, action) {
-  const { type, payload } = action;
-  switch (type) {
+export default function (state = initialState, action: AuthAction) {
+  switch (action.type) {
     case USER_LOADING:
       return {
         ...state,
@@ -27,14 +35,14 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: action.payload,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
-        ...payload,
+        ...action.payload,
         isAuthenticated: true,
         loading: false,
       };

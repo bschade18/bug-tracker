@@ -1,27 +1,26 @@
 import axios from 'axios';
 import {
   GET_ISSUES,
-  GET_CLOSED,
-  SET_PROJECT,
   ISSUES_LOADING,
+  GET_CLOSED,
   UPDATE_ISSUE,
   ADD_ISSUE,
   DELETE_ISSUE,
-} from './types';
-import {
+  SET_PROJECT,
   Issues,
   Issue,
   GetIssuesAction,
-  GetRecentClosedAction,
+  GetClosedAction,
   UpdateIssueAction,
   AddIssueAction,
   DeleteIssueAction,
   SetProjectAction,
-} from './interfaces';
+  IssuesLoadingAction,
+} from './types';
 import { Dispatch } from 'redux';
 
 export const getIssues = (team: string) => async (dispatch: Dispatch) => {
-  dispatch({ type: ISSUES_LOADING });
+  dispatch<IssuesLoadingAction>({ type: ISSUES_LOADING });
   try {
     const res = await axios.get<Issues>(`/issues?team=${team}`);
 
@@ -40,7 +39,7 @@ export const getRecentClosed = (team: string) => async (dispatch: Dispatch) => {
       `/issues?team=${team}&limit=5&status=Closed&sort=-updatedAt`
     );
 
-    dispatch<GetRecentClosedAction>({
+    dispatch<GetClosedAction>({
       type: GET_CLOSED,
       payload: res.data.data,
     });
