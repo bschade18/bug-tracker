@@ -105,8 +105,8 @@ export const login = ({ email, password }: LoginProps) => async (
   }
 };
 
-export const logout = () => (dispatch: Dispatch) => {
-  dispatch<LogoutSuccessAction>({
+export const logout = (): LogoutSuccessAction => {
+  return {
     type: LOGOUT_SUCCESS,
-  });
+  };
 };

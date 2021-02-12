@@ -110,9 +110,9 @@ export const deleteIssue = (id: string, history: object) => async (
   }
 };
 
-export const setProject = (project: string) => (dispatch: Dispatch) => {
-  dispatch<SetProjectAction>({
+export const setProject = (project: string): SetProjectAction => {
+  return {
     type: SET_PROJECT,
     payload: project,
-  });
+  };
 };
