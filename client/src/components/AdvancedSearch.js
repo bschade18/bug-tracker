@@ -23,18 +23,10 @@ const AdvancedSearch = ({ user }) => {
   const [searchString, setSearchString] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const {
-    assignedTo,
-    initiatedBy,
-    initiatedStartDt,
-    initiatedEndDt,
-    status,
-  } = searchData;
+  const { assignedTo, initiatedBy, initiatedStartDt, initiatedEndDt, status } =
+    searchData;
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const searchUrl = () => {
     let string = '';
 
     if (initiatedBy) {
@@ -61,19 +53,28 @@ const AdvancedSearch = ({ user }) => {
       string += `&createdAt[gte]=${initiatedStartDt}&createdAt[lte]=${initiatedEndDt}`;
     }
 
+    return string;
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     const limit = 20;
+    const url = searchUrl();
+
     axios
-      .get(`/issues?team=${user.team}&${string}`)
+      .get(`/issues?team=${user.team}&${url}`)
       .then((res) => {
         setTotalPages(Math.ceil(res.data.count / limit));
-        return axios.get(`/issues?team=${user.team}&${string}&limit=${limit}`);
+        return axios.get(`/issues?team=${user.team}&${url}&limit=${limit}`);
       })
       .then((res) => {
         setIssues(res.data.data);
         setWasSearched(true);
         setPagination({ ...res.data.pagination });
         setPage(1);
-        setSearchString(string);
+        setSearchString(url);
         setLoading(false);
       })
       .catch((error) => console.log(error));
