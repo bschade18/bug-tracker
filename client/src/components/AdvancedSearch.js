@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchForm from './SearchForm';
 import Issue from './Issue';
@@ -7,24 +7,84 @@ import { renderPageNumbers } from '../utils/setPages';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const AdvancedSearch = ({ user }) => {
+const AdvancedSearch = ({ user, limit = 20 }) => {
   const [searchData, setSearchData] = useState({
     assignedTo: '',
     initiatedBy: '',
     initiatedStartDt: null,
     initiatedEndDt: null,
-    status: '',
+    issueStatus: '',
   });
   const [issues, setIssues] = useState([]);
-  const [wasSearched, setWasSearched] = useState(false);
+  const [queried, setQueried] = useState(false);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
   const [totalPages, setTotalPages] = useState(null);
   const [searchString, setSearchString] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState();
 
-  const { assignedTo, initiatedBy, initiatedStartDt, initiatedEndDt, status } =
-    searchData;
+  const isLoading = status === 'loading';
+  const isSuccess = status === 'success';
+  const isError = status === 'error';
+
+  const {
+    assignedTo,
+    initiatedBy,
+    initiatedStartDt,
+    initiatedEndDt,
+    issueStatus,
+  } = searchData;
+
+  useEffect(() => {
+    if (!queried) {
+      return;
+    }
+
+    setStatus('loading');
+
+    axios
+      .get(`/issues?team=${user.team}&${searchString}`)
+      .then(({ data }) => {
+        setTotalPages(Math.ceil(data.count / limit));
+        return axios.get(
+          `/issues?team=${user.team}&${searchString}&limit=${limit}`
+        );
+      })
+      .then(({ data }) => {
+        setIssues(data.data);
+        setPagination({ ...data.pagination });
+        setPage(1);
+        setStatus('success');
+      })
+      .catch((error) => {
+        setError(error);
+        setStatus('error');
+      });
+  }, [queried, user.team, searchString, limit]);
+
+  useEffect(() => {
+    if (!queried) {
+      return;
+    }
+
+    setStatus('loading');
+
+    axios
+      .get(
+        `/issues?team=${user.team}&${searchString}&page=${page}&limit=${limit}`
+      )
+      .then(({ data }) => {
+        setIssues(data.data);
+        setPagination({ ...data.pagination });
+        setPage(page);
+        setStatus('success');
+      })
+      .catch((error) => {
+        setError(error);
+        setStatus('error');
+      });
+  }, [page, limit]);
 
   const searchUrl = () => {
     let string = '';
@@ -37,8 +97,8 @@ const AdvancedSearch = ({ user }) => {
       string += `&assignedTo=${assignedTo}`;
     }
 
-    if (status) {
-      string += `&status=${status}`;
+    if (issueStatus) {
+      string += `&status=${issueStatus}`;
     }
 
     if (initiatedStartDt && !initiatedEndDt) {
@@ -58,26 +118,8 @@ const AdvancedSearch = ({ user }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    const limit = 20;
-    const url = searchUrl();
-
-    axios
-      .get(`/issues?team=${user.team}&${url}`)
-      .then((res) => {
-        setTotalPages(Math.ceil(res.data.count / limit));
-        return axios.get(`/issues?team=${user.team}&${url}&limit=${limit}`);
-      })
-      .then((res) => {
-        setIssues(res.data.data);
-        setWasSearched(true);
-        setPagination({ ...res.data.pagination });
-        setPage(1);
-        setSearchString(url);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    setQueried('true');
+    setSearchString(searchUrl());
   };
 
   const onChange = (e) =>
@@ -90,27 +132,7 @@ const AdvancedSearch = ({ user }) => {
     setSearchData({ ...searchData, initiatedEndDt: date });
 
   const searchResultsList = () =>
-    issues.map((issue) => {
-      return <Issue issue={issue} key={issue._id} />;
-    });
-
-  const selectPage = (page) => {
-    let string = searchString;
-
-    if (page === 'next') {
-      page = pagination.next.page;
-    } else if (page === 'prev') {
-      page = pagination.prev.page;
-    }
-    axios
-      .get(`/issues?team=${user.team}&${string}&page=${page}&limit=20`)
-      .then((res) => {
-        setIssues(res.data.data);
-        setPagination({ ...res.data.pagination });
-        setPage(page);
-      })
-      .catch((error) => console.log(error));
-  };
+    issues.map((issue) => <Issue issue={issue} key={issue._id} />);
 
   return (
     <div className="container mt-3">
@@ -123,15 +145,18 @@ const AdvancedSearch = ({ user }) => {
         onChangeDateInitEnd={onChangeDateInitEnd}
       />
       <SearchResults
-        wasSearched={wasSearched}
-        loading={loading}
+        queried={queried}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
         issues={issues}
         searchResultsList={searchResultsList}
         pagination={pagination}
-        selectPage={selectPage}
-        pageNumbers={renderPageNumbers(totalPages, page, selectPage)}
+        pageNumbers={renderPageNumbers(totalPages, page, setPage)}
         totalPages={totalPages}
         page={page}
+        setPage={setPage}
+        error={error}
       />
     </div>
   );

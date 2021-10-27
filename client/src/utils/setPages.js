@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const renderPageNumbers = (totalPages, page, selectPage) => {
+export const renderPageNumbers = (totalPages, page, setPage) => {
   const pageNumbers = [];
 
   if (totalPages > 3) {
@@ -9,7 +9,7 @@ export const renderPageNumbers = (totalPages, page, selectPage) => {
     // always show first page
     pageNumbers.push(
       <li key={1} className={page === 1 ? 'page-item active' : 'page-item'}>
-        <a className="page-link" onClick={() => selectPage(1)} href="#!">
+        <a className="page-link" onClick={() => setPage(1)} href="#!">
           1
         </a>
       </li>
@@ -22,7 +22,7 @@ export const renderPageNumbers = (totalPages, page, selectPage) => {
     for (let i = min; i < max + 1; i++) {
       pageNumbers.push(
         <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-          <a className="page-link" onClick={() => selectPage(i)} href="#!">
+          <a className="page-link" onClick={() => setPage(i)} href="#!">
             {i}
           </a>
         </li>
@@ -38,11 +38,7 @@ export const renderPageNumbers = (totalPages, page, selectPage) => {
         key={totalPages}
         className={page === totalPages ? 'page-item active' : 'page-item'}
       >
-        <a
-          className="page-link"
-          onClick={() => selectPage(totalPages)}
-          href="#!"
-        >
+        <a className="page-link" onClick={() => setPage(totalPages)} href="#!">
           {totalPages}
         </a>
       </li>
@@ -52,7 +48,7 @@ export const renderPageNumbers = (totalPages, page, selectPage) => {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(
         <li key={i} className={page === i ? 'page-item active' : 'page-item'}>
-          <a className="page-link" onClick={() => selectPage(i)} href="#!">
+          <a className="page-link" onClick={() => setPage(i)} href="#!">
             {i}
           </a>
         </li>

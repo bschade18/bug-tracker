@@ -3,13 +3,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface SearchFormProps {
-  onSubmit: () => void,
-  onChange: () => void,
-  onChangeDateInitStart: () => void,
-  onChangeDateInitEnd: () => void
-  initiatedStartDt: Date,
-  initiatedEndDt: Date,
-  
+  onSubmit: () => void;
+  onChange: () => void;
+  onChangeDateInitStart: () => void;
+  onChangeDateInitEnd: () => void;
+  initiatedStartDt: Date;
+  initiatedEndDt: Date;
 }
 
 const SearchForm = ({
@@ -19,7 +18,7 @@ const SearchForm = ({
   onChangeDateInitStart,
   initiatedEndDt,
   onChangeDateInitEnd,
-} : SearchFormProps ) => {
+}: SearchFormProps) => {
   return (
     <div>
       <h5 className="lg-heading">Advanced Search</h5>
@@ -51,7 +50,7 @@ const SearchForm = ({
           <input
             placeholder="Status"
             type="text"
-            name="status"
+            name="issueStatus"
             className="form-control form-input mt-4"
             onChange={onChange}
             id="status"
@@ -93,6 +92,5 @@ const SearchForm = ({
     </div>
   );
 };
-
 
 export default SearchForm;

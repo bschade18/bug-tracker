@@ -2,29 +2,34 @@ import React from 'react';
 
 interface PaginationProps {
   pagination: {
-    prev?: number,
-    next?: number
-  },
-  page: number,
-  selectPage: (page: string) => void,
-  pageNumbers: number[],
-  totalPages: number,
-  component: string
+    prev?: number;
+    next?: number;
+  };
+  page: number;
+  pageNumbers: number[];
+  totalPages: number;
+  component: string;
+  setPage: (page: number) => void;
 }
 
 const Pagination = ({
   pagination,
-  selectPage,
   pageNumbers,
   page,
   totalPages,
   component,
-} : PaginationProps) => {
+  setPage,
+}: PaginationProps) => {
   return (
-    <nav id='pagination-nav'>
+    <nav id="pagination-nav">
       <ul className="pagination">
         <li className={pagination.prev ? 'page-item' : 'page-item disabled'}>
-          <a className="page-link" onClick={() => selectPage('prev')} href="#!">
+          <a
+            className="page-link"
+            // @ts-ignore
+            onClick={() => setPage(pagination.prev.page)}
+            href="#!"
+          >
             <span>&laquo;</span>
             <span className="sr-only">Previous</span>
           </a>
@@ -41,7 +46,12 @@ const Pagination = ({
               : 'page-item disabled'
           }
         >
-          <a className="page-link" onClick={() => selectPage('next')} href="#!">
+          <a
+            className="page-link"
+            // @ts-ignore
+            onClick={() => setPage(pagination.next.page)}
+            href="#!"
+          >
             <span>&raquo;</span>
             <span className="sr-only">Next</span>
           </a>
@@ -50,6 +60,5 @@ const Pagination = ({
     </nav>
   );
 };
-
 
 export default Pagination;

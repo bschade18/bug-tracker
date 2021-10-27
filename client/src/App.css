@@ -71,6 +71,13 @@ body {
   justify-content: center;
 }
 
+/* Error */
+.error,
+.error pre {
+  color: red;
+  font-size: 18px;
+}
+
 /* Spinner */
 
 .spinner {
